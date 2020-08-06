@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+</head>
+<body>
+
+<input placeholder="请输入账号" id="txtAccount">
+<input placeholder="请输入密码" id="txtPwd">
+<!--<input placeholder="请输入手机号" id="txtPhone">-->
+
+<button type="button" id="btnRegister">注册</button>
+
+</body>
+
+<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="js/layer/layer.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $('#btnRegister').click(function () {
+            if ($('#txtAccount').val() == '' || $('#txtPwd').val() == ''
+                // || $('#txtPhone').val() == ''
+            ) {
+                //alert('请输入完整信息');
+                layer.msg('请输入完整信息');
+                return;
+            }
+
+            $.post('register.do', {
+                account: $('#txtAccount').val(),
+                password: $('#txtPwd').val(),
+                // phone: $('#txtPhone').val()
+            }, function (data) {
+                console.log(data);
+                if (data.code == 200) {
+                    //alert(data.msg);
+                    //location.href = "main.html";
+                    layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                        location.href = "main.html";
+                    })
+                } else {
+                    alert(data.msg);
+                }
+            }, 'json');
+        })
+    })
+
+</script>
+</html>
