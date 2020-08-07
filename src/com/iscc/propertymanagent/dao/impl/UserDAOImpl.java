@@ -1,15 +1,19 @@
 package com.iscc.propertymanagent.dao.impl;
+
 import com.iscc.propertymanagent.dao.UserDAO;
 import com.iscc.propertymanagent.domain.User;
 import com.iscc.propertymanagent.util.DataSourceUtil;
+import sun.security.util.Password;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAOImpl implements UserDAO {
+
     @Override
-    public int addUser(User user)  {
+    public int addUser(User user) {
         String sql = "INSERT INTO login(account,password) VALUES(?,?)";
         int result = -1;
         Connection conn = null;
@@ -37,33 +41,32 @@ public class UserDAOImpl implements UserDAO {
         return result;
     }
 
-//    @Override
-//    public User serchUser(User use) {
-//        Connection conn = null;
-//        String sql = "select * from login where admin=? and password=?";
-//        ResultSet ex = null;
-//        PreparedStatement ps = null;
-//        try {
-//            conn = DataSourceUtil.getConnection();
-//            ps = conn.prepareStatement(sql);
-//            ps.setString(1, use.getAccount());
-//            ps.setString(2, use.getPassword());
-//            ex = ps.executeQuery();
-//        } catch (SQLException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        try {
-//            if (ex.next()) {
-//                return use;
-//            }
-//        } catch (SQLException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } finally {
-//           DataSourceUtil.releaseResource(ex,ps,conn);
-//        }
-//        return null;
-//    }
+    @Override
+    public User serchUser(String account) {
+        String sql = "select *from login where account =?";
+        User user = null;
+        Connection conn = null;
+        PreparedStatement pre = null;
+        ResultSet rs=null;
+        try {
+            pre = conn.prepareStatement(sql);
+            pre.setString(1, account);
+             rs = pre.executeQuery();
+            user=new User();
+            if (rs.next()) {
+                user.setAccount(rs.getString(1));
+                user.setAccount(rs.getString(2));
+                System.out.println(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(rs,pre,conn);
+        }
+
+        return user;
     }
+
+
+}
 

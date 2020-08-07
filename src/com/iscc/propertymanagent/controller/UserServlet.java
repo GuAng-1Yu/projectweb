@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.iscc.propertymanagent.domain.User;
 import com.iscc.propertymanagent.service.UserService;
 import com.iscc.propertymanagent.service.impl.UserServiceImpl;
-
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,14 +46,30 @@ public class UserServlet extends HttpServlet {
             out.print(str);
         }
   else  if ("login.do".equals(action)){
+            System.out.println("????");
             String account = request.getParameter("account");
             String password = request.getParameter("password");
             User use=null;
-//            userService.login();
+             use = userService.login(account);
+            if (use!=null){
+                if (use.getPassword().equals(password)){
+                    resultMap.put("code",200);
+                    resultMap.put("msg","登录成功");
+                    resultMap.put("result",use);
+
+                }else {
+                    resultMap.put("code",202);
+                    resultMap.put("msg","密码错误！");
+                }
+            }else {
+                resultMap.put("code",203);
+                resultMap.put("msg","账号或密码错误");
+            }
+
+            String str = gosn.toJson(resultMap);
         }
 
-// Property_Management
-//1111!
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
