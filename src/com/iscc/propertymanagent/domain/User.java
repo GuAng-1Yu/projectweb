@@ -9,13 +9,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class User implements Serializable {
 
-
-
-
-
-
-
-
     private int uno;
     private String account;
     private String password;

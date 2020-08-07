@@ -43,19 +43,21 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User serchUser(String account) {
-        String sql = "select *from login where account =?";
+        String sql = "select * from login where account = ?";
+//        SELECT * FROM login WHERE account='zzz'
         User user = null;
         Connection conn = null;
         PreparedStatement pre = null;
         ResultSet rs=null;
         try {
+            conn=DataSourceUtil.getConnection();
             pre = conn.prepareStatement(sql);
             pre.setString(1, account);
              rs = pre.executeQuery();
             user=new User();
             if (rs.next()) {
                 user.setAccount(rs.getString(1));
-                user.setAccount(rs.getString(2));
+                user.setPassword(rs.getString(2));
                 System.out.println(user);
             }
         } catch (SQLException e) {
