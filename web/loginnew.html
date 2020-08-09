@@ -1,52 +1,53 @@
 <!DOCTYPE html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Login Form登陆框 </title>
-<LINK REL=StyleSheet HREF="css/style.css" TYPE="text/css" MEDIA=screen>
-<meta name="robots" content="noindex,follow" />
-<style type="text/css">
-	.login{
-		/* border: 1px solid red; */
-		height: 300px;
-		width: 300px;
-		margin: auto;
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-	}
-	.login-help{
-		/* border: 1px solid red; */
-		height: 300px;
-		width: 300px;
-		margin: auto;
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		
-	}
-</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Login Form登陆框 </title>
+    <LINK REL=StyleSheet HREF="css/style.css" TYPE="text/css" MEDIA=screen>
+    <meta name="robots" content="noindex,follow"/>
+    <style type="text/css">
+        .login {
+            /* border: 1px solid red; */
+            height: 300px;
+            width: 300px;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .login-help {
+            /* border: 1px solid red; */
+            height: 300px;
+            width: 300px;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="login" >
-      <h1>登录</h1>
-		  <select name="selection">
-		  	<option value="0">员工</option>
-			<option value ="1">用户</option>
-		  </select>
-		  <br>
+<div class="container">
+    <div class="login">
+        <h1>登录</h1>
+        <select id="selection">
+            <option value="0">员工</option>
+            <option value="1">用户</option>
+        </select>
+        <br>
         <p><input type="text" id="txtAccount" name="login" value="" placeholder="帐号"></p>
         <p><input type="password" id="txtPwd" name="password" value="" placeholder="密码"></p>
         <p class="remember_me">
-          <label>
-            <input type="checkbox" name="remember_me" id="remember_me">
-           记住账号
-          </label>
+            <label>
+                <input type="checkbox" name="remember_me" id="remember_me">
+                记住账号
+            </label>
         </p>
         <p class="submit"><input type="button" id="btnRegister" value="登录"></p>
     </div>
@@ -66,12 +67,17 @@
                 password: $('#txtPwd').val()
             }, function (data) {
                 console.log(data);
-                if (data.code == 200) {
+                    if (data.code == 200) {
+                        // console.log(data.result)
+                    sessionStorage.setItem('user', JSON.stringify(data.result))
                     layer.msg(data.msg, {icon: 1, time: 2000}, function () {
-                       if ($('#selection').val()==1){location.href = "index01.html";}
-                       else{
-                           location.href = "main.html";
-                       }
+                         console.log($('#selection').val())
+                        if ($('#selection').val() == 1) {
+                            location.href = "indexuser.html";
+                        }
+                            else {
+                            location.href = "main.html";
+                        }
                     })
                 } else {
                     alert(data.msg);
@@ -81,7 +87,6 @@
     })
 
 </script>
-
 
 
 </html>

@@ -152,11 +152,13 @@
 </body>
 
 
-<!-- <script type="text/javascript">-->
-<!--     $(function () {-->
-<!--         $('dl-log-user').text()=-->
+ <script type="text/javascript">
+     $(function () {
+         var item = sessionStorage.getItem('user');
+         var s = JSON.parse(item)
+         $('.dl-log-user').text(s.account);
 
-<!--     })-->
-<!-- </script>-->
+     })
+ </script>
 
 </html>

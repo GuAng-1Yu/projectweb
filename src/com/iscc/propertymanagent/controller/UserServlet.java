@@ -55,12 +55,9 @@ public class UserServlet extends HttpServlet {
             System.out.println(use);
             if (use!=null){
                 if (use.getPassword().equals(password)){
-
-
                     resultMap.put("code",200);
                     resultMap.put("msg","登录成功");
                     resultMap.put("result",use);
-
                 }else {
                     resultMap.put("code",202);
                     resultMap.put("msg","密码错误！");
