@@ -26,7 +26,8 @@
                 console.log(data);
                 if (data.code == 200) {
                     layer.msg(data.msg, {icon: 1, time: 2000}, function () {
-                        location.href = "main.html";
+
+                        location.href = "index01.html";
                     })
                 } else {
                     alert(data.msg);
