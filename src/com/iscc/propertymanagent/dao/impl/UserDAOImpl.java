@@ -1,6 +1,8 @@
 package com.iscc.propertymanagent.dao.impl;
 
 import com.iscc.propertymanagent.dao.UserDAO;
+import com.iscc.propertymanagent.domain.Household;
+import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.domain.User;
 import com.iscc.propertymanagent.util.DataSourceUtil;
 import sun.security.util.Password;
@@ -54,8 +56,9 @@ public class UserDAOImpl implements UserDAO {
             pre = conn.prepareStatement(sql);
             pre.setString(1, account);
              rs = pre.executeQuery();
-            user=new User();
+//
             if (rs.next()) {
+                user=new User();
                 user.setAccount(rs.getString(1));
                 user.setPassword(rs.getString(2));
                 System.out.println(user);
@@ -67,6 +70,65 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return user;
+    }
+
+    @Override
+    public Household holdlogin(int holdid) {
+        String sql = "select * from household_info where holdid = ? ";
+//        SELECT * FROM login WHERE account='zzz'
+        Household Household = null;
+        Connection conn = null;
+        PreparedStatement pre = null;
+        ResultSet rs=null;
+        try {
+            conn=DataSourceUtil.getConnection();
+            pre = conn.prepareStatement(sql);
+            pre.setInt(1, holdid);
+            rs = pre.executeQuery();
+//
+            if (rs.next()) {
+                Household=new Household();
+                Household.setHoldid(rs.getInt(1));
+                Household.setHoldpwd(rs.getString(5));
+
+                System.out.println(Household);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(rs,pre,conn);
+        }
+        return Household;
+    }
+
+    @Override
+    public Staff stafflogin(int staffid) {
+        String sql = " select * from staff_info where staffid = ? ";
+//        SELECT * FROM login WHERE account='zzz'
+        Staff staff=null;
+        Connection conn = null;
+        PreparedStatement pre = null;
+        ResultSet rs=null;
+        try {
+            conn=DataSourceUtil.getConnection();
+            pre = conn.prepareStatement(sql);
+            pre.setInt(1, staffid);
+            rs = pre.executeQuery();
+            if (rs.next()) {
+                staff=new Staff();
+                staff.setStaffid(rs.getInt(1));
+                staff.setStaffname(rs.getString(2));
+                staff.setStafftel(rs.getString(3));
+                staff.setDeptid(rs.getInt(4));
+                staff.setStafflev(rs.getInt(5));
+                System.out.println(staff);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(rs,pre,conn);
+        }
+        return staff;
     }
 
 
