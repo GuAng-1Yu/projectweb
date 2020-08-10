@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Household holdlogin(int pwd) {
-        return userDAO.holdlogin(pwd);
+    public Household holdlogin(int holdid) {
+        return userDAO.holdlogin(holdid);
     }
 
     @Override

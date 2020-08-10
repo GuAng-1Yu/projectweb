@@ -58,36 +58,53 @@
 <script type="text/javascript">
     $(function () {
         $('#btnRegister').click(function () {
-            if ($('#txtAccount').val() == '' || $('#txtPwd').val() == '') {
-                layer.msg('请输入完整信息');
-                return;
-            }
-            $.post('stafflogin.do', {
-                account: $('#txtAccount').val(),
-                password: $('#txtPwd').val()
-            }, function (data) {
-                console.log(data);
+            if ($('#selection').val() == 0) {
+                if ($('#txtAccount').val() == '' || $('#txtPwd').val() == '') {
+                    layer.msg('请输入完整信息');
+                    return;
+                }
+                $.post('stafflogin.do',
+                    {account: $('#txtAccount').val(),
+                    password: $('#txtPwd').val()},
+                    function (data) {
+                    console.log(data);
                     if (data.code == 200) {
                         // console.log(data.result)
-                    sessionStorage.setItem('user', JSON.stringify(data.result))
-                    layer.msg(data.msg, {icon: 1, time: 2000}, function () {
-                         console.log($('#selection').val())
-                        if ($('#selection').val() == 1) {
-                            location.href = "indexuser.html";
-                        }
-                            else {
+                        sessionStorage.setItem('user', JSON.stringify(data.result))
+                        layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                            console.log($('#selection').val())
                             location.href = "indexstaff.html";
-                        }
-                    })
-                } else {
-                    alert(data.msg);
+                        })
+                    } else {alert(data.msg);}
+                    },
+                    'json')
+            }
+            else if($('#selection').val() == 1) {
+                if ($('#txtAccount').val() == '' || $('#txtPwd').val() == '') {
+                    layer.msg('请输入完整信息');
+                    return;
                 }
-            }, 'json');
+
+                $.post('login.do',
+                    {
+                        account: $('#txtAccount').val(),
+                        password: $('#txtPwd').val()
+                    },
+                    function (data) {
+                        console.log(data);
+                        if (data.code == 200) {
+                            sessionStorage.setItem('user', JSON.stringify(data.result))
+                            layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                                // console.log($('#selection').val())
+                                location.href = "indexuser.html";
+                            })
+                        } else {
+                            alert(data.msg);
+                        }
+                    }, 'json')
+            }
         })
-    })
-
+        })
 </script>
-
-
 </html>
 

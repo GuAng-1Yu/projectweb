@@ -1,6 +1,7 @@
 package com.iscc.propertymanagent.controller;
 
 import com.google.gson.Gson;
+import com.iscc.propertymanagent.domain.Household;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.domain.User;
 import com.iscc.propertymanagent.service.UserService;
@@ -49,14 +50,14 @@ public class UserServlet extends HttpServlet {
   else  if ("login.do".equals(action)){
             String account = request.getParameter("account");
             String password = request.getParameter("password");
-            User use=null;
-             use = userService.login(account);
-
-            if (use!=null){
-                if (use.getPassword().equals(password)){
+            Household houser =null;
+            int holdid = Integer.parseInt(account);
+            houser=userService.holdlogin(holdid);
+            if (houser!=null){
+                if (houser.getHoldpwd().equals(password)){
                     resultMap.put("code",200);
                     resultMap.put("msg","登录成功");
-                    resultMap.put("result",use);
+                    resultMap.put("result",houser);
                 }else {
                     resultMap.put("code",202);
                     resultMap.put("msg","密码错误！");
