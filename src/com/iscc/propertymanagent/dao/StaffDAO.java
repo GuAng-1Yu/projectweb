@@ -3,9 +3,9 @@ package com.iscc.propertymanagent.dao;
 import com.iscc.propertymanagent.domain.Staff;
 
 import java.sql.ResultSet;
+import java.util.List;
 
 public interface StaffDAO {
-    int addStaff(Staff staff);
-    ResultSet queryStaff();
-    int updateStaff(Staff staff);
+    List<Staff> queryStaff();
+    List<Staff> queryStaff(Staff staff);
 }

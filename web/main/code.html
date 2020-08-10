@@ -1,39 +1,39 @@
 <!DOCTYPE HTML>
 <html>
- <head>
-  <title> 首页代码结构</title>
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-       <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css" />   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
-   <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css" />
-   <style type="text/css">
-    code {
-      padding: 0px 4px;
-      color: #d14;
-      background-color: #f7f7f9;
-      border: 1px solid #e1e1e8;
-    }
-   </style>
- </head>
- <body>
-  
-    
-    <div class="container">
-     <div class="row">
-       <div class="span4">
-         <h2>整体结构</h2>
-         <ol>
-           <li>页面声明</li>
-           <li>首页title</li>
-           <li>登录信息</li>
-           <li>顶部导航</li>
-           <li>二级菜单</li>
-           <li>tab</li>
-           <li>首页JS配置项</li>
-         </ol>
-       </div>
-       <div class="span20">
+<head>
+    <title> 首页代码结构</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css"/>   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
+    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        code {
+            padding: 0px 4px;
+            color: #d14;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="row">
+        <div class="span4">
+            <h2>整体结构</h2>
+            <ol>
+                <li>页面声明</li>
+                <li>首页title</li>
+                <li>登录信息</li>
+                <li>顶部导航</li>
+                <li>二级菜单</li>
+                <li>tab</li>
+                <li>首页JS配置项</li>
+            </ol>
+        </div>
+        <div class="span20">
          <pre class="prettyprint linenums">
 &lt;!DOCTYPE HTML&gt;
 &lt;html&gt;
@@ -96,32 +96,39 @@
 &lt;/html&gt;
 
          </pre>
-       </div>
-     </div>
-     <div class="row">
-       <div class="span24">
-         <h2>几点说明</h2>
-         <ol>
-           <li>文档声明为 <code>&lt;!doctype html&gt;</code>,文件格式是utf-8</li>
-           <li>css文件在 title中引入，js在页面底部引入</li>
-           <li>页面引入的 prettify.js和prettify.css仅是为了展示代码使用</li>
-         </ol>
-       </div>
-     </div>
+        </div>
     </div>
-  <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
-  <script type="text/javascript" src="../assets/js/bui-min.js"></script>
-  <script type="text/javascript" src="../assets/js/config-min.js"></script>
-  <script type="text/javascript">
+    <div class="row">
+        <div class="span24">
+            <h2>几点说明</h2>
+            <ol>
+                <li>文档声明为 <code>&lt;!doctype html&gt;</code>,文件格式是utf-8</li>
+                <li>css文件在 title中引入，js在页面底部引入</li>
+                <li>页面引入的 prettify.js和prettify.css仅是为了展示代码使用</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../assets/js/bui-min.js"></script>
+<script type="text/javascript" src="../assets/js/config-min.js"></script>
+<script type="text/javascript">
     BUI.use('common/page');
-  </script>
-  <!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
-  <script type="text/javascript" src="../assets/js/prettify.js"></script>
-  <script type="text/javascript">
+</script>
+<!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
+<script type="text/javascript" src="../assets/js/prettify.js"></script>
+<script>
     $(function () {
-      prettyPrint();
+        queryStaff();
+        // prettyPrint();
     });
-  </script>  
+    
+    function queryStaff() {
+        $.post('../query_staff.do', function (data) {
+             console.log(data);
+        },"JSON")
+    }
+</script>
 
-<body>
+</body>
 </html>  
