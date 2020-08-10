@@ -7,8 +7,11 @@ import com.iscc.propertymanagent.domain.User;
 
 public interface UserService {
     int addUser(User user);
-     User login(String account);
+
+    User login(String account);
+
     Household holdlogin(int holdid);
+
     Staff stafflogin(int staffid);
 
 }

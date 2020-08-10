@@ -15,5 +15,11 @@ public class Notice implements Serializable {
     private int noticeid;
     private String noticecon;
     private String noticetime;
+    private int holdid;
 
+    public Notice(String noticecon, String noticetime, int holdid) {
+        this.noticecon = noticecon;
+        this.noticetime = noticetime;
+        this.holdid = holdid;
+    }
 }
