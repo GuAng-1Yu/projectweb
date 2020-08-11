@@ -7,6 +7,14 @@
     <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css"/>
     <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css"/>   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
     <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Web UI Kit &amp; Dashboard Template based on Bootstrap">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords" content="adminkit, bootstrap, web ui kit, dashboard template, admin template">
+
+    <link href="../css/app.css" rel="stylesheet">
     <style type="text/css">
         code {
             padding: 0px 4px;
@@ -14,18 +22,27 @@
             background-color: #f7f7f9;
             border: 1px solid #e1e1e8;
         }
+#container{margin-left: 10px;
+            /*border:1px solid red*/
+}
+        .card {
+            width: 970px
+        }
     </style>
+        <link href="../css/app.css" rel="stylesheet">
+
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="container">
     <div class="row">
         <form id="J_Form" class="form-horizontal span24">
             <div class="row">
                 <div class="control-group span8">
                     <label class="control-label">通知用户id：</label>
                     <div class="controls">
-                        <input name="id" id="holdid" type="text" data-tip="{text:'为null时通知全体！'}" class="input-normal control-text">
+                        <input name="id" id="holdid" type="text" data-tip="{text:'为null时通知全体！'}"
+                               class="input-normal control-text">
                     </div>
                 </div>
             </div>
@@ -37,14 +54,14 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="row">-->
-<!--                <div class="control-group span15 ">-->
-<!--                    <label class="control-label">发布日期：</label>-->
-<!--                    <div id="range" class="controls bui-form-group"  data-rules="{dateRange:true}">-->
-<!--                        <input name="start" class="calendar"   data-rules="{required:true}"  type="text"><label>&nbsp;-&nbsp;</label><input name="end" class="calendar"   data-rules="{required:true}"  type="text">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+            <!--            <div class="row">-->
+            <!--                <div class="control-group span15 ">-->
+            <!--                    <label class="control-label">发布日期：</label>-->
+            <!--                    <div id="range" class="controls bui-form-group"  data-rules="{dateRange:true}">-->
+            <!--                        <input name="start" class="calendar"   data-rules="{required:true}"  type="text"><label>&nbsp;-&nbsp;</label><input name="end" class="calendar"   data-rules="{required:true}"  type="text">-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
 
             <div class="row form-actions actions-bar">
                 <div class="span13 offset3 ">
@@ -55,33 +72,95 @@
         </form>
     </div>
 </div>
+<div class="col-12 col-xl-6">
+    <div class="card">
+        <!--        <div class="card-header">-->
+        <!--            <h5 class="card-title">Striped Rows</h5>-->
+        <!--            <h6 class="card-subtitle text-muted">Use <code>.table-striped</code> to add zebra-striping to any table row within the <code>&lt;tbody&gt;</code>.</h6>-->
+        <!--        </div>-->
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th style="width:10%;">通知编号</th>
+                <th style="width:25%">通知消息</th>
+                <th class="d-none d-md-table-cell" style="width:25%">发布日期</th>
+                <th style="width:25%">住户ID</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+<!--            <tr>-->
+<!--                <td>Vanessa Tucker</td>-->
+<!--                <td>864-348-0485</td>-->
+<!--                <td class="d-none d-md-table-cell">June 21, 1961</td>-->
+<!--                <td class="table-action">-->
+<!--                    <a href="#"><i class="align-middle" data-feather="edit-2">编辑</i></a>-->
+<!--                    <a href="#"><i class="align-middle" data-feather="trash">删除</i></a>-->
+<!--                </td>-->
+<!--            </tr>-->
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </body>
 <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="../js/layer/layer.js"></script>
-
 <script type="text/javascript">
     $(function () {
+
+
         $('#btnRegister').click(function () {
-            if ( $('#noticecon').val() == '') {
+            if ($('#noticecon').val() == '') {
                 layer.msg('请输入通知内容');
                 return;
             }
-                $.post('../Noticeadd.do', {
-                    holdid: $('#holdid').val(),
-                    noticecon: $('#noticecon').val()
-                }, function (data) {
+            $.post('../Noticeadd.do', {
+                holdid: $('#holdid').val(),
+                noticecon: $('#noticecon').val()
+            }, function (data) {
+                if (data.code == 200) {
+                    layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                        window.location.reload()
+                        // location.href = "index01.html";
 
-                    if (data.code == 200) {
-                        layer.msg(data.msg, {icon: 1, time: 2000}, function () {
-
-                                // location.href = "index01.html";
-                        })
-                    } else {
-                        alert(data.msg);
-                    }
-                }, 'json');
+                    })
+                } else {
+                    alert(data.msg);
+                }
+            }, 'json');
         })
+        queryAll()
     })
+    // queryAll();
+    function queryAll() {
+
+        $('tbody').empty();
+        $.post(
+            '../queryALL.do',
+            {},
+            function (data) {
+                console.log(data.code)
+                if (data.code == 200) {
+                    console.log(data.result);
+
+                    $.each(data.result, function (index, obj) {
+                        var tr = $('<tr></tr>');
+                        var td1 = $('<td></td>').text(obj.noticeid);
+                        var td2 = $('<td></td>').text(obj.noticecon);
+                        var td3 = $('<td></td>').text(obj.noticetime);
+                        var td4 = $('<td></td>').text(obj.holdid);
+                        // var td5 = $('<td></td>').text(obj.holdid);
+                       var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.tno + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.tno + ')" class="btn btn-danger">删除</button>');
+                        tr.append(td1).append(td2).append(td3).append(td4).append(td5);
+                        $('tbody').append(tr);
+                    })
+                }
+            }, 'JSON'
+        );
+        console.log(1);
+    }
 
 </script>
 <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
@@ -92,21 +171,20 @@
 </script>
 <!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
 <script type="text/javascript" src="../assets/js/prettify.js"></script>
-<script type="text/javascript">
-    $(function () {
-        prettyPrint();
-    });
-</script>
-<script type="text/javascript">
-    BUI.use('bui/form',function (Form) {
-        var form = new Form.HForm({
-            srcNode : '#J_Form'
-        });
+<!--<script type="text/javascript">-->
+<!--    $(function () {-->
+<!--        prettyPrint();-->
+<!--    });-->
+<!--</script>-->
+<!--<script type="text/javascript">-->
+<!--    BUI.use('bui/form', function (Form) {-->
+<!--        var form = new Form.HForm({-->
+<!--            srcNode: '#J_Form'-->
+<!--        });-->
 
-        form.render();
-    });
-</script>
+<!--        form.render();-->
+<!--    });-->
+<!--</script>-->
 
 
-
-</html> 
+</html>

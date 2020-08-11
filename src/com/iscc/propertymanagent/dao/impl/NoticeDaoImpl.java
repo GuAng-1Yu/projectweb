@@ -3,10 +3,13 @@ package com.iscc.propertymanagent.dao.impl;
 import com.iscc.propertymanagent.dao.NoticeDAO;
 import com.iscc.propertymanagent.domain.Notice;
 import com.iscc.propertymanagent.util.DataSourceUtil;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +62,32 @@ public class NoticeDaoImpl implements NoticeDAO {
 
     @Override
     public List queryAll() {
-        return null;
+
+        List<Notice> notices = new ArrayList<>();
+        String sql=" SELECT * FROM notice GROUP BY noticetime DESC ";
+        Connection conn=null;
+        PreparedStatement prst=null;
+        ResultSet rs=null;
+
+        try {
+             conn = DataSourceUtil.getConnection();
+             prst = conn.prepareStatement(sql);
+            rs = prst.executeQuery();
+            while (rs.next()){
+                Notice notice = new Notice();
+                notice.setNoticeid(rs.getInt(1));
+                notice.setNoticecon(rs.getString(2));
+                notice.setNoticetime(rs.getString(3));
+                notice.setHoldid(rs.getInt(4));
+                notices.add(notice);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+
+//        conn.get
+        return notices;
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.domain.User;
 import com.iscc.propertymanagent.service.UserService;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class UserServiceImpl implements UserService {
@@ -33,6 +35,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Staff stafflogin(int staffid) {
         return userDAO.stafflogin(staffid);
+    }
+
+    @Override
+    public List<Map<String, Object>> holdinfoQuery(int holdid) {
+        return userDAO.holdinfoQuery(holdid);
     }
 
 

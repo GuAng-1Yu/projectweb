@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -130,6 +132,12 @@ public class UserDAOImpl implements UserDAO {
             DataSourceUtil.releaseResource(rs,pre,conn);
         }
         return staff;
+    }
+
+    @Override
+    public List<Map<String, Object>> holdinfoQuery(int holdid) {
+
+        return null;
     }
 
 

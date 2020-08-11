@@ -7,6 +7,8 @@ import com.iscc.propertymanagent.dao.impl.UserDAOImpl;
 import com.iscc.propertymanagent.domain.Notice;
 import com.iscc.propertymanagent.service.NoticeService;
 
+import java.util.List;
+
 /**
  * @author ZHOUB
  * @create 2020-08-10-23:30
@@ -20,5 +22,10 @@ public class NoticeServiceImpl implements NoticeService {
     public int add(Notice notice) {
 
         return noticeDAO.addnotice(notice);
+    }
+
+    @Override
+    public List<Notice> queryAll() {
+        return noticeDAO.queryAll();
     }
 }

@@ -16,13 +16,14 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author ZHOUB
  * @create 2020-08-10-22:00
  */
-@WebServlet({"/Noticeadd.do"})
+@WebServlet({"/Noticeadd.do", "/queryALL.do"})
 public class StaffNoticeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -37,16 +38,17 @@ public class StaffNoticeServlet extends HttpServlet {
         Gson gosn = new Gson();
         String action = uri.substring(uri.lastIndexOf("/") + 1);
         Map<String, Object> resultMap = new HashMap<>();
-        if("Noticeadd.do".equals(action)){
-            int holdid=0;
-            if (request.getParameter("holdid")=="") {
-            }else {
-                holdid= Integer.parseInt(request.getParameter("holdid"));}
-            String noticecon=request.getParameter("noticecon");
-            SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if ("Noticeadd.do".equals(action)) {
+            int holdid = 0;
+            if (request.getParameter("holdid") == "") {
+            } else {
+                holdid = Integer.parseInt(request.getParameter("holdid"));
+            }
+            String noticecon = request.getParameter("noticecon");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date(System.currentTimeMillis());
-            String noticetime=formatter.format(date);
-            Notice notice = new Notice(noticecon,noticetime,holdid);
+            String noticetime = formatter.format(date);
+            Notice notice = new Notice(noticecon, noticetime, holdid);
             int result = noticeService.add(notice);
             if (result != -1) {
                 resultMap.put("code", 200);
@@ -58,6 +60,20 @@ public class StaffNoticeServlet extends HttpServlet {
 //            System.out.println("resultMap = " + resultMap);
             String str = gosn.toJson(resultMap);
 //            System.out.println("str = " + str);
+            out.print(str);
+
+        } else if ("queryALL.do".equals(action)) {
+            List<Notice> notices=noticeService.queryAll();
+            System.out.println(notices);
+            if(notices.size()>0){
+                    resultMap.put("code", 200);
+                    resultMap.put("msg", "查询数据成功");
+                    resultMap.put("result", notices);
+                } else {
+                    resultMap.put("code", 201);
+                resultMap.put("msg", "数据加载失败");
+             }
+            String str=gosn.toJson(resultMap);
             out.print(str);
 
         }
