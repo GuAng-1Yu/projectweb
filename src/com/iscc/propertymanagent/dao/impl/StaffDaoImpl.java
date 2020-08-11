@@ -45,4 +45,9 @@ public class StaffDaoImpl implements StaffDAO {
     public List<Staff> queryStaff(Staff staff) {
         return null;
     }
+
+    @Override
+    public int addStaff(Staff staff) {
+        return 0;
+    }
 }
