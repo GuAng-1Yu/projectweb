@@ -14,4 +14,5 @@ public interface UserDAO {
     public Household holdlogin(int holdid);
     public Staff stafflogin(int staffid);
 
+
 }
