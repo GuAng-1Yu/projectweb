@@ -10,8 +10,8 @@ public class HouseholdServiceImpl implements HouseholdService {
 
     HouseholdDAOImpl householdDAOImpl = new HouseholdDAOImpl();
     @Override
-    public void searchHouseholdById(int holdid) {
-        householdDAOImpl.searchHouseholdById(holdid);
+    public List<Household> searchHouseholdById(int holdid) {
+        return householdDAOImpl.searchHouseholdById(holdid);
     }
 
     @Override

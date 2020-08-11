@@ -39,12 +39,15 @@ public class HouseDAOImpl implements HouseDAO {
     }
 
     @Override
-    public void searchHouseById(int houseid) {
+    public List<House> searchHouseById(int houseid) {
+
         String sql = "select * from house_info where houseid = ?";
         House houseInfo = null;
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
+        List<House> houseById = null;
+
         try{
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
@@ -57,13 +60,15 @@ public class HouseDAOImpl implements HouseDAO {
                 houseInfo.setUnitid(rs.getInt(3));
                 houseInfo.setNumberid(rs.getString(4));
                 houseInfo.setHousesta(rs.getInt(5));
-                System.out.println(houseInfo);
+                houseById.add(houseInfo);
             }
         }catch(Exception e){
             e.printStackTrace();
         }finally{
             DataSourceUtil.releaseResource(rs,psmt,conn);
         }
+
+        return houseById;
     }
 
     @Override
@@ -96,39 +101,43 @@ public class HouseDAOImpl implements HouseDAO {
     }
 
     @Override
-    public void deleteHouseById(int houseid) {
+    public int deleteHouseById(int houseid) {
 
         String sql = "delete from house_info where houseid = ?";
         Connection conn = null;
         PreparedStatement psmt = null;
+        int result = -1;
 
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
             psmt.setInt(1, houseid);
-            psmt.executeUpdate();
+            result = psmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             DataSourceUtil.releaseResource(psmt, conn);
         }
+        return result;
     }
 
     @Override
-    public void updateHouse(House house) {
+    public int updateHouse(House house) {
         String sql = "update house_info set housesta = ? where houseid = ?";
         Connection conn = null;
         PreparedStatement psmt = null;
+        int result = -1;
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
             psmt.setInt(1, house.getHousesta());
             psmt.setInt(2, house.getHouseid());
-            psmt.executeUpdate();
+            result = psmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             DataSourceUtil.releaseResource(psmt, conn);
         }
+        return result;
     }
 }

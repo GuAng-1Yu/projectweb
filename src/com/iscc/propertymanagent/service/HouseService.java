@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface HouseService {
 
-    public void deleteHouseById(int houseid);
-    public void addHouse(House house);
-    public void updateHouse(House house);
-    List<House> queryAllHouse();
-    public void queryHouseById(int houseid);
+    public int deleteHouseById(int houseid);
+    public int addHouse(House house);
+    public int updateHouse(House house);
+    public List<House> queryAllHouse();
+    public List<House> queryHouseById(int houseid);
 
 }

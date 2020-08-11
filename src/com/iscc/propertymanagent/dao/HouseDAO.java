@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface HouseDAO {
 
-    public void searchHouseById(int houseid);
+    public List<House> searchHouseById(int houseid);
     public List<House> searchHouseAll();
-    public void deleteHouseById(int houseid);
+    public int deleteHouseById(int houseid);
     int addHouse(House house);
-    public void updateHouse(House house);
+    public int updateHouse(House house);
 
 }

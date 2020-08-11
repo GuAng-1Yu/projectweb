@@ -40,12 +40,13 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     }
 
     @Override
-    public void searchHouseholdById(int holdid) {
+    public List<Household> searchHouseholdById(int holdid) {
         String sql = "select * from household_info where holdid = ?";
         Household household = null;
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
+        List<Household> householdById = null;
         try{
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
@@ -58,13 +59,14 @@ public class HouseholdDAOImpl implements HouseholdDAO {
                 household.setHoldtel(rs.getString(3));
                 household.setHoldnum(rs.getInt(4));
                 household.setHoldpwd(rs.getString(5));
-                System.out.println(household);
+                householdById.add(household);
             }
         }catch(Exception e){
             e.printStackTrace();
         }finally{
             DataSourceUtil.releaseResource(rs,psmt,conn);
         }
+        return householdById;
     }
 
     @Override

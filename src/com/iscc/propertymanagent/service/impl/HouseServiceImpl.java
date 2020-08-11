@@ -11,18 +11,18 @@ public class HouseServiceImpl implements HouseService {
     HouseDAOImpl houseDAO = new HouseDAOImpl();
 
     @Override
-    public void deleteHouseById(int houseid) {
-        houseDAO.deleteHouseById(houseid);
+    public int deleteHouseById(int houseid) {
+        return houseDAO.deleteHouseById(houseid);
     }
 
     @Override
-    public void addHouse(House house) {
-        houseDAO.addHouse(house);
+    public int addHouse(House house) {
+        return houseDAO.addHouse(house);
     }
 
     @Override
-    public void updateHouse(House house) {
-        houseDAO.updateHouse(house);
+    public int updateHouse(House house) {
+        return houseDAO.updateHouse(house);
     }
 
     @Override
@@ -31,7 +31,5 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public void queryHouseById(int houseid) {
-        houseDAO.searchHouseById(houseid);
-    }
+    public List<House> queryHouseById(int houseid) { return houseDAO.searchHouseById(houseid); }
 }

@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface HouseholdDAO {
 
-    public void searchHouseholdById(int holdid);
+    public List<Household> searchHouseholdById(int holdid);
     public List<Household> searchHouseholdAll();
-    public void deleteHouseholdById(int holdid);
+    public int deleteHouseholdById(int holdid);
     int addHousehold(Household household);
 
 }
