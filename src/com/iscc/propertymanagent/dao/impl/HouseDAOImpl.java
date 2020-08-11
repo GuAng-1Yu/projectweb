@@ -7,6 +7,7 @@ import com.iscc.propertymanagent.util.DataSourceUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
 public class HouseDAOImpl implements HouseDAO {
 
@@ -38,7 +39,7 @@ public class HouseDAOImpl implements HouseDAO {
     }
 
     @Override
-    public void searchHouseById(int houseId) {
+    public void searchHouseById(int houseid) {
         String sql = "select * from house_info where houseid = ?";
         House houseInfo = null;
         Connection conn = null;
@@ -47,7 +48,7 @@ public class HouseDAOImpl implements HouseDAO {
         try{
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
-            psmt.setInt(1, houseId);
+            psmt.setInt(1, houseid);
             rs = psmt.executeQuery();
             if(rs.next()){
                 houseInfo = new House();
@@ -66,12 +67,13 @@ public class HouseDAOImpl implements HouseDAO {
     }
 
     @Override
-    public void searchHouseAll() {
+    public List<House> searchHouseAll() {
         String sql = "select * from house_info";
         House houseInfo = null;
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
+        List<House> allHouse = null;
         try{
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
@@ -83,17 +85,18 @@ public class HouseDAOImpl implements HouseDAO {
                 houseInfo.setUnitid(rs.getInt(3));
                 houseInfo.setNumberid(rs.getString(4));
                 houseInfo.setHousesta(rs.getInt(5));
-                System.out.println(houseInfo);
+                allHouse.add(houseInfo);
             }
         }catch(Exception e){
             e.printStackTrace();
         }finally{
             DataSourceUtil.releaseResource(rs,psmt,conn);
         }
+        return allHouse;
     }
 
     @Override
-    public void deleteHouseById(int houseId) {
+    public void deleteHouseById(int houseid) {
 
         String sql = "delete from house_info where houseid = ?";
         Connection conn = null;
@@ -102,7 +105,7 @@ public class HouseDAOImpl implements HouseDAO {
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
-            psmt.setInt(1, houseId);
+            psmt.setInt(1, houseid);
             psmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

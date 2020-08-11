@@ -1,12 +1,14 @@
 package com.iscc.propertymanagent.dao.impl;
 
 import com.iscc.propertymanagent.dao.HouseholdDAO;
+import com.iscc.propertymanagent.domain.House;
 import com.iscc.propertymanagent.domain.Household;
 import com.iscc.propertymanagent.util.DataSourceUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
 public class HouseholdDAOImpl implements HouseholdDAO {
 
@@ -38,7 +40,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     }
 
     @Override
-    public void searchHouseholdById(int holdId) {
+    public void searchHouseholdById(int holdid) {
         String sql = "select * from household_info where holdid = ?";
         Household household = null;
         Connection conn = null;
@@ -47,7 +49,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
         try{
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
-            psmt.setInt(1, holdId);
+            psmt.setInt(1, holdid);
             rs = psmt.executeQuery();
             if(rs.next()){
                 household = new Household();
@@ -66,12 +68,13 @@ public class HouseholdDAOImpl implements HouseholdDAO {
     }
 
     @Override
-    public void searchHouseholdAll() {
+    public List<Household> searchHouseholdAll() {
         String sql = "select * from household_info";
         Household household = null;
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
+        List<Household> householdAll = null;
         try{
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
@@ -83,17 +86,18 @@ public class HouseholdDAOImpl implements HouseholdDAO {
                 household.setHoldtel(rs.getString(3));
                 household.setHoldnum(rs.getInt(4));
                 household.setHoldpwd(rs.getString(5));
-                System.out.println(household);
+                householdAll.add(household);
             }
         }catch(Exception e){
             e.printStackTrace();
         }finally{
             DataSourceUtil.releaseResource(rs,psmt,conn);
         }
+        return householdAll;
     }
 
     @Override
-    public void deleteHouseholdById(int holdId) {
+    public void deleteHouseholdById(int holdid) {
 
         String sql = "delete from household_info where holdid = ?";
         Connection conn = null;
@@ -102,7 +106,7 @@ public class HouseholdDAOImpl implements HouseholdDAO {
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
-            psmt.setInt(1, holdId);
+            psmt.setInt(1, holdid);
             psmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
