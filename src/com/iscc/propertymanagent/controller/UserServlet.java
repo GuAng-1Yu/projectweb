@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import java.util.Map;
 @WebServlet({"/register.do","/login.do","/stafflogin.do"})
 public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
         UserService userService = new UserServiceImpl();
         PrintWriter out = response.getWriter();
         // /MaoKe/register.do
@@ -58,6 +59,7 @@ public class UserServlet extends HttpServlet {
                     resultMap.put("code",200);
                     resultMap.put("msg","登录成功");
                     resultMap.put("result",houser);
+                    session.setAttribute("holder",houser);
                 }else {
                     resultMap.put("code",202);
                     resultMap.put("msg","密码错误！");
@@ -82,6 +84,9 @@ public class UserServlet extends HttpServlet {
                     resultMap.put("code",200);
                     resultMap.put("msg","登录成功");
                     resultMap.put("result",staff);
+                    session.setAttribute("staff",staff);
+                    //取ssesion
+                    System.out.println(((Staff)session.getAttribute("staff")).getDeptid());
                 }else {
                     resultMap.put("code",202);
                     resultMap.put("msg","密码错误！");
