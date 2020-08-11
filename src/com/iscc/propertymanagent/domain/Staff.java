@@ -17,6 +17,6 @@ private String  staffname;
 private String   stafftel;
 private int   deptid;
 private int stafflev;
-
-
 }
+
+

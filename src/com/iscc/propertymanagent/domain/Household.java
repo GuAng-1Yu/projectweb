@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @ToString
@@ -17,5 +18,7 @@ public class Household implements Serializable {
     private String holdtel;
     private int holdnum;
     private String holdpwd;
+
+
 
 }
