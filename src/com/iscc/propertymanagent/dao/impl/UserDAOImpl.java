@@ -89,6 +89,8 @@ public class UserDAOImpl implements UserDAO {
                 Household=new Household();
                 Household.setHoldid(rs.getInt(1));
                 Household.setHouseid(rs.getInt(2));
+                Household.setHoldtel(rs.getString(3));
+                Household.setHoldnum(rs.getInt(4));
                 Household.setHoldpwd(rs.getString(5));
                 System.out.println(Household);
             }
