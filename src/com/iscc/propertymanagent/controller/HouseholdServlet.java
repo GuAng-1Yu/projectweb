@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class HouseholdServlet {
-    @WebServlet({"/queryHousehold.do","/queryHouseholdById.do","/addHousehold.do","/deleteHousehold.do","/updateHousehold.do"})
+   /* @WebServlet({"/queryHousehold.do","/queryHouseholdById.do","/addHousehold.do","/deleteHousehold.do","/updateHousehold.do"})
     public class HouseServlet extends HttpServlet {
 
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -105,5 +105,5 @@ public class HouseholdServlet {
                 }
             }
 
-        }
+        }*/
 }
