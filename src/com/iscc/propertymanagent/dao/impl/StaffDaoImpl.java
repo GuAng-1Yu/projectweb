@@ -5,6 +5,7 @@ import com.iscc.propertymanagent.dao.StaffDAO;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.util.DataSourceUtil;
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,5 +45,12 @@ public class StaffDaoImpl implements StaffDAO {
     @Override
     public List<Staff> queryStaff(Staff staff) {
         return null;
+
     }
+
+    @Override
+    public int addStaff(Staff staff) {
+        return 0;
+    }
+
 }
