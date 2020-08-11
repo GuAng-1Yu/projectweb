@@ -118,16 +118,6 @@
 <!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
 <script type="text/javascript" src="../assets/js/prettify.js"></script>
 <script>
-    $(function () {
-        queryStaff();
-        // prettyPrint();
-    });
-    
-    function queryStaff() {
-        $.post('../query_staff.do', function (data) {
-             console.log(data);
-        },"JSON")
-    }
 </script>
 
 </body>
