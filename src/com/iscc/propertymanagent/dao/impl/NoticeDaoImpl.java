@@ -4,6 +4,7 @@ import com.iscc.propertymanagent.dao.NoticeDAO;
 import com.iscc.propertymanagent.domain.Notice;
 import com.iscc.propertymanagent.util.DataSourceUtil;
 import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,23 +58,72 @@ public class NoticeDaoImpl implements NoticeDAO {
 
     @Override
     public int del(int id) {
-        return 0;
+        Connection conn = null;
+        PreparedStatement prst = null;
+        int rs = -1;
+        String sql = " DELETE FROM notice WHERE noticeid = ? ";
+
+        try {
+            conn = DataSourceUtil.getConnection();
+            prst = conn.prepareStatement(sql);
+            prst.setInt(1, id);
+            rs = prst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(prst, conn);
+
+        }
+
+
+        return rs;
+    }
+
+    @Override
+    public Notice serch(int noticeid) {
+        Notice notice = null;
+
+        String sql = " SELECT * FROM notice where noticeid = ?";
+        Connection conn = null;
+        PreparedStatement prst = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DataSourceUtil.getConnection();
+            prst = conn.prepareStatement(sql);
+            prst.setInt(1, noticeid);
+            rs = prst.executeQuery();
+            while (rs.next()) {
+                notice = new Notice();
+                notice.setNoticeid(rs.getInt(1));
+                notice.setNoticecon(rs.getString(2));
+                notice.setNoticetime(rs.getString(3));
+                notice.setHoldid(rs.getInt(4));
+
+            }
+            System.out.println("noticesql"+notice);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(rs, prst, conn);
+        }
+        return notice;
     }
 
     @Override
     public List queryAll() {
 
         List<Notice> notices = new ArrayList<>();
-        String sql=" SELECT * FROM notice GROUP BY noticetime DESC ";
-        Connection conn=null;
-        PreparedStatement prst=null;
-        ResultSet rs=null;
+        String sql = " SELECT * FROM notice GROUP BY noticetime DESC ";
+        Connection conn = null;
+        PreparedStatement prst = null;
+        ResultSet rs = null;
 
         try {
-             conn = DataSourceUtil.getConnection();
-             prst = conn.prepareStatement(sql);
+            conn = DataSourceUtil.getConnection();
+            prst = conn.prepareStatement(sql);
             rs = prst.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 Notice notice = new Notice();
                 notice.setNoticeid(rs.getInt(1));
                 notice.setNoticecon(rs.getString(2));
@@ -84,6 +134,7 @@ public class NoticeDaoImpl implements NoticeDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            DataSourceUtil.releaseResource(rs, prst, conn);
         }
 
 //        conn.get
@@ -92,6 +143,8 @@ public class NoticeDaoImpl implements NoticeDAO {
 
     @Override
     public Object queryById(int id) {
+
+
         return null;
     }
 }

@@ -5,6 +5,7 @@ import com.iscc.propertymanagent.domain.Notice;
 import com.iscc.propertymanagent.service.UserService;
 import com.iscc.propertymanagent.service.impl.NoticeServiceImpl;
 import com.iscc.propertymanagent.service.impl.UserServiceImpl;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +24,7 @@ import java.util.Map;
  * @author ZHOUB
  * @create 2020-08-10-22:00
  */
-@WebServlet({"/Noticeadd.do", "/queryALL.do"})
+@WebServlet({"/Noticeadd.do", "/queryALL.do","/noticedel.do","/notice_serchbyid.do"})
 public class StaffNoticeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -63,19 +64,49 @@ public class StaffNoticeServlet extends HttpServlet {
             out.print(str);
 
         } else if ("queryALL.do".equals(action)) {
-            List<Notice> notices=noticeService.queryAll();
-            System.out.println(notices);
-            if(notices.size()>0){
-                    resultMap.put("code", 200);
-                    resultMap.put("msg", "查询数据成功");
-                    resultMap.put("result", notices);
-                } else {
-                    resultMap.put("code", 201);
+            List<Notice> notices = noticeService.queryAll();
+//            System.out.println(notices);
+            if (notices.size() > 0) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "查询数据成功");
+                resultMap.put("result", notices);
+            } else {
+                resultMap.put("code", 201);
                 resultMap.put("msg", "数据加载失败");
-             }
-            String str=gosn.toJson(resultMap);
+            }
+            String str = gosn.toJson(resultMap);
             out.print(str);
 
+        } else if ("noticedel.do".equals(action)) {
+//            int holdid = 0;
+
+            int noticeid = Integer.parseInt(request.getParameter("noticeid"));
+//            System.out.println("===========");
+//            System.out.println(noticeid);
+            int result = noticeService.del(noticeid);
+            if (result != -1) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "删除成功");
+            } else {
+                resultMap.put("code", 201);
+                resultMap.put("msg", "删除失败");
+            }
+//            System.out.println("resultMap = " + resultMap);
+            String str = gosn.toJson(resultMap);
+//            System.out.println("str = " + str);
+            out.print(str);
         }
-    }
-}
+        else if ("notice_serchbyid.do".equals(action)) {
+            int noticeid = Integer.parseInt(request.getParameter("noticeid"));
+            Notice notice = noticeService.serchbyid(noticeid);
+              if(notice!=null){
+                  resultMap.put("code", 200);
+                  resultMap.put("result", notice);
+              }else {
+                  resultMap.put("code", 201);
+                  resultMap.put("msg", "不存在该数据");
+              }
+            String str = gosn.toJson(resultMap);
+            out.print(str);
+        }
+    }}

@@ -146,11 +146,11 @@
   <script type="text/javascript" src="js/layer/layer.js"></script>
   <script type="text/javascript">
       $(function () {
-          console.log(item)
+
           var item = sessionStorage.getItem('user');
-          console.log(item)
+
           var s = JSON.parse(item)
-          console.log(s)
+
           $('.dl-log-user').text(s.staffname);
 
       })

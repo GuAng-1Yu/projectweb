@@ -22,14 +22,17 @@
             background-color: #f7f7f9;
             border: 1px solid #e1e1e8;
         }
-#container{margin-left: 10px;
+
+        #container {
+            margin-left: 10px;
             /*border:1px solid red*/
-}
+        }
+
         .card {
             width: 970px
         }
     </style>
-        <link href="../css/app.css" rel="stylesheet">
+    <link href="../css/app.css" rel="stylesheet">
 
 </head>
 <body>
@@ -89,15 +92,15 @@
             </tr>
             </thead>
             <tbody>
-<!--            <tr>-->
-<!--                <td>Vanessa Tucker</td>-->
-<!--                <td>864-348-0485</td>-->
-<!--                <td class="d-none d-md-table-cell">June 21, 1961</td>-->
-<!--                <td class="table-action">-->
-<!--                    <a href="#"><i class="align-middle" data-feather="edit-2">编辑</i></a>-->
-<!--                    <a href="#"><i class="align-middle" data-feather="trash">删除</i></a>-->
-<!--                </td>-->
-<!--            </tr>-->
+            <!--            <tr>-->
+            <!--                <td>Vanessa Tucker</td>-->
+            <!--                <td>864-348-0485</td>-->
+            <!--                <td class="d-none d-md-table-cell">June 21, 1961</td>-->
+            <!--                <td class="table-action">-->
+            <!--                    <a href="#"><i class="align-middle" data-feather="edit-2">编辑</i></a>-->
+            <!--                    <a href="#"><i class="align-middle" data-feather="trash">删除</i></a>-->
+            <!--                </td>-->
+            <!--            </tr>-->
 
             </tbody>
         </table>
@@ -133,6 +136,7 @@
         })
         queryAll()
     })
+
     // queryAll();
     function queryAll() {
 
@@ -141,9 +145,9 @@
             '../queryALL.do',
             {},
             function (data) {
-                console.log(data.code)
+                // console.log(data.code)
                 if (data.code == 200) {
-                    console.log(data.result);
+                    // console.log(data.result);
 
                     $.each(data.result, function (index, obj) {
                         var tr = $('<tr></tr>');
@@ -152,14 +156,38 @@
                         var td3 = $('<td></td>').text(obj.noticetime);
                         var td4 = $('<td></td>').text(obj.holdid);
                         // var td5 = $('<td></td>').text(obj.holdid);
-                       var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.tno + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.tno + ')" class="btn btn-danger">删除</button>');
+                        var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.noticeid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.noticeid + ')" class="btn btn-danger">删除</button>');
                         tr.append(td1).append(td2).append(td3).append(td4).append(td5);
                         $('tbody').append(tr);
                     })
                 }
             }, 'JSON'
         );
-        console.log(1);
+
+    }
+
+    function delType(noticeid) {
+
+        layer.confirm('是否确认删除该通知', {icon: 3, title: '删除提示'}, function (index) {
+            $.post(
+                '../noticedel.do',
+                {noticeid: noticeid},
+                function (data) {
+                    console.log(1)
+                    if (data.code == 200) {
+                        layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                            queryAll();
+                        })
+                    }
+                }, 'JSON')
+
+            layer.close(index);
+
+        })
+    }
+    function editType(noticeid) {
+        sessionStorage.setItem('noticeid', noticeid)
+            location.href="../noticeeditform.html"
     }
 
 </script>

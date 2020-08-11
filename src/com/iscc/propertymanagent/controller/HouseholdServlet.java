@@ -1,21 +1,21 @@
-package com.iscc.propertymanagent.controller;
-
-import com.google.gson.Gson;
-import com.iscc.propertymanagent.domain.Household;
-import com.iscc.propertymanagent.service.HouseholdService;
-import com.iscc.propertymanagent.service.impl.HouseholdServiceImpl;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-
-public class HouseholdServlet {
+//package com.iscc.propertymanagent.controller;
+//
+//import com.google.gson.Gson;
+//import com.iscc.propertymanagent.domain.Household;
+//import com.iscc.propertymanagent.service.HouseholdService;
+//import com.iscc.propertymanagent.service.impl.HouseholdServiceImpl;
+//
+//import javax.servlet.ServletException;
+//import javax.servlet.annotation.WebServlet;
+//import javax.servlet.http.HttpServlet;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletResponse;
+//import java.io.IOException;
+//import java.io.PrintWriter;
+//import java.util.HashMap;
+//import java.util.List;
+//
+//public class HouseholdServlet {
    /* @WebServlet({"/queryHousehold.do","/queryHouseholdById.do","/addHousehold.do","/deleteHousehold.do","/updateHousehold.do"})
     public class HouseServlet extends HttpServlet {
 
@@ -106,4 +106,4 @@ public class HouseholdServlet {
             }
 
         }*/
-}
+//}

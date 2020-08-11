@@ -28,4 +28,14 @@ public class NoticeServiceImpl implements NoticeService {
     public List<Notice> queryAll() {
         return noticeDAO.queryAll();
     }
+
+    @Override
+    public int del(int id) {
+        return noticeDAO.del(id);
+    }
+
+    @Override
+    public Notice serchbyid(int noticeid) {
+        return noticeDAO.serch(noticeid);
+    }
 }

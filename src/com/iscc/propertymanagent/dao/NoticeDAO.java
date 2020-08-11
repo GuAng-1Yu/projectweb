@@ -8,4 +8,7 @@ import com.iscc.propertymanagent.domain.Notice;
  */
 public interface NoticeDAO extends BaseDAO  {
     public int addnotice(Notice notice);
+    int del(int id);
+    Notice serch(int id);
+
 }

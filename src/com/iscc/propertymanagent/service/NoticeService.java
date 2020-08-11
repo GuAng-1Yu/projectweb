@@ -11,4 +11,7 @@ import java.util.List;
 public interface NoticeService {
     int add(Notice notice);
     List<Notice>   queryAll();
+    int del(int id);
+    Notice serchbyid(int noticeid);
+
 }

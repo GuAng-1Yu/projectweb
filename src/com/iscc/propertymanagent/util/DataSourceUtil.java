@@ -20,6 +20,7 @@ public class DataSourceUtil {
         //设置连接数据用户名
         dataSource.setUsername("root");
         //设置初始化连接数
+        dataSource.setPassword("root");
         dataSource.setInitialSize(10);
         //设置连接的最大数
         dataSource.setMaxActive(50);
@@ -70,12 +71,12 @@ public class DataSourceUtil {
         try {
             conn = DataSourceUtil.getConnection();
             System.out.println(conn);
-//            Statement st = conn.createStatement();
-//            String sql=" insert into login values('zzz',1234)";
-//            int i = st.executeUpdate(sql);
-//            if (i!=-1){
-//                System.out.println("修改成功");
-//            }
+            Statement st = conn.createStatement();
+            String sql=" insert into login values('zzz',1234)";
+            int i = st.executeUpdate(sql);
+            if (i!=-1){
+                System.out.println("修改成功");
+            }
             System.out.println(conn);
         } catch (SQLException e) {
             e.printStackTrace();
