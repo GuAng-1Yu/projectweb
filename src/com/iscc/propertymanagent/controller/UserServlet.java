@@ -85,7 +85,7 @@ public class UserServlet extends HttpServlet {
                     resultMap.put("msg","登录成功");
                     resultMap.put("result",staff);
                     session.setAttribute("staff",staff);
-                    //取ssesion
+                    //取ssesion???
                     System.out.println(((Staff)session.getAttribute("staff")).getDeptid());
                 }else {
                     resultMap.put("code",202);
@@ -94,6 +94,7 @@ public class UserServlet extends HttpServlet {
             }else {
                 resultMap.put("code",203);
                 resultMap.put("msg","账号或密码错误");
+
             }
 
             String str = gosn.toJson(resultMap);
