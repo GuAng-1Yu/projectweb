@@ -7,7 +7,6 @@ import lombok.ToString;
 
 import java.io.Serializable;
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class House implements Serializable {

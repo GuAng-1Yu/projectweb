@@ -50,7 +50,7 @@
                 {id:'code',text:'首页代码',href:'main/code.html',closeable : false},
                 {id:'main-menu',text:'顶部导航',href:'main/menu.html'},
                 {id:'second-menu',text:'右边菜单',href:'main/second-menu.html'},
-                {id:'dyna-menu',text:'动态菜单',href:'main/dyna-menu.html'}
+                {id:'dyna-menu',text:'业主管理',href:'main/dyna-menu.html'}
               ]
             },{
               text:'页面操作',
@@ -59,10 +59,10 @@
                 {id:'quick',text:'页面操作快捷方式',href:'main/quick.html'}  
               ]
             },{
-              text:'文件结构',
+              text:'员工信息',
               items:[
-                {id:'resource',text:'资源文件结构',href:'main/resource.html'},
-                {id:'loader',text:'引入JS方式',href:'main/loader.html'}  
+                {id:'resource',text:'员工管理',href:'main/resource.html'},
+                {id:'loader',text:'部门管理',href:'main/loader.html'}
               ]
             }]
           },{
@@ -146,11 +146,11 @@
   <script type="text/javascript" src="js/layer/layer.js"></script>
   <script type="text/javascript">
       $(function () {
-          console.log(item)
+
           var item = sessionStorage.getItem('user');
-          console.log(item)
+
           var s = JSON.parse(item)
-          console.log(s)
+
           $('.dl-log-user').text(s.staffname);
 
       })

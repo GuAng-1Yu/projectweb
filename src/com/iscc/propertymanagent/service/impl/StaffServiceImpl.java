@@ -14,4 +14,19 @@ public class StaffServiceImpl implements StaffService {
     public List<Staff> queryStaff() {
         return staffDao.queryStaff();
     }
+
+    @Override
+    public int addStaff(Staff staff) {
+        return staffDao.addStaff(staff);
+    }
+
+    @Override
+    public int updateStaff(Staff staff) {
+        return staffDao.updateStaff(staff);
+    }
+
+    @Override
+    public int delStaff(int id) {
+        return staffDao.delStaff(id);
+    }
 }

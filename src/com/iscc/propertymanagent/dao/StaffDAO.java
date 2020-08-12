@@ -3,9 +3,12 @@ package com.iscc.propertymanagent.dao;
 import com.iscc.propertymanagent.domain.Staff;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-public interface StaffDAO {
+public interface StaffDAO{
     List<Staff> queryStaff();
-    List<Staff> queryStaff(Staff staff);
+    int addStaff(Staff staff) throws SQLException;
+    int updateStaff(Staff staff);
+    int delStaff(int id);
 }
