@@ -79,13 +79,23 @@ public class StaffDaoImpl implements StaffDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
         return result;
     }
 
     @Override
     public int delStaff(int id) {
-        return 0;
+        String sql = "DELETE FROM staff_info WHERE staffid = ?";
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        int result = -1;
+        try {
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            psmt.setInt(1,id);
+            result = psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
