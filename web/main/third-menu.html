@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> 资源文件结构</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css"/>   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
+    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        code {
+            padding: 0px 4px;
+            color: #d14;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
+    <link href="../css/table_app.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="row" style="padding: 3em">
+    <div class="col-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Contextual Classes</h5>
+                <h6 class="card-subtitle text-muted">Use contextual classes to color table rows or
+                    individual cells.</h6>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width:20%;">通知编号</th>
+                    <th style="width:35%">通知内容</th>
+                    <th class="d-none d-md-table-cell" style="width:25%">通知时间</th>
+                    <th>通知类型</th>
+                </tr>
+                </thead>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- ———————————————————————————————————————————————————————————————————— -->
+<!--<script src="../js/vendor.js"></script>-->
+<script src="../js/app.js"></script>
+<!-- ———————————————————————————————————————————————————————————————————— -->
+<script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../assets/js/bui-min.js"></script>
+
+<script type="text/javascript" src="../assets/js/config-min.js"></script>
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+<!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
+<script type="text/javascript" src="../assets/js/prettify.js"></script>
+<script type="text/javascript">
+    $(function () {
+        prettyPrint();
+    });
+</script>
+
+</body>
+</html>  

@@ -68,14 +68,22 @@
         var item = sessionStorage.getItem('user');
         var s = JSON.parse(item)
        var holdid=s.holdid
-        console.log(holdid);
+
         $.post(
             'detailquery.do',
             {holdid:holdid},
             function (data) {
                 if(data.code==200){
-                    console.log(data.data.holdid)
                $('#holdid').text(data.data.holdid)
+               $('#houseid').text(data.data.houseid)
+               $('#holdtel').text(data.data.holdtel)
+               $('#holdnum').text(data.data.holdnum)
+               $('#buildingid').text(data.data.buildingid)
+               $('#unitid').text(data.data.unitid)
+               $('#numberid').text(data.data.numberid)
+               $('#housesta').text(data.data.housesta)
+               // $('#holdid').text(data.data.holdid)
+               // $('#holdid').text(data.data.holdid)
                 }
             },'JSON'
 

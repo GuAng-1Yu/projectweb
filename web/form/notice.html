@@ -131,6 +131,7 @@
      $('#btnserchbyid').click(function () {
          $('tbody').empty();
           var holdid= $('#hold').val();
+          if($('#hold').val()=="全体"){holdid=0};
           if (holdid==''){
               queryAll()
               return
@@ -146,7 +147,10 @@
                      var td1 = $('<td></td>').text(obj.noticeid);
                      var td2 = $('<td></td>').text(obj.noticecon);
                      var td3 = $('<td></td>').text(obj.noticetime);
-                     var td4 = $('<td></td>').text(obj.holdid);
+                     var newholdid=obj.holdid;
+
+                     if(obj.holdid==0){newholdid="全体"};
+                     var td4 = $('<td></td>').text(newholdid);
                      // var td5 = $('<td></td>').text(obj.holdid);
                      var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.noticeid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.noticeid + ')" class="btn btn-danger">删除</button>');
                      tr.append(td1).append(td2).append(td3).append(td4).append(td5);
@@ -199,7 +203,9 @@
                         var td1 = $('<td></td>').text(obj.noticeid);
                         var td2 = $('<td></td>').text(obj.noticecon);
                         var td3 = $('<td></td>').text(obj.noticetime);
-                        var td4 = $('<td></td>').text(obj.holdid);
+                        var holdid=obj.holdid;
+                        if(holdid==0){holdid="全体"};
+                        var td4 = $('<td></td>').text(holdid);
                         // var td5 = $('<td></td>').text(obj.holdid);
                         var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.noticeid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.noticeid + ')" class="btn btn-danger">删除</button>');
                         tr.append(td1).append(td2).append(td3).append(td4).append(td5);

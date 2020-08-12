@@ -65,25 +65,29 @@
 <script type="text/javascript">
     $(function () {
         var noticeid = sessionStorage.getItem("noticeid");
+
         $.post(
             "notice_serchbyid.do",
             {noticeid: noticeid}, function (data) {
                 $('#noticeid').val(data.result.noticeid);
                 $('#noticetime').val(data.result.noticetime);
+
+                if(data.result.holdid==0){$('#holdid').val("全体")}else{$('#holdid').val(data.result.holdid);};
                 $('#noticecon').val(data.result.noticecon);
-                $('#holdid').val(data.result.holdid);
+
             }, 'JSON'
         )
         $('#subbtn').click(function () {
             console.log($('#noticeid').val());
             console.log($('#noticecon').val());
             console.log($('#holdid').val());
-
+            var holdid=$('#holdid').val()
+              if ($('#holdid').val()=="全体"){holdid=0}
               $.post(
                   "notice_edit.do",
                   {noticeid: $('#noticeid').val(),
                       noticecon: $('#noticecon').val(),
-                  holdid: $('#holdid').val()},
+                  holdid: holdid},
                   function (data) {
                       console.log(data.code)
                       if (data.code == 200) {

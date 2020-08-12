@@ -5,6 +5,7 @@ import com.iscc.propertymanagent.domain.Household;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.domain.User;
 import com.iscc.propertymanagent.util.DataSourceUtil;
+import lombok.experimental.var;
 import sun.security.util.Password;
 
 import java.sql.Connection;
@@ -53,15 +54,15 @@ public class UserDAOImpl implements UserDAO {
         User user = null;
         Connection conn = null;
         PreparedStatement pre = null;
-        ResultSet rs=null;
+        ResultSet rs = null;
         try {
-            conn=DataSourceUtil.getConnection();
+            conn = DataSourceUtil.getConnection();
             pre = conn.prepareStatement(sql);
             pre.setString(1, account);
-             rs = pre.executeQuery();
+            rs = pre.executeQuery();
 //
             if (rs.next()) {
-                user=new User();
+                user = new User();
                 user.setAccount(rs.getString(1));
                 user.setPassword(rs.getString(2));
                 System.out.println(user);
@@ -69,7 +70,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataSourceUtil.releaseResource(rs,pre,conn);
+            DataSourceUtil.releaseResource(rs, pre, conn);
         }
 
         return user;
@@ -82,14 +83,14 @@ public class UserDAOImpl implements UserDAO {
         Household Household = null;
         Connection conn = null;
         PreparedStatement pre = null;
-        ResultSet rs=null;
+        ResultSet rs = null;
         try {
-            conn=DataSourceUtil.getConnection();
+            conn = DataSourceUtil.getConnection();
             pre = conn.prepareStatement(sql);
             pre.setInt(1, holdid);
             rs = pre.executeQuery();
             if (rs.next()) {
-                Household=new Household();
+                Household = new Household();
                 Household.setHoldid(rs.getInt(1));
                 Household.setHouseid(rs.getInt(2));
                 Household.setHoldtel(rs.getString(3));
@@ -100,7 +101,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataSourceUtil.releaseResource(rs,pre,conn);
+            DataSourceUtil.releaseResource(rs, pre, conn);
         }
         return Household;
     }
@@ -109,17 +110,17 @@ public class UserDAOImpl implements UserDAO {
     public Staff stafflogin(int staffid) {
         String sql = " select * from staff_info where staffid = ? ";
 //        SELECT * FROM login WHERE account='zzz'
-        Staff staff=null;
+        Staff staff = null;
         Connection conn = null;
         PreparedStatement pre = null;
-        ResultSet rs=null;
+        ResultSet rs = null;
         try {
-            conn=DataSourceUtil.getConnection();
+            conn = DataSourceUtil.getConnection();
             pre = conn.prepareStatement(sql);
             pre.setInt(1, staffid);
             rs = pre.executeQuery();
             if (rs.next()) {
-                staff=new Staff();
+                staff = new Staff();
                 staff.setStaffid(rs.getInt(1));
                 staff.setStaffname(rs.getString(2));
                 staff.setStafftel(rs.getString(3));
@@ -130,7 +131,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataSourceUtil.releaseResource(rs,pre,conn);
+            DataSourceUtil.releaseResource(rs, pre, conn);
         }
         return staff;
     }
@@ -143,30 +144,41 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Map<String, Object> detailQuery(int holdid) {
-         String sql=" SELECT * FROM household_info h , house_info m WHERE h.houseid = m.houseid AND holdid = ? ";
+        String sql = " SELECT * FROM household_info h , house_info m WHERE h.houseid = m.houseid AND holdid = ? ";
         Map<String, Object> resultmap = null;
-        Connection conn=null;
-         PreparedStatement prst=null;
+        Connection conn = null;
+        PreparedStatement prst = null;
         ResultSet rs = null;
 
         try {
-           conn= DataSourceUtil.getConnection();
+            conn = DataSourceUtil.getConnection();
             System.out.println("123");
             System.out.println(holdid);
             prst = conn.prepareStatement(sql);
-            prst.setInt(1,holdid);
-            rs= prst.executeQuery();
-            if(rs.next()){
+            prst.setInt(1, holdid);
+            rs = prst.executeQuery();
+            if (rs.next()) {
                 System.out.println("servlet");
-               resultmap= new HashMap<>();
-               resultmap.put("holdid",  rs.getInt(1));
-              resultmap.put("houseid",  rs.getInt(2));
-              resultmap.put("holdtel",  rs.getInt(3));
-              resultmap.put("holdnum",  rs.getInt(4));
-              resultmap.put("buildingid",  rs.getInt(6));
-              resultmap.put("unitid",  rs.getInt(7));
-              resultmap.put("numberid",  rs.getInt(8));
-              resultmap.put("housesta",  rs.getInt(9));
+                resultmap = new HashMap<>();
+                resultmap.put("holdid", rs.getInt(1));
+                resultmap.put("houseid", rs.getInt(2));
+                resultmap.put("holdtel", rs.getInt(3));
+                resultmap.put("holdnum", rs.getInt(4));
+                resultmap.put("buildingid", rs.getInt(7));
+                resultmap.put("unitid", rs.getInt(8));
+                resultmap.put("numberid", rs.getInt(9));
+                String housesta = "str";
+                if (rs.getInt(10) == 0) {
+                    housesta = "无人";
+                } else if (rs.getInt(10) == 1) {
+                    housesta = "正常";
+                } else if (rs.getInt(10) == 2) {
+                    housesta = "出租";
+                } else {
+                    housesta = "-";
+                }
+
+                resultmap.put("housesta", housesta);
                 System.out.println(resultmap);
                 System.out.println("servlet");
 
@@ -174,7 +186,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataSourceUtil.releaseResource(rs,prst,conn);
+            DataSourceUtil.releaseResource(rs, prst, conn);
         }
 
 
