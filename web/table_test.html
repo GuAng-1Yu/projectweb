@@ -36,21 +36,21 @@
                     <th scope="col">单元ID</th>
                     <th scope="col">门牌号ID</th>
                     <th scope="col">房屋状态</th>
-                    <th scope="col">Heading</th>
+<!--                    <th scope="col">Heading</th>-->
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
+                    <th scope="row">详情</th>
+                    <td id="holdid">Cell</td>
+                    <td id="houseid">Cell</td>
+                    <td id="holdtel">Cell</td>
+                    <td id="holdnum">Cell</td>
+                    <td id="buildingid">Cell</td>
+                    <td id="unitid">Cell</td>
+                    <td id="numberid">Cell</td>
+                    <td id="housesta">Cell</td>
+<!--                    <td id="">Cell</td>-->
                 </tr>
 
                 </tbody>
@@ -63,27 +63,24 @@
 <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="js/layer/layer.js"></script>
 <script type="text/javascript">
-    // $(function () {
-    //     var item = sessionStorage.getItem('user');
-    //     if (  sessionStorage.getItem('user')=="") {
-    //         layer.msg('请登录');
-    //         return;
-    //     }
-    //     $.getJSON('holdinfo.do', {
-    //
-    //     }, function (data) {
-    //         console.log(data);
-    //         if (data.code == 200) {
-    //             layer.msg(data.msg, {icon: 1, time: 2000}, function () {
-    //
-    //                 // location.href = "index01.html";
-    //             })
-    //         } else {
-    //             alert(data.msg);
-    //         }
-    //     }
-    //
-    //     )
-    // })
+    $(function () {
+        // var holdid = sessionStorage.getItem("holdid");
+        var item = sessionStorage.getItem('user');
+        var s = JSON.parse(item)
+       var holdid=s.holdid
+        console.log(holdid);
+        $.post(
+            'detailquery.do',
+            {holdid:holdid},
+            function (data) {
+                if(data.code==200){
+                    console.log(data.data.holdid)
+               $('#holdid').text(data.data.holdid)
+                }
+            },'JSON'
+
+        )
+
+    })
 </script>
 </html>

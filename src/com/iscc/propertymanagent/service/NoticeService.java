@@ -13,5 +13,7 @@ public interface NoticeService {
     List<Notice>   queryAll();
     int del(int id);
     Notice serchbyid(int noticeid);
+    int edit(Notice notice);
+    List<Notice> serchbyholdid(int holdid);
 
 }

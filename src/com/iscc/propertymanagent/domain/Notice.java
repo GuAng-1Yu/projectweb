@@ -22,4 +22,10 @@ public class Notice implements Serializable {
         this.noticetime = noticetime;
         this.holdid = holdid;
     }
+
+    public Notice(int noticeid, String noticecon, int holdid) {
+        this.noticeid = noticeid;
+        this.noticecon = noticecon;
+        this.holdid = holdid;
+    }
 }

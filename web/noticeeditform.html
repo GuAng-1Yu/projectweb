@@ -48,8 +48,9 @@
                         </div>
 
 
-                        <button type="submit" class="btn btn-primary">提交</button>
+                        <button type="button" id="subbtn" class="btn btn-primary">提交</button>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -62,7 +63,6 @@
 <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="js/layer/layer.js"></script>
 <script type="text/javascript">
-
     $(function () {
         var noticeid = sessionStorage.getItem("noticeid");
         $.post(
@@ -74,7 +74,40 @@
                 $('#holdid').val(data.result.holdid);
             }, 'JSON'
         )
+        $('#subbtn').click(function () {
+            console.log($('#noticeid').val());
+            console.log($('#noticecon').val());
+            console.log($('#holdid').val());
+
+              $.post(
+                  "notice_edit.do",
+                  {noticeid: $('#noticeid').val(),
+                      noticecon: $('#noticecon').val(),
+                  holdid: $('#holdid').val()},
+                  function (data) {
+                      console.log(data.code)
+                      if (data.code == 200) {
+                          // console.log("到这了吗？");
+                          layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                          //     console.log("到这了吗？");
+                          // layer.msg(data.msg);
+                              location.href = "form/notice.html";
+                          //     console.log("到这了吗？");
+                          })
+                      } else {
+                          alert("修改失败")
+                      }
+
+            },'JSON'
+              )
+
+
+
+
+
+        })
     })
+
 
 </script>
 </html>

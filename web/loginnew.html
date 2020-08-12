@@ -72,7 +72,7 @@
                         // console.log(data.result)
                         sessionStorage.setItem('user', JSON.stringify(data.result))
                         layer.msg(data.msg, {icon: 1, time: 2000}, function () {
-                            console.log($('#selection').val())
+                            // console.log($('#selection').val())
                             location.href = "indexstaff.html";
                         })
                     } else {alert(data.msg);}

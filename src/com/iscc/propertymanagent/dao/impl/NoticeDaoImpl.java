@@ -111,6 +111,66 @@ public class NoticeDaoImpl implements NoticeDAO {
     }
 
     @Override
+    public int edit(Notice notice) {
+        Connection conn = null;
+        PreparedStatement prst = null;
+        int rs = -1;
+        String spl=" UPDATE notice SET noticecon= ? ,holdid= ? WHERE noticeid=? " ;
+
+        try {
+         conn=DataSourceUtil.getConnection();
+             prst = conn.prepareStatement(spl);
+
+
+            prst.setString(1,notice.getNoticecon());
+            prst.setInt(2,notice.getHoldid());
+            prst.setInt(3,notice.getNoticeid());
+            rs = prst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(prst,conn);
+        }
+
+
+        return rs;
+    }
+
+    @Override
+    public List serchbyholdid(int id) {
+//        Notice notice = null;
+        List<Notice> notices = new ArrayList<>();
+
+        String sql = " SELECT * FROM notice where holdid = ?";
+        Connection conn = null;
+        PreparedStatement prst = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DataSourceUtil.getConnection();
+            prst = conn.prepareStatement(sql);
+            prst.setInt(1, id);
+            rs = prst.executeQuery();
+            while (rs.next()) {
+                Notice notice = new Notice();
+                notice.setNoticeid(rs.getInt(1));
+                notice.setNoticecon(rs.getString(2));
+                notice.setNoticetime(rs.getString(3));
+                notice.setHoldid(rs.getInt(4));
+                notices.add(notice);
+
+            }
+//            System.out.println("noticesql"+notice);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(rs, prst, conn);
+        }
+        return notices;
+
+    }
+
+    @Override
     public List queryAll() {
 
         List<Notice> notices = new ArrayList<>();

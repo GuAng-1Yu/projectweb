@@ -24,7 +24,7 @@ import java.util.Map;
  * @author ZHOUB
  * @create 2020-08-10-22:00
  */
-@WebServlet({"/Noticeadd.do", "/queryALL.do","/noticedel.do","/notice_serchbyid.do"})
+@WebServlet({"/Noticeadd.do", "/queryALL.do","/noticedel.do","/notice_serchbyid.do","/notice_edit.do","/notice_serchbyholdid.do"})
 public class StaffNoticeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -108,5 +108,44 @@ public class StaffNoticeServlet extends HttpServlet {
               }
             String str = gosn.toJson(resultMap);
             out.print(str);
+        } else if ("notice_edit.do".equals(action)){
+            int noticeid = Integer.parseInt(request.getParameter("noticeid"));
+            String noticecon= request.getParameter("noticecon");
+            int holdid = 0;
+            if (request.getParameter("holdid") == "") {
+            } else {
+                holdid = Integer.parseInt(request.getParameter("holdid"));
+            }
+            Notice notice = new Notice(noticeid,noticecon,holdid);
+            System.out.println(notice);
+            int result=noticeService.edit(notice);
+            System.out.println(result);
+            if (result != -1) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "修改成功");
+            } else {
+                resultMap.put("code", 201);
+                resultMap.put("msg", "修改失败");
+            }
+            String str= gosn.toJson(resultMap);
+            out.print(str);
+        }else  if("notice_serchbyholdid.do".equals(action)){
+
+            int holdid = Integer.parseInt(request.getParameter("holdid"));
+
+            List<Notice> notices = noticeService.serchbyholdid(holdid);
+
+//            System.out.println(notices);
+            if (notices.size() > 0) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "查询数据成功");
+                resultMap.put("result", notices);
+            } else {
+                resultMap.put("code", 201);
+                resultMap.put("msg", "数据加载失败");
+            }
+            String str = gosn.toJson(resultMap);
+            out.print(str);
         }
+
     }}

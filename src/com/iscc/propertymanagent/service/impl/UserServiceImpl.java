@@ -42,5 +42,10 @@ public class UserServiceImpl implements UserService {
         return userDAO.holdinfoQuery(holdid);
     }
 
+    @Override
+    public Map<String, Object> detailQuery(int holdid) {
+        return userDAO.detailQuery(holdid);
+    }
+
 
 }

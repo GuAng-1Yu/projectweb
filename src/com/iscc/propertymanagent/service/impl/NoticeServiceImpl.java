@@ -16,8 +16,8 @@ import java.util.List;
 public class NoticeServiceImpl implements NoticeService {
 
 
+    private NoticeDAO noticeDAO = new NoticeDaoImpl();
 
-    private NoticeDAO noticeDAO=new NoticeDaoImpl() ;
     @Override
     public int add(Notice notice) {
 
@@ -37,5 +37,15 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public Notice serchbyid(int noticeid) {
         return noticeDAO.serch(noticeid);
+    }
+
+    @Override
+    public int edit(Notice notice) {
+        return noticeDAO.edit(notice);
+    }
+
+    @Override
+    public List<Notice> serchbyholdid(int holdid) {
+        return noticeDAO.serchbyholdid(holdid);
     }
 }

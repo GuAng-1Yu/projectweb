@@ -22,6 +22,10 @@
             background-color: #f7f7f9;
             border: 1px solid #e1e1e8;
         }
+        #serch{
+            margin-left:750px ;
+            /*height: 80px;*/
+        }
 
         #container {
             margin-left: 10px;
@@ -75,7 +79,19 @@
         </form>
     </div>
 </div>
+<div class="row" id="serch">
+    <!--        <div class="control-group span8" >-->
+    <!--        <label class="control-label">搜索通知通过用户id：</label>-->
+    <div class="controls" style="height: 10px">
+        <input name="id" id="hold" type="text" placeholder="请输入用户id"          style="height: 28px" >
+        <button type="button" class="button button-primary" id="btnserchbyid"  >搜索</button>
+    </div>
+    <!--        </div>-->
+</div>
+<br>
 <div class="col-12 col-xl-6">
+
+
     <div class="card">
         <!--        <div class="card-header">-->
         <!--            <h5 class="card-title">Striped Rows</h5>-->
@@ -112,7 +128,36 @@
 <script type="text/javascript" src="../js/layer/layer.js"></script>
 <script type="text/javascript">
     $(function () {
+     $('#btnserchbyid').click(function () {
+         $('tbody').empty();
+          var holdid= $('#hold').val();
+          if (holdid==''){
+              queryAll()
+              return
+          }
+          $.post(
+              "../notice_serchbyholdid.do",{holdid:holdid},
+         function (data) {
+             if (data.code == 200) {
+                 // console.log(data.result);
 
+                 $.each(data.result, function (index, obj) {
+                     var tr = $('<tr></tr>');
+                     var td1 = $('<td></td>').text(obj.noticeid);
+                     var td2 = $('<td></td>').text(obj.noticecon);
+                     var td3 = $('<td></td>').text(obj.noticetime);
+                     var td4 = $('<td></td>').text(obj.holdid);
+                     // var td5 = $('<td></td>').text(obj.holdid);
+                     var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.noticeid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.noticeid + ')" class="btn btn-danger">删除</button>');
+                     tr.append(td1).append(td2).append(td3).append(td4).append(td5);
+                     $('tbody').append(tr);
+                 })
+             }
+
+         },'JSON'
+
+          )
+     })
 
         $('#btnRegister').click(function () {
             if ($('#noticecon').val() == '') {

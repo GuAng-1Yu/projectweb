@@ -17,6 +17,7 @@ public interface UserDAO {
     public Household holdlogin(int holdid);
     public Staff stafflogin(int staffid);
     List<Map<String,Object>>  holdinfoQuery(int holdid);
+    Map<String,Object>    detailQuery(int holdid);
 
 
 }

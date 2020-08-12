@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,6 +139,46 @@ public class UserDAOImpl implements UserDAO {
     public List<Map<String, Object>> holdinfoQuery(int holdid) {
 
         return null;
+    }
+
+    @Override
+    public Map<String, Object> detailQuery(int holdid) {
+         String sql=" SELECT * FROM household_info h , house_info m WHERE h.houseid = m.houseid AND holdid = ? ";
+        Map<String, Object> resultmap = null;
+        Connection conn=null;
+         PreparedStatement prst=null;
+        ResultSet rs = null;
+
+        try {
+           conn= DataSourceUtil.getConnection();
+            System.out.println("123");
+            System.out.println(holdid);
+            prst = conn.prepareStatement(sql);
+            prst.setInt(1,holdid);
+            rs= prst.executeQuery();
+            if(rs.next()){
+                System.out.println("servlet");
+               resultmap= new HashMap<>();
+               resultmap.put("holdid",  rs.getInt(1));
+              resultmap.put("houseid",  rs.getInt(2));
+              resultmap.put("holdtel",  rs.getInt(3));
+              resultmap.put("holdnum",  rs.getInt(4));
+              resultmap.put("buildingid",  rs.getInt(6));
+              resultmap.put("unitid",  rs.getInt(7));
+              resultmap.put("numberid",  rs.getInt(8));
+              resultmap.put("housesta",  rs.getInt(9));
+                System.out.println(resultmap);
+                System.out.println("servlet");
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(rs,prst,conn);
+        }
+
+
+        return resultmap;
     }
 
 

@@ -1,5 +1,6 @@
 package com.iscc.propertymanagent.controller;
 
+import com.alibaba.druid.support.spring.stat.SpringStatUtils;
 import com.google.gson.Gson;
 import com.iscc.propertymanagent.domain.Household;
 import com.iscc.propertymanagent.domain.Staff;
@@ -12,12 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet({"/register.do","/login.do","/stafflogin.do"})
+@WebServlet({"/register.do","/login.do","/stafflogin.do","/detailquery.do"})
 public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -100,7 +102,23 @@ public class UserServlet extends HttpServlet {
             String str = gosn.toJson(resultMap);
             out.print(str);
         }
+        else  if ("detailquery.do".equals(action)){
+            System.out.println("1");
+            int holdid= Integer.parseInt(request.getParameter("holdid"));
+            System.out.println(holdid);
+            Map<String, Object> detailmap = userService.detailQuery(holdid);
+            System.out.println(detailmap);
+            if (detailmap!=null){
+                resultMap.put("code",200);
+                resultMap.put("data",detailmap);
+                System.out.println(resultMap);
+            }else {
+                resultMap.put("code",202);
 
+            }
+            String str = gosn.toJson(resultMap);
+            out.print(str);
+        }
 
 
 
