@@ -29,6 +29,7 @@
             </div>
             <table class="table">
                 <thead>
+
                 <tr>
                     <th style="width:40%;">Name</th>
                     <th style="width:25%">Phone Number</th>
@@ -46,15 +47,24 @@
                         <a href="#"><i class="align-middle" data-feather="trash"></i></a>
                     </td>
                 </tr>
-                <tr class="table-primary">
-                    <td>William Harris</td>
-                    <td>914-939-2458</td>
-                    <td class="d-none d-md-table-cell">May 15, 1948</td>
+                <tr>
+                    <td>Vanessa Tucker</td>
+                    <td>864-348-0485</td>
+                    <td class="d-none d-md-table-cell">June 21, 1961</td>
+                    <td class="table-action">
+                        <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
+                        <a href="#"><i class="align-middle" data-feather="trash"></i></a>
+                    </td>
+                </tr><tr>
+                    <td>Vanessa Tucker</td>
+                    <td>864-348-0485</td>
+                    <td class="d-none d-md-table-cell">June 21, 1961</td>
                     <td class="table-action">
                         <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
                         <a href="#"><i class="align-middle" data-feather="trash"></i></a>
                     </td>
                 </tr>
+
                 </tbody>
             </table>
         </div>
@@ -65,6 +75,25 @@
 <!-- ———————————————————————————————————————————————————————————————————— -->
 <!--<script src="../js/vendor.js"></script>-->
 <script src="../js/app.js"></script>
+<script src="../js/jquery-3.2.1.js"></script>
+<script>
+    $(function () {
+        getAllStaff();
+    })
+    
+    function getAllStaff() {
+          $.post('../query_staff.do',function (data) {
+              console.log(data.result);
+                if (data.code == 200){
+                    $.each(data.result,function (index,obj) {
+                        console.log(obj);
+                           /*var tr = $('<tr></tr>');
+                           var td1 = $('<td></td>').text(obj.staffid);*/
+                    })
+                }
+          },"JSON");
+    }
+</script>
 <!-- ———————————————————————————————————————————————————————————————————— -->
 <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="../assets/js/bui-min.js"></script>
@@ -80,6 +109,6 @@
         prettyPrint();
     });
 </script>
-
-<body>
+    
+</body>
 </html>  
