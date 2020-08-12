@@ -9,7 +9,7 @@ public interface HouseholdService {
 
     public List<Household> searchHouseholdById(int holdid);
     public List<Household> searchHouseholdAll();
-    public void deleteHouseholdById(int holdid);
+    public int deleteHouseholdById(int holdid);
     int addHousehold(Household household);
 
 }
