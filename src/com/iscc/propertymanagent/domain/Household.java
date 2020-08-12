@@ -19,6 +19,10 @@ public class Household implements Serializable {
     private int holdnum;
     private String holdpwd;
 
-
-
+    public Household(int houseid, String holdtel, int holdnum, String holdpwd) {
+        this.houseid = houseid;
+        this.holdtel = holdtel;
+        this.holdnum = holdnum;
+        this.holdpwd = holdpwd;
+    }
 }
