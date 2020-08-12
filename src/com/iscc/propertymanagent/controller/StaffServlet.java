@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 
-@WebServlet("/query_staff.do")
+@WebServlet({"/query_staff.do","/add_Staff.do","/update_Staff.do","/del_Staff.do"})
 public class StaffServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -32,12 +32,18 @@ public class StaffServlet extends HttpServlet {
             List<Staff> resultSet = staffService.queryStaff();
             if (resultSet.size() > 0) {
                 resultMap.put("code", 200);
-                resultMap.put("msg", "数据查询成功");
+                resultMap.put("msg", "查询成功");
                 resultMap.put("result", resultSet);
             } else {
                 resultMap.put("code", 201);
-                resultMap.put("msg", "数据表失效，请稍后重试");
+                resultMap.put("msg", "数据走丢了，请稍后重试");
             }
+        }else if ("add_Staff.do".equals(action)) {
+            System.out.println("add_staff.do");
+        }else if ("update_Staff.do".equals(action)) {
+            System.out.println("update_Staff.do");
+        }else if ("del_Staff.do".equals(action)) {
+            System.out.println("del_Staff.do");
         }
         String resultStr = gson.toJson(resultMap);
         writer.print(resultStr);

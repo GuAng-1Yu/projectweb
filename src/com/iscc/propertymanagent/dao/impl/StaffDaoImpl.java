@@ -18,7 +18,6 @@ public class StaffDaoImpl implements StaffDAO {
     @Override
     public List<Staff> queryStaff() {
         String sql = "SELECT * FROM staff_info";
-
         List<Staff> results = new ArrayList<>();
         Connection conn = null;
         PreparedStatement psmt = null;
@@ -27,7 +26,7 @@ public class StaffDaoImpl implements StaffDAO {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
             rs = psmt.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 Staff staff = new Staff();
                 staff.setStaffid(rs.getInt(1));
                 staff.setStaffname(rs.getString(2));
@@ -43,14 +42,50 @@ public class StaffDaoImpl implements StaffDAO {
     }
 
     @Override
-    public List<Staff> queryStaff(Staff staff) {
-        return null;
-
+    public int addStaff(Staff staff) {
+        String sql = "INSERT INTO staff_info VALUES (NULL,?,?,?,?)";
+        int result = -1;
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        try {
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            psmt.setString(1, staff.getStaffname());
+            psmt.setString(2, staff.getStafftel());
+            psmt.setInt(3, staff.getDeptid());
+            psmt.setInt(4, staff.getStafflev());
+            result = psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
-    public int addStaff(Staff staff) {
-        return 0;
+    public int updateStaff(Staff staff) {
+        String sql = "UPDATE staff_info SET staffname= ?, stafftel = ?, deptid = ?, stafflev = ? WHERE staffid = ?";
+        int result = -1;
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        try {
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            psmt.setString(1,staff.getStaffname());
+            psmt.setString(2,staff.getStafftel());
+            psmt.setInt(3,staff.getDeptid());
+            psmt.setInt(4,staff.getStafflev());
+            psmt.setInt(5,staff.getStaffid());
+            result = psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return result;
     }
 
+    @Override
+    public int delStaff(int id) {
+        return 0;
+    }
 }
