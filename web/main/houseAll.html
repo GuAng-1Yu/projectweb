@@ -1,12 +1,13 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title> 资源文件结构</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css"/>
-    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css"/>
-    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css"/>   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
-    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css" />   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
+    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         code {
             padding: 0px 4px;
@@ -15,11 +16,8 @@
             border: 1px solid #e1e1e8;
         }
     </style>
-
     <link href="../css/table_app.css" rel="stylesheet">
-
 </head>
-
 <body>
 
 <div class="row" style="padding: 3em">
@@ -74,31 +72,31 @@
     </div>
 </div>
 
-
-<!-- ———————————————————————————————————————————————————————————————————— -->
-<!--<script src="../js/vendor.js"></script>-->
+</body>
 <script src="../js/app.js"></script>
 <script src="../js/jquery-3.2.1.js"></script>
 <script async="async">
     $(function () {
-        getAllStaff();
+        getAllHouse();
     })
 
-    function getAllStaff() {
-        $.post('../query_staff.do', function (data) {
-            if (data.code == 200) {
-                $.each(data.result, function (index, obj) {
+    function getAllHouse() {
+        $.post('../queryHouseAll.do', function (data) {
+            if (data.code == 999) {
+                $.each(data.houseAllInfo, function (index, obj) {
                     console.log(obj);
                     var tr = $('<tr></tr>');
-                    var td1 = $('<td></td>').text(obj.staffname);
-                    var td2 = $('<td></td>').text(obj.stafftel);
-                    var td3 = $('<td></td>').text(obj.deptid);
-                // class="table-action"
+                    var td1 = $('<td></td>').text(obj.houseid);
+                    var td2 = $('<td></td>').text(obj.buildingid);
+                    var td3 = $('<td></td>').text(obj.unitid);
+                    var td4 = $('<td></td>').text(obj.numberid);
+                    var td5 = $('<td></td>').text(obj.housesta);
+                    // class="table-action"
                     var iedit = $('<i></i>').attr('class',"align-middle").attr('data-feather',"edit-2");
                     var itrash = $('<i></i>').attr('class',"align-middle").attr('data-feather',"trash");
                     var aTitle = $('<a></a>').attr('href',"#").append(iedit).append(itrash);
-                    var td4 = $('<td></td>').attr('class',"table-action").append(aTitle);
-                    tr.append(td1).append(td2).append(td3).append(td4);
+                    var td6 = $('<td></td>').attr('class',"table-action").append(aTitle);
+                    tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
                     $('tbody').append(tr);
 
                 })
@@ -106,21 +104,20 @@
         }, "JSON");
     }
 </script>
-<!-- ———————————————————————————————————————————————————————————————————— -->
-<script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
-<script type="text/javascript" src="../assets/js/bui-min.js"></script>
 
-<script type="text/javascript" src="../assets/js/config-min.js"></script>
-<script type="text/javascript">
-    BUI.use('common/page');
-</script>
-<!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
-<script type="text/javascript" src="../assets/js/prettify.js"></script>
-<script type="text/javascript">
-    $(function () {
-        prettyPrint();
-    });
-</script>
 
-</body>
-</html>  
+    <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="../assets/js/bui-min.js"></script>
+
+    <script type="text/javascript" src="../assets/js/config-min.js"></script>
+    <script type="text/javascript">
+        BUI.use('common/page');
+    </script>
+    <!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
+    <script type="text/javascript" src="../assets/js/prettify.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            prettyPrint();
+        });
+    </script>
+</html>

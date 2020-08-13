@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 
-@WebServlet({"/queryHouse.do","/queryHouseById.do","/addHouse.do","/deleteHouse.do","/updateHouse.do"})
+@WebServlet({"/queryHouseAll.do","/queryHouseById.do","/addHouse.do","/deleteHouse.do","/updateHouse.do"})
 public class HouseServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,30 +28,34 @@ public class HouseServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
         String uri = request.getRequestURI();
         String action = uri.substring(uri.lastIndexOf("/") + 1);
-        HouseService HouseService = new HouseServiceImpl();
+        HouseService houseService = new HouseServiceImpl();
         HashMap<Object, Object> resultMap = new HashMap<>();
         if ("queryHouseAll.do".equals(action)) {
 
-            List<House> resultSet = HouseService.queryAllHouse();
+            List<House> resultSet = houseService.queryAllHouse();
 
               if (resultSet.size() > 0) {
-                  resultMap.put("houseAllInfo", resultSet);
-              } else {
                   resultMap.put("code", 999);
+                  resultMap.put("msg", "查询成功");
+                  resultMap.put("houseAllInfo", resultSet);
+                  System.out.println(resultSet);
+              } else {
+                  resultMap.put("code", 998);
                   resultMap.put("msg", "暂无数据");
               }
-
             String resultStr = gson.toJson(resultMap);
             writer.print(resultStr);
 
         }else if("queryHouseById.do".equals(action)){
 
-            List<House> resultSet = HouseService.queryHouseById(Integer.parseInt(request.getParameter("houseid")));
+            List<House> resultSet = houseService.queryHouseById(Integer.parseInt(request.getParameter("houseid")));
 
               if (resultSet.size() > 0) {
+                  resultMap.put("code", 999);
+                  resultMap.put("msg", "查询成功");
                   resultMap.put("houseInfoById", resultSet);
               } else {
-                  resultMap.put("code", 999);
+                  resultMap.put("code", 998);
                   resultMap.put("msg", "暂无数据");
               }
 
@@ -67,22 +71,22 @@ public class HouseServlet extends HttpServlet {
                 int housesta = Integer.parseInt(request.getParameter("housesta"));
 
                 House house = new House(houseid,buildingid,unitid,numberid,housesta);
-                int result = HouseService.addHouse(house);
+                int result = houseService.addHouse(house);
                 if (result != -1) {
-                    resultMap.put("code", 998);
+                    resultMap.put("code", 997);
                     resultMap.put("msg", "添加成功");
                 } else {
-                    resultMap.put("code", 997);
+                    resultMap.put("code", 996);
                     resultMap.put("msg", "添加失败");
                 }
         }else if("deleteHouse.do".equals(action)){
             int houseid = Integer.parseInt(request.getParameter("houseid"));
-            int result = HouseService.deleteHouseById(Integer.parseInt(request.getParameter("houseid")));
+            int result = houseService.deleteHouseById(Integer.parseInt(request.getParameter("houseid")));
             if (result != -1) {
-                resultMap.put("code", 996);
+                resultMap.put("code", 995);
                 resultMap.put("msg", "删除成功");
             } else {
-                resultMap.put("code", 995);
+                resultMap.put("code", 994);
                 resultMap.put("msg", "删除失败");
             }
         }else if("updateHouse.do".equals(action)){
@@ -94,12 +98,12 @@ public class HouseServlet extends HttpServlet {
             int housesta = Integer.parseInt(request.getParameter("housesta"));
 
             House house = new House();
-            int result = HouseService.updateHouse(house);
+            int result = houseService.updateHouse(house);
             if (result != -1) {
-                resultMap.put("code", 994);
+                resultMap.put("code", 993);
                 resultMap.put("msg", "更新成功");
             } else {
-                resultMap.put("code", 993);
+                resultMap.put("code", 992);
                 resultMap.put("msg", "更新失败");
             }
         }

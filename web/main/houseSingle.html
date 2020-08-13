@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #houseSingle {
+            text-align:center;
+            padding: 0px 4px;
+            color: #d14;
+            background-color: #f7f7f9;
+            height: 150px;
+            line-height: 150px;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
+</head>
+<body>
+
+<div id="houseSingle">
+    <form id="houseSingleForm">
+        <input type="text" id="houseId" placeholder="请输入房屋编号">&nbsp
+        <button type="button" id="submitId">确定</button>
+    </form>
+</div>
+
+</body>
+    <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="../assets/js/bui-min.js"></script>
+    <script type="text/javascript" src="../assets/js/config-min.js"></script>
+    <script type="text/javascript">
+        BUI.use('common/page');
+    </script>
+<script src="../js/app.js"></script>
+<script src="../js/jquery-3.2.1.js"></script>
+<script async="async">
+    $(function () {
+        getAllStaff();
+    })
+
+    function getAllStaff() {
+        $.post('../query_staff.do', function (data) {
+            if (data.code == 200) {
+                $.each(data.result, function (index, obj) {
+                    console.log(obj);
+                    var tr = $('<tr></tr>');
+                    var td1 = $('<td></td>').text(obj.staffname);
+                    var td2 = $('<td></td>').text(obj.stafftel);
+                    var td3 = $('<td></td>').text(obj.deptid);
+                    // class="table-action"
+                    var iedit = $('<i></i>').attr('class',"align-middle").attr('data-feather',"edit-2");
+                    var itrash = $('<i></i>').attr('class',"align-middle").attr('data-feather',"trash");
+                    var aTitle = $('<a></a>').attr('href',"#").append(iedit).append(itrash);
+                    var td4 = $('<td></td>').attr('class',"table-action").append(aTitle);
+                    tr.append(td1).append(td2).append(td3).append(td4);
+                    $('tbody').append(tr);
+
+                })
+            }
+        }, "JSON");
+    }
+</script>
+</html>

@@ -7,6 +7,7 @@ import com.iscc.propertymanagent.util.DataSourceUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HouseDAOImpl implements HouseDAO {
@@ -46,7 +47,7 @@ public class HouseDAOImpl implements HouseDAO {
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
-        List<House> houseById = null;
+        List<House> houseById = new ArrayList<>();
 
         try{
             conn = DataSourceUtil.getConnection();
@@ -78,7 +79,7 @@ public class HouseDAOImpl implements HouseDAO {
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
-        List<House> allHouse = null;
+        List<House> allHouse = new ArrayList<>();
         try{
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
