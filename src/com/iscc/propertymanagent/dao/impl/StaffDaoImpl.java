@@ -11,17 +11,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StaffDaoImpl implements StaffDAO {
 
     @Override
     public List<Staff> queryStaff() {
+//        String sql = "SELECT * FROM staff_info s ,dept d WHERE s.`deptid` = d.`deptid`";
         String sql = "SELECT * FROM staff_info";
         List<Staff> results = new ArrayList<>();
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
+        Map<String,Object> resultMap = new HashMap<>();
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
