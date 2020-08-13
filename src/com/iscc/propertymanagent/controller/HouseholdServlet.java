@@ -2,6 +2,7 @@ package com.iscc.propertymanagent.controller;
 
 import com.google.gson.Gson;
 import com.iscc.propertymanagent.domain.Household;
+import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.service.HouseholdService;
 import com.iscc.propertymanagent.service.impl.HouseholdServiceImpl;
 
@@ -12,12 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 
-public class HouseholdServlet {
- @WebServlet({"/searchHousehold.do","/searchHouseholdById.do","/addHousehold.do","/deleteHousehold.do","/updateHousehold.do"})
-    public class HouseServlet extends HttpServlet {
+@WebServlet({"/searchHousehold.do","/searchHouseholdById.do","/addHousehold.do","/deleteHousehold.do","/updateHousehold.do","/query_page.do"})
+public class HouseholdServlet extends HttpServlet{
+
 
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             doGet(request, response);
@@ -26,24 +28,26 @@ public class HouseholdServlet {
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
             Gson gson = new Gson();
-            PrintWriter writer = response.getWriter();
+            PrintWriter out = response.getWriter();
             String uri = request.getRequestURI();
             String action = uri.substring(uri.lastIndexOf("/") + 1);
             HouseholdService HouseholdService = new HouseholdServiceImpl();
             HashMap<Object, Object> resultMap = new HashMap<>();
-            if ("queryHouseholdAll.do".equals(action)) {
+            if ("searchHousehold.do".equals(action)) {
 
                 List<Household> resultSet = HouseholdService.searchHouseholdAll();
 
                 if (resultSet.size() > 0) {
-                    resultMap.put("householdAllInfo", resultSet);
+                    resultMap.put("code", 200);
+                    resultMap.put("msg", "查询成功");
+                    resultMap.put("result", resultSet);
                 } else {
                     resultMap.put("code", 999);
                     resultMap.put("msg", "暂无数据");
                 }
 
                 String resultStr = gson.toJson(resultMap);
-                writer.print(resultStr);
+                out.print(resultStr);
 
             }else if("searchHouseholdById.do".equals(action)){
 
@@ -57,7 +61,7 @@ public class HouseholdServlet {
                 }
 
                 String resultStr = gson.toJson(resultMap);
-                writer.print(resultStr);
+                out.print(resultStr);
 
             }else if("addHousehold.do".equals(action)){
 
@@ -70,13 +74,13 @@ public class HouseholdServlet {
                 Household household = new Household(holdid,houseid,holdtel,holdnum,holdpwd);
                 int result = HouseholdService.addHousehold(household);
                 if (result != -1) {
-                    resultMap.put("code", 998);
+                    resultMap.put("code", 200);
                     resultMap.put("msg", "添加成功");
                 } else {
                     resultMap.put("code", 997);
                     resultMap.put("msg", "添加失败");
                 }
-            }else if("deleteHousehold.do".equals(action)){
+            }else if("deleteHousehold.do".equals(action)) {
                 int holdid = Integer.parseInt(request.getParameter("holdid"));
                 int result = HouseholdService.deleteHouseholdById(Integer.parseInt(request.getParameter("holdid")));
                 if (result != -1) {
@@ -86,6 +90,30 @@ public class HouseholdServlet {
                     resultMap.put("code", 995);
                     resultMap.put("msg", "删除失败");
                 }
+            } else if("query_page.do".equals(action)){
+                List<Household> resultSet = HouseholdService.searchHouseholdAll();
+                int currPage = 1;
+                int pageNum = 2;
+                if (resultSet.size()>0){
+                    resultMap.put("code", 200);
+                    resultMap.put("msg", "查询成功");
+                    resultMap.put("result", resultSet);
+                }
+                try {
+                    currPage = Integer.parseInt(request.getParameter("currPage"));
+                }catch (Exception e){
+
+                }
+                try {
+                    currPage = Integer.parseInt(request.getParameter("pageNum"));
+                }catch (Exception e){
+
+                }
+
+                String resultStr = gson.toJson(resultMap);
+                out.print(resultStr);
+            }
+
 //            }else if("updateHousehold.do".equals(action)){
 //
 //                int holdid = Integer.parseInt(request.getParameter("houseid"));
@@ -102,8 +130,7 @@ public class HouseholdServlet {
 //                } else {
 //                    resultMap.put("code", 993);
 //                    resultMap.put("msg", "更新失败");
-                }
             }
-        }
+
 }
 
