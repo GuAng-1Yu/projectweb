@@ -18,7 +18,6 @@
     <link href="../css/table_app.css" rel="stylesheet">
 </head>
 <body>
-
 <div class="row" style="padding: 3em">
     <div class="col-12 col-xl-12">
         <div class="card">
@@ -45,10 +44,52 @@
                         <a href="#"><i class="align-middle" data-feather="trash"></i></a>
                     </td>-->
                 </tr>
-
-
                 </tbody>
             </table>
+        </div>
+        <div class="col-12 col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">新增员工</h5>
+                    <h6 class="card-subtitle text-muted">输入必要信息创建新员工信息</h6>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">员工姓名</label>
+                            <input type="type" class="form-control" placeholder="请输入员工姓名">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">员工电话</label>
+                            <input type="type" class="form-control" placeholder="请输入员工电话">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">所属部门</label>
+                            <select class="custom-select mb-3">
+                                <option selected>请选择部门</option>
+                                <option>安保部</option>
+                                <option>财务部</option>
+                                <option>人事部</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">技术等级</label>
+                            <select class="custom-select mb-3">
+                                <option selected>请选择等级</option>
+                                <option>LEVEL 1</option>
+                                <option>LEVEL 2</option>
+                                <option>LEVEL 3</option>
+                                <option>LEVEL 4</option>
+                                <option>LEVEL 5</option>
+                                <option>LEVEL 6</option>
+                                <option>LEVEL 7</option>
+                                <option>LEVEL 8</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">保存员工信息</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
