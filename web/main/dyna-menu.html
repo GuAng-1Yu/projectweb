@@ -50,8 +50,14 @@
                  </tbody>
              </table>
 
-             <div class="text-right">
-                 <span>共5条数据，当前1/3页</span>
+             <div class="text-right" style="display: inline-block">
+                 <span id="showPage">共5条数据，当前1/3页</span>
+                 <div class="btn-group">
+                     <button type="button" class="btn btn-group-sm">首页</button>
+                     <button type="button" class="btn btn-group-sm">上一页</button>
+                     <button type="button" class="btn btn-group-sm">下一页</button>
+                     <button type="button" class="btn btn-group-sm">末页</button>
+                 </div>
 
              </div>
 
@@ -65,13 +71,16 @@
 <script>
     var currentPage = 1;
     $(function () {
-        searchHouseholdAll();
+        searchHouseholdAll(null);
     })
 
 
     function searchHouseholdAll(id) {
         $('tbody').empty();
-        $.post('../query_page.do', {holdid: id}, function (data) {
+        $.post('../query_page.do', {holdid: id,currPage:currentPage }, function (data) {
+            $('#showPage').text('共'+data.result.totalRecord+'条数据，当前'+currentPage + '/' + data.result.totalPage +'页')
+
+
             if (data.code == 200) {
                 $.each(data.result, function (index, obj) {
                     var tr = $('<tr></tr>');

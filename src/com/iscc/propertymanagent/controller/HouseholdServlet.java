@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 
@@ -94,11 +95,6 @@ public class HouseholdServlet extends HttpServlet{
                 List<Household> resultSet = HouseholdService.searchHouseholdAll();
                 int currPage = 1;
                 int pageNum = 2;
-                if (resultSet.size()>0){
-                    resultMap.put("code", 200);
-                    resultMap.put("msg", "查询成功");
-                    resultMap.put("result", resultSet);
-                }
                 try {
                     currPage = Integer.parseInt(request.getParameter("currPage"));
                 }catch (Exception e){
@@ -109,6 +105,14 @@ public class HouseholdServlet extends HttpServlet{
                 }catch (Exception e){
 
                 }
+                Pager<Household> page = new Pager<>(currPage, pageNum, resultSet);
+
+                resultMap.put("code", 200);
+                resultMap.put("msg", "查询类别成功");
+                resultMap.put("result", page);
+
+
+
 
                 String resultStr = gson.toJson(resultMap);
                 out.print(resultStr);
