@@ -19,4 +19,10 @@ public class Staff implements Serializable {
     private int deptid;
     private int stafflev;
 
+    public Staff(String staffname, String stafftel, int deptid, int stafflev) {
+        this.staffname = staffname;
+        this.stafftel = stafftel;
+        this.deptid = deptid;
+        this.stafflev = stafflev;
+    }
 }
