@@ -153,21 +153,12 @@ public class UserDAOImpl implements UserDAO {
         Connection conn = null;
         PreparedStatement prst = null;
         ResultSet rs = null;
-        System.out.println("*****");
-//        System.out.println();
-
-
-        System.out.println("*****");
-
         try {
             conn = DataSourceUtil.getConnection();
-//            System.out.println("123");
-//            System.out.println(holdid);
             prst = conn.prepareStatement(sql);
             prst.setInt(1, holdid);
             rs = prst.executeQuery();
             if (rs.next()) {
-                System.out.println("servlet");
                 resultmap = new HashMap<>();
                 resultmap.put("holdid", rs.getInt(1));
                 resultmap.put("houseid", rs.getInt(2));
@@ -187,10 +178,9 @@ public class UserDAOImpl implements UserDAO {
                 } else {
                     housesta = "-";
                 }
-
                 resultmap.put("housesta", housesta);
                 System.out.println(resultmap);
-//                System.out.println("servlet");
+
 
             }
         } catch (SQLException e) {
