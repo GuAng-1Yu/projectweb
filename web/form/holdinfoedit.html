@@ -133,7 +133,6 @@
                  var item = sessionStorage.getItem('user');
                  var s = JSON.parse(item)
                  var holdid=s.holdid
-
                  $.post(
                      '../detailquery.do',
                      {holdid:holdid},
