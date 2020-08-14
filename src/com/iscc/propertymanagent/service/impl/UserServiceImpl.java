@@ -47,5 +47,20 @@ public class UserServiceImpl implements UserService {
         return userDAO.detailQuery(holdid);
     }
 
+    @Override
+    public List<Map<String,Object>> queryAllTypeByCondition(Map<String, Object> params) {
+        return userDAO.houseidcostQuery(params);
+    }
+
+    @Override
+    public List<Map<String,Object>> queryAllTypeByCondition(int houseid) {
+        return userDAO.houseidcostQuery(houseid);
+    }
+
+    @Override
+    public int userPasswordedit(Household household) {
+        return  userDAO.ueserEditPassword(household);
+    }
+
 
 }

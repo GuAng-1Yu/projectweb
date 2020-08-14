@@ -117,9 +117,9 @@ public class StaffNoticeServlet extends HttpServlet {
                 holdid = Integer.parseInt(request.getParameter("holdid"));
             }
             Notice notice = new Notice(noticeid,noticecon,holdid);
-            System.out.println(notice);
+//            System.out.println(notice);
             int result=noticeService.edit(notice);
-            System.out.println(result);
+//            System.out.println(result);
             if (result != -1) {
                 resultMap.put("code", 200);
                 resultMap.put("msg", "修改成功");

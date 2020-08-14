@@ -19,5 +19,8 @@ public interface UserDAO {
     List<Map<String,Object>>  holdinfoQuery(int holdid);
     Map<String,Object>    detailQuery(int holdid);
 
+    List<Map<String,Object>>  houseidcostQuery(int houseid);
+    List<Map<String,Object>>  houseidcostQuery(Map<String,Object>  costlist );
+    int ueserEditPassword(Household holdid) ;
 
 }

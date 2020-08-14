@@ -2,16 +2,19 @@ package com.iscc.propertymanagent.dao.impl;
 
 import com.iscc.propertymanagent.dao.UserDAO;
 import com.iscc.propertymanagent.domain.Household;
+import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.domain.User;
 import com.iscc.propertymanagent.util.DataSourceUtil;
 import lombok.experimental.var;
 import sun.security.util.Password;
 
+import java.io.Console;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +28,11 @@ public class UserDAOImpl implements UserDAO {
         Connection conn = null;
         PreparedStatement psmt = null;
         try {
-            System.out.println("1232245");
+//            System.out.println("1232245");
             conn = DataSourceUtil.getConnection();
-            System.out.println("1232241");
+//            System.out.println("1232241");
             //获取Connection对象
-            System.out.println(conn);
+//            System.out.println(conn);
             //获取预处理对象 PreparedStatement
             psmt = conn.prepareStatement(sql);
             //如果SQL中有占位符，给占位符赋值，没有过。
@@ -65,6 +68,7 @@ public class UserDAOImpl implements UserDAO {
                 user = new User();
                 user.setAccount(rs.getString(1));
                 user.setPassword(rs.getString(2));
+
                 System.out.println(user);
             }
         } catch (SQLException e) {
@@ -149,11 +153,16 @@ public class UserDAOImpl implements UserDAO {
         Connection conn = null;
         PreparedStatement prst = null;
         ResultSet rs = null;
+        System.out.println("*****");
+//        System.out.println();
+
+
+        System.out.println("*****");
 
         try {
             conn = DataSourceUtil.getConnection();
-            System.out.println("123");
-            System.out.println(holdid);
+//            System.out.println("123");
+//            System.out.println(holdid);
             prst = conn.prepareStatement(sql);
             prst.setInt(1, holdid);
             rs = prst.executeQuery();
@@ -162,8 +171,9 @@ public class UserDAOImpl implements UserDAO {
                 resultmap = new HashMap<>();
                 resultmap.put("holdid", rs.getInt(1));
                 resultmap.put("houseid", rs.getInt(2));
-                resultmap.put("holdtel", rs.getInt(3));
+                resultmap.put("holdtel", rs.getString(3));
                 resultmap.put("holdnum", rs.getInt(4));
+                resultmap.put("holdpwb", rs.getString(5));
                 resultmap.put("buildingid", rs.getInt(7));
                 resultmap.put("unitid", rs.getInt(8));
                 resultmap.put("numberid", rs.getInt(9));
@@ -180,7 +190,7 @@ public class UserDAOImpl implements UserDAO {
 
                 resultmap.put("housesta", housesta);
                 System.out.println(resultmap);
-                System.out.println("servlet");
+//                System.out.println("servlet");
 
             }
         } catch (SQLException e) {
@@ -193,6 +203,126 @@ public class UserDAOImpl implements UserDAO {
         return resultmap;
     }
 
+    @Override
+    public List<Map<String, Object>> houseidcostQuery(int houseid) {
+        System.out.println("houseidcostQuery1");
+        List<Map<String, Object>> costlist = new ArrayList<>();
+        String sql = " SELECT * FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
+//        if (name != null && !"".equals(name.trim())) {
+//            sql += " and tname like concat('%',?,'%')";
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+//        }
+        try {
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            if (houseid != 0 && !"".equals(houseid)) {
+                psmt.setInt(1, houseid);
+            }
+            rs = psmt.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> resultmap = new HashMap<>();
+                resultmap.put("costid", rs.getInt(1));
+                resultmap.put("houseid", rs.getInt(2));
+                resultmap.put("costprice", rs.getString(3));
+                resultmap.put("typeid", rs.getInt(4));
+                resultmap.put("typename", rs.getString(6));
+                costlist.add(resultmap);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(rs, psmt, conn);
+        }
+        return costlist;
+    }
+
+    @Override
+    public List<Map<String, Object>> houseidcostQuery(Map<String, Object> params) {
+//        System.out.println("houseidcostQuery2");
+
+        List<Map<String, Object>> costlist = new ArrayList<>();
+//        String sql = "SELECT * FROM tab_type where 1=1";
+//        if (params == null || params.isEmpty()) {
+//            return null;
+//        }
+//        String name = params.get("tname") == null ? null : params.get("tname").toString();
+//        if (name != null && !"".equals(name.trim())) {
+//            sql += " and tname like concat('%',?,'%')";
+//        }
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        String sql = " SELECT * FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? limit ?, ?  ";
+//        sql += " limit ?,?";
+        int houseid = Integer.parseInt( params.get("houseid").toString());
+        System.out.println(houseid);
+//                params.get("houseid") == null ? null : params.get("houseid").toString();
+
+        try {
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            if (houseid != 0) {
+
+//                System.out.println(params.get("page"));
+//                System.out.println(params.get("page"));
+
+                psmt.setInt(1, houseid);
+            psmt.setInt(2, ((Pager) params.get("page")).getStart());
+            psmt.setInt(3, ((Pager) params.get("page")).getPageNum());
+            }
+//            else {
+//                psmt.setInt(1, ((Pager) params.get("page")).getStart());
+//                psmt.setInt(2, ((Pager) params.get("page")).getPageNum());
+//            }
+            rs = psmt.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> resultmap = new HashMap<>();
+                resultmap.put("costid", rs.getInt(1));
+                resultmap.put("houseid", rs.getInt(2));
+                resultmap.put("costprice", rs.getString(3));
+                resultmap.put("typeid", rs.getInt(4));
+                resultmap.put("typename", rs.getString(6));
+                costlist.add(resultmap);
+//                System.out.println("resultmap");
+//                System.out.println(resultmap);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+ DataSourceUtil.releaseResource(rs,psmt,conn);
+        }
+        return costlist;
+
+
+    }
+
+    @Override
+    public int ueserEditPassword(Household household) {
+
+        Connection conn = null;
+        PreparedStatement prst = null;
+        int rs = -1;
+        String spl = " UPDATE household_info SET holdpwd =? WHERE holdid= ? ";
+        System.out.println("ueserEditPassword");
+        try {
+            conn = DataSourceUtil.getConnection();
+            prst = conn.prepareStatement(spl);
+            prst.setString(1,household.getHoldpwd());
+            prst.setInt(2, household.getHoldid());
+
+            rs = prst.executeUpdate();
+            System.out.println("ueserEditPassword");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(prst, conn);
+        }
+        System.out.println("rs"+rs);
+        return rs;
+
+    }
 
 }
-
