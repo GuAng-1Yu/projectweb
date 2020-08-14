@@ -25,4 +25,9 @@ public class Household implements Serializable {
         this.holdnum = holdnum;
         this.holdpwd = holdpwd;
     }
+
+    public Household(int holdid, String holdpwd) {
+        this.holdid = holdid;
+        this.holdpwd = holdpwd;
+    }
 }

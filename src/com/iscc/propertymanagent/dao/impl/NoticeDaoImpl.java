@@ -83,7 +83,7 @@ public class NoticeDaoImpl implements NoticeDAO {
     public Notice serch(int noticeid) {
         Notice notice = null;
 
-        String sql = " SELECT * FROM notice where noticeid = ?";
+        String sql = " SELECT noticeid,noticecon,DATE_FORMAT(noticetime,'%Y-%m-%d %H:%i:%s') noticetime, holdid FROM notice where noticeid = ?";
         Connection conn = null;
         PreparedStatement prst = null;
         ResultSet rs = null;
@@ -101,7 +101,7 @@ public class NoticeDaoImpl implements NoticeDAO {
                 notice.setHoldid(rs.getInt(4));
 
             }
-            System.out.println("noticesql"+notice);
+            System.out.println("noticesql" + notice);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -115,21 +115,21 @@ public class NoticeDaoImpl implements NoticeDAO {
         Connection conn = null;
         PreparedStatement prst = null;
         int rs = -1;
-        String spl=" UPDATE notice SET noticecon= ? ,holdid= ? WHERE noticeid=? " ;
+        String spl = " UPDATE notice SET noticecon= ? ,holdid= ? WHERE noticeid=? ";
 
         try {
-         conn=DataSourceUtil.getConnection();
-             prst = conn.prepareStatement(spl);
+            conn = DataSourceUtil.getConnection();
+            prst = conn.prepareStatement(spl);
 
 
-            prst.setString(1,notice.getNoticecon());
-            prst.setInt(2,notice.getHoldid());
-            prst.setInt(3,notice.getNoticeid());
+            prst.setString(1, notice.getNoticecon());
+            prst.setInt(2, notice.getHoldid());
+            prst.setInt(3, notice.getNoticeid());
             rs = prst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DataSourceUtil.releaseResource(prst,conn);
+            DataSourceUtil.releaseResource(prst, conn);
         }
 
 
@@ -141,7 +141,7 @@ public class NoticeDaoImpl implements NoticeDAO {
 //        Notice notice = null;
         List<Notice> notices = new ArrayList<>();
 
-        String sql = " SELECT * FROM notice where holdid = ?";
+        String sql = "  SELECT noticeid,noticecon,DATE_FORMAT(noticetime,'%Y-%m-%d %H:%i:%s'),holdid  FROM notice where holdid = ?";
         Connection conn = null;
         PreparedStatement prst = null;
         ResultSet rs = null;
@@ -174,7 +174,7 @@ public class NoticeDaoImpl implements NoticeDAO {
     public List queryAll() {
 
         List<Notice> notices = new ArrayList<>();
-        String sql = " SELECT * FROM notice GROUP BY noticetime DESC ";
+        String sql = " SELECT noticeid,noticecon,DATE_FORMAT(noticetime,'%Y-%m-%d %H:%i:%s'),holdid FROM notice GROUP BY noticetime DESC ";
         Connection conn = null;
         PreparedStatement prst = null;
         ResultSet rs = null;

@@ -19,4 +19,9 @@ public interface UserService {
  List<Map<String,Object>> holdinfoQuery(int holdid);
     Map<String,Object> detailQuery(int holdid);
 
+//    Type queryTypeById(int id);
+List<Map<String,Object>> queryAllTypeByCondition(Map<String, Object> params);
+    List<Map<String,Object>> queryAllTypeByCondition(int houseid);
+    int userPasswordedit(Household household);
+
 }

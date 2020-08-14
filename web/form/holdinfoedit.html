@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Web UI Kit &amp; Dashboard Template based on Bootstrap">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords" content="adminkit, bootstrap, web ui kit, dashboard template, admin template">
+
+    <link rel="shortcut icon" href="../img/icons/icon-48x48.png"/>
+
+    <title></title>
+
+    <link href="../css/app.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="wrapper">
+
+
+    <div class="main">
+
+
+        <main class="content">
+            <div class="container-fluid p-0">
+
+                <h1 class="h3 mb-3">个人信息修改</h1>
+
+                <div class="row">
+                    <div class="col-12 col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                            </div>
+                            <div class="card-body">
+                                <form  action="../idettestServlet"  method="post" onsubmit="return check()">
+                                    <div class="form-group">
+                                        <label class="form-label">家庭用户ID</label>
+                                        <input type="text" class="form-control" id="holdid" name="holdid" readonly  >
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">房屋ID</label>
+                                        <input type="text" class="form-control" id="houseid" placeholder="" placeholder="4-10位数字">
+                                    </div>
+									<div class="form-group">
+										<label class="form-label" >家庭用户电话</label>
+										<input type="text" class="form-control" id="holdtel" placeholder="">
+									</div>
+									<div class="form-group">
+										<label class="form-label">家庭人数</label>
+										<input type="text" class="form-control" id="holdnum" placeholder="">
+									</div>
+
+									<div class="form-group">
+										<label class="form-label">楼号ID</label>
+										<input type="text" id="buildingid" class="form-control" readonly placeholder="">
+									</div>
+									<div class="form-group">
+										<label class="form-label">单元ID</label>
+										<input type="text" id="unitid" class="form-control" readonly placeholder="">
+									</div>
+                                    <div class="form-group">
+                                        <label class="form-label">门牌号ID</label>
+                                        <input type="text"  id="numberid" class="form-control" readonly  placeholder="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">房屋状态</label>
+                                        <select class="form-control-range">
+                                            <option value="0">无人</option>
+                                            <option value="1">正常</option>
+                                            <option value="2">出租</option>
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" id="btnsubmit" class="btn btn-primary" >提交</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="footer">
+
+        </footer>
+
+    </div>
+</div>
+<!--<script src="../js/vendor.js"></script>-->
+<!--<script src="../js/app.js"></script>-->
+<script src="../js/jquery-3.2.1.js"></script>
+<script src="../js/layer/layer.js"></script>
+<script type="text/javascript">
+
+        function check() {
+            if($('#holdpwd').val()!=$('#holdpwdconfirm').val() ){
+
+                layer.msg("两次密码不一致")
+                console.log("???")
+                return  false;
+            }
+            var reg=/\w{6,10}/
+            if(!reg.test($('#holdpwd').val())){
+                layer.msg("密码不符合规则")
+
+                return false;
+            }
+            var reg1=/\w{4,10}/
+            if(!reg1.test($('#houseid').val())){
+                layer.msg("id名不符合规则")
+
+                return false;
+            }
+            var reg2=/^1[3456789]\d{9}$/
+            if(!reg2.test($('#holdtel').val())){
+                layer.msg("电话号码不正确")
+
+                return false;
+            }
+            var reg3=/^99$|^(\d|[1-9]\d)$/
+            if(!reg3.test($('#holdnum').val())){
+                layer.msg("家庭人数格式输入错误")
+
+                return false;
+            }}
+             $(function () {
+
+                 var item = sessionStorage.getItem('user');
+                 var s = JSON.parse(item)
+                 var holdid=s.holdid
+
+                 $.post(
+                     '../detailquery.do',
+                     {holdid:holdid},
+                     function (data) {
+                         if(data.code==200){
+                             console.log(data.data)
+                             $('#holdid').val(data.data.holdid)
+                             $('#houseid').val(data.data.houseid)
+                             $('#holdtel').val(data.data.holdtel)
+                             $('#holdnum').val(data.data.holdnum)
+                             $('#buildingid').val(data.data.buildingid)
+                             $('#unitid').val(data.data.unitid)
+                             $('#numberid').val(data.data.numberid)
+                             $('#housesta').val(data.data.housesta)
+                             // $('#holdid').text(data.data.holdid)
+                             // $('#holdid').text(data.data.holdid)
+                         }
+                     },'JSON'
+
+                 )
+
+
+
+             } )
+
+
+</script>
+</body>
+
+</html>
