@@ -79,9 +79,14 @@ public class HouseServlet extends HttpServlet {
                     resultMap.put("code", 996);
                     resultMap.put("msg", "添加失败");
                 }
+            String resultStr = gson.toJson(resultMap);
+            writer.print(resultStr);
+
         }else if("deleteHouse.do".equals(action)){
+
+            System.out.println(request.getParameter("houseid"));
             int houseid = Integer.parseInt(request.getParameter("houseid"));
-            int result = houseService.deleteHouseById(Integer.parseInt(request.getParameter("houseid")));
+            int result = houseService.deleteHouseById(houseid);
             if (result != -1) {
                 resultMap.put("code", 995);
                 resultMap.put("msg", "删除成功");
@@ -89,6 +94,8 @@ public class HouseServlet extends HttpServlet {
                 resultMap.put("code", 994);
                 resultMap.put("msg", "删除失败");
             }
+            String resultStr = gson.toJson(resultMap);
+            writer.print(resultStr);
         }else if("updateHouse.do".equals(action)){
 
             int houseid = Integer.parseInt(request.getParameter("houseid"));
@@ -99,6 +106,7 @@ public class HouseServlet extends HttpServlet {
 
             House house = new House();
             int result = houseService.updateHouse(house);
+            System.out.println(house);
             if (result != -1) {
                 resultMap.put("code", 993);
                 resultMap.put("msg", "更新成功");
@@ -106,6 +114,8 @@ public class HouseServlet extends HttpServlet {
                 resultMap.put("code", 992);
                 resultMap.put("msg", "更新失败");
             }
+            String resultStr = gson.toJson(resultMap);
+            writer.print(resultStr);
         }
 
     }

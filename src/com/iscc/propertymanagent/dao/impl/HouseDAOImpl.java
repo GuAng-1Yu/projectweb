@@ -15,7 +15,7 @@ public class HouseDAOImpl implements HouseDAO {
     @Override
     public int addHouse(House house) {
 
-        String sql = "insert into staff_info(houseid,buildingid,unitid,numberid,housesta) value(?,?,?,?,?)";
+        String sql = "insert into house_info(houseid,buildingid,unitid,numberid,housesta) value(?,?,?,?,?)";
         int result = -1;
         Connection conn = null;
         PreparedStatement psmt = null;

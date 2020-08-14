@@ -2,29 +2,123 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>查询结果</title>
+    <title>Title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css" />   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
+    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
-        #reslutId {
+        code {
             padding: 0px 4px;
             color: #d14;
             background-color: #f7f7f9;
             border: 1px solid #e1e1e8;
         }
     </style>
+    <link href="../css/table_app.css" rel="stylesheet">
 </head>
 <body>
-<div id="reslutId">
-    <tr>
-        <td>房屋编号</td>
-        <td>建筑编号</td>
-        <td>单元编号</td>
-        <td>数字编号</td>
-        <td>房屋状态</td>
-    </tr>
+
+<div class="row" style="padding: 3em">
+    <div class="col-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Contextual Classes</h5>
+                <h6 class="card-subtitle text-muted">Use contextual classes to color table rows or
+                    individual cells.</h6>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width:40%;">Name</th>
+                    <th style="width:25%">Phone Number</th>
+                    <th class="d-none d-md-table-cell" style="width:25%">Date of Birth</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Vanessa Tucker</td>
+                    <td>864-348-0485</td>
+                    <td>June 21, 1961</td>
+                    <td class="table-action">
+                        <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
+                        <a href="#"><i class="align-middle" data-feather="trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vanessa Tucker</td>
+                    <td>864-348-0485</td>
+                    <td>June 21, 1961</td>
+                    <td class="table-action">
+                        <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
+                        <a href="#"><i class="align-middle" data-feather="trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vanessa Tucker</td>
+                    <td>864-348-0485</td>
+                    <td>June 21, 1961</td>
+                    <td class="table-action">
+                        <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
+                        <a href="#"><i class="align-middle" data-feather="trash"></i></a>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
 </body>
+<script src="../js/app.js"></script>
+<script src="../js/jquery-3.2.1.js"></script>
+<script async="async">
+    $(function () {
+        getHouseById();
+    })
+
+    function getHouseById() {
+        $.post('../queryHouseById.do', function (data) {
+            if (data.code == 999) {
+                $.each(data.houseInfoById, function (index, obj) {
+                    console.log(obj);
+                    var tr = $('<tr></tr>');
+                    var tr = $('<tr></tr>');
+                    var td1 = $('<td></td>').text(obj.houseid);
+                    var td2 = $('<td></td>').text(obj.buildingid);
+                    var td3 = $('<td></td>').text(obj.unitid);
+                    var td4 = $('<td></td>').text(obj.numberid);
+                    var td5 = $('<td></td>').text(obj.housesta);
+                    // class="table-action"
+                    var iedit = $('<i></i>').attr('class',"align-middle").attr('data-feather',"edit-2");
+                    var itrash = $('<i></i>').attr('class',"align-middle").attr('data-feather',"trash");
+                    var aTitle = $('<a></a>').attr('href',"#").append(iedit).append(itrash);
+                    var td6 = $('<td></td>').attr('class',"table-action").append(aTitle);
+                    tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
+                    $('tbody').append(tr);
+
+                })
+            }
+        }, "JSON");
+    }
+    </script>
+
+
+    <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+    <script type="text/javascript" src="../assets/js/bui-min.js"></script>
+
+    <script type="text/javascript" src="../assets/js/config-min.js"></script>
+    <script type="text/javascript">
+        BUI.use('common/page');
+    </script>
+    <!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
+    <script type="text/javascript" src="../assets/js/prettify.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            prettyPrint();
+        });
+    </script>
 </html>
