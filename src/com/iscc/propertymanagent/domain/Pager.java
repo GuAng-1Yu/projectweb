@@ -25,6 +25,6 @@ public class Pager<T> implements Serializable {
         this.start = (this.currPage-1)*this.pageNum;
         this.end = this.currPage* this.pageNum;
 
-        this.data = data.subList(start,end);
+       // this.data = data.subList(start,end);
     }
 }
