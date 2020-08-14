@@ -21,7 +21,6 @@
 </head>
 
 <body>
-
 <div class="row" style="padding: 3em">
     <div class="col-12 col-xl-12">
         <div class="card">
@@ -48,23 +47,87 @@
                         <a href="#"><i class="align-middle" data-feather="trash"></i></a>
                     </td>-->
                 </tr>
-
-
                 </tbody>
             </table>
+        </div>
+        <div class="col-12 col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">新增员工</h5>
+                    <h6 class="card-subtitle text-muted">输入必要信息创建新员工信息</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="form-label">员工姓名</label>
+                        <input type="type" class="form-control" placeholder="请输入员工姓名" name="staffName" id="staffName">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">员工电话</label>
+                        <input type="type" class="form-control" placeholder="请输入员工电话" name="staffTel" id="staffTel">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">所属部门</label>
+                        <select class="custom-select mb-3" name="deptId" id="deptId">
+                            <option selected value="1">请选择部门</option><!--等待修改-->
+                            <option value="1">安保部</option>
+                            <option value="2">财务部</option>
+                            <option value="3">人事部</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">技术等级</label>
+                        <select class="custom-select mb-3" name="staffLev" id="staffLev">
+                            <option selected value="0">请选择等级</option>
+                            <option value="1">LEVEL 1</option>
+                            <option value="2">LEVEL 2</option>
+                            <option value="3">LEVEL 3</option>
+                            <option value="4">LEVEL 4</option>
+                            <option value="5">LEVEL 5</option>
+                            <option value="6">LEVEL 6</option>
+                            <option value="7">LEVEL 7</option>
+                            <option value="8">LEVEL 8</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="addBtn">保存员工信息</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <!-- ———————————————————————————————————————————————————————————————————— -->
+
 <!--<script src="../js/vendor.js"></script>-->
 <!--<script src="../js/app.js"></script>-->
-<script src="../js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="../assets/js/bui-min.js"></script>
-<script async="async">
+<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="../js/layer/layer.js"></script>
+<script  type="text/javascript" >
     $(function () {
         getAllStaff();
+        $('#addBtn').click(function () {
+            $.ajax({
+                url: '../add_Staff.do',
+                data: {
+                    staffName: $('#staffName').val(),
+                    staffTel: $('#staffTel').val(),
+                    deptId: $('#deptId').val(),
+                    staffLev: $('#staffLev').val()
+                },
+                dataType: 'json',
+                type: 'get',
+                success: function (data) {
+                    if (data.code == 200) {
+                        /*layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                            location.href = "resource.html";
+                        })*/
+                        window.location.reload()
+                    }
+                }
+            })
+        })
     })
+
 
     function getAllStaff() {
         $.post('../query_staff.do', function (data) {
@@ -75,11 +138,10 @@
                     var td1 = $('<td></td>').text(obj.staffname);
                     var td2 = $('<td></td>').text(obj.stafftel);
                     var td3 = $('<td></td>').text(obj.deptid);
-                    // class="table-action"
                     var iedit = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>');
                     var itrash = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>');
-                    var aTitle = $('<a href="#"></a>').append(iedit);
-                    var bTitle = $('<a href="#"></a>').append(itrash);
+                    var aTitle = $('<a href="#" onclick=""></a>').append(iedit);
+                    var bTitle = $('<a href="#"></a>').attr('onclick',"delStaff("+obj.staffid+"as)").append(itrash);
                     var td4 = $('<td class="table-action"></td>').append(aTitle).append(bTitle);
                     tr.append(td1).append(td2).append(td3).append(td4);
                     $('tbody').append(tr);
@@ -87,7 +149,9 @@
                 })
             }
         }, "JSON");
-
+    }
+    function delStaff(id) {
+         console.log("id"+id);
     }
 </script>
 <!-- ———————————————————————————————————————————————————————————————————— -->

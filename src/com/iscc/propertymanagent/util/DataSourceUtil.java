@@ -19,8 +19,9 @@ public class DataSourceUtil {
         dataSource.setUrl("jdbc:mysql://localhost:3306/property_management?useUnicode=true&characterEncoding=UTF8");
         //设置连接数据用户名
         dataSource.setUsername("root");
+        /*//设置连接数据密码
+        dataSource.setPassword("root");*/
         //设置初始化连接数
-        dataSource.setPassword("root");
         dataSource.setInitialSize(10);
         //设置连接的最大数
         dataSource.setMaxActive(50);
