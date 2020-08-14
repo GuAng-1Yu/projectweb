@@ -91,7 +91,7 @@
     }
 
     function deleteHouseById(id) {
-        var r = confirm("是否删除该员工信息");
+        var r = confirm("是否删除信息");
         if (r == true) {
             $.getJSON('../deleteHouse.do', {"houseid":id}, function (data) {
                 if (data.code == 995) {
@@ -106,15 +106,15 @@
     }
 
     function updateHouseById(id) {
-            // $.getJSON('../updateHouse.do', {"houseid":id}, function (data) {
-            //     if (data.code == 993) {
-            //         alert(data.msg);
-            //         window.location.reload()
-            //     }else if(data.code == 992){
-            //         alert(data.msg);
-            //         window.location.reload()
-            //     }
-            // })
+            $.getJSON('../updateHouse.do', {"houseid":id}, function (data) {
+                if (data.code == 993) {
+                    alert(data.msg);
+                    window.location.reload()
+                }else if(data.code == 992){
+                    alert(data.msg);
+                    window.location.reload()
+                }
+            })
     }
 
 </script>
