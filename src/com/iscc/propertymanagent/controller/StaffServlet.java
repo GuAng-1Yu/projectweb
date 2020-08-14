@@ -52,7 +52,13 @@ public class StaffServlet extends HttpServlet {
         } else if ("update_Staff.do".equals(action)) {
             System.out.println("update_Staff.do");
         } else if ("del_Staff.do".equals(action)) {
-            System.out.println("del_Staff.do");
+            int staffid = Integer.parseInt(request.getParameter("staffid"));
+            int result = staffService.delStaff(staffid);
+            if (result!=-1){
+                resultMap.put("code", 200);
+                resultMap.put("msg", "删除成功");
+            }
+
         }
         String resultStr = gson.toJson(resultMap);
         writer.print(resultStr);
