@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑用户缴费信息</title>
+</head>
+<body>
+<input type="hidden" id="txtCostid">
+房屋编号：<input type="text" name="prodName" id="prodName"><br>
+缴费金额：<input type="text" name="prodPrice" id="prodPrice"><br>
+缴费类别编号<select id="prodId" name="prodId"><option></option></select><br>
+<button type="button" id="btnSaveType">保存</button>
+</body>
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/layer/layer.js"> </script>
+<script>
+    var url = location.href;
+    console.log(url);
+    var params = url.split('?')[1];
+    var costid = params.split('=')[1];
+    console.log(costid);
+    $(function () {
+        getAllType();
+
+        $('#prodId').trigger('change');
+    })
+    $(function () {
+        $.getJSON('query_cost_id.do', {houseid: costid}, function (data) {
+           //
+            if (data.code == 200) {
+                $('#txtCostid').val(costid);
+                $('#prodName').val(data.result.houseid);
+                $('#prodPrice').val(data.result.costprice);
+                $('#prodId').val(data.result.typeid);
+
+            }
+        })
+
+        $('#btnSaveType').click(function () {
+            $.post('update_cost.do', {
+                costid: $('#txtCostid').val(),
+                houseid: $('#prodName').val(),
+                costprice: $('#prodPrice').val(),
+                typeid: $('#prodId').val()
+            }, function (data) {
+                //console.log(data);
+                if (data.code == 200) {
+                    layer.msg(data.msg, {icon: 1, time: 1000}, function () {
+                        location.href = "cost.html";
+                    })
+                } else {
+                    layer.msg(data.msg);
+                }
+            }, "json")
+        })
+    })
+    function getAllType() {
+        $('#prodId').empty();
+        $.post('query_all_costtype.do', {typename: null}, function (data) {
+            if (data.code == 200) {
+                $.each(data.result, function (index, obj) {
+                    var opt = $('<option></option>');
+                    opt.text(obj.typeid);
+                    opt.val(obj.typeid);
+                    $('#prodId').append(opt);
+                })
+            }
+        }, "JSON");
+    }
+</script>
+</html>

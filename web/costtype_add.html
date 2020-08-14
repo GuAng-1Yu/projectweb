@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input placeholder="请输入类别名称" id="txtTypename">
+
+<button type="button" id="btnSaveType">保存</button>
+</body>
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/layer/layer.js"></script>
+<script>
+    $(function () {
+        $('#btnSaveType').click(function () {
+            $.ajax({
+                url: 'add_costtype.do',
+                data: {typename: $('#txtTypename').val()},
+                dataType: 'json',
+                type: 'get',
+                success: function (data) {
+                    //console.log(data);
+                    if (data.code == 200) {
+                        layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                            location.href = "costtype.html";
+                        })
+                    }
+                },
+                error: function () {
+
+                }
+            })
+        })
+    })
+
+</script>
+
+</html>

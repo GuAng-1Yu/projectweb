@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户缴费管理</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+    <h2>用户缴费列表</h2>
+
+    <p>
+        <input id="txtSearch">
+        <button type="button" id="btnTypeSearch">查询</button>
+    </p>
+    <p>
+        <a href="cost_add.html">
+            <button class="btn btn-info" type="button">添加用户缴费</button>
+        </a>
+    </p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>缴费编号</th>
+            <th>房屋编号</th>
+            <th>缴费金额</th>
+            <th>缴费类别编号</th>
+            <!--<th>缴费类别</th>-->
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="text-right">
+
+        <span id="showPage">共6条数据，当前1/3页</span>
+        <div class="btn-group" style="display: inline-block">
+            <button type="button" class="btn btn-group-sm" id="btnFirst">首页</button>
+            <button type="button" class="btn btn-group-sm" id="btnPrev">上一页</button>
+            <button type="button" class="btn btn-group-sm" id="btnNext">下一页</button>
+            <button type="button" class="btn btn-group-sm" id="btnLast">末页</button>
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/layer/layer.js"></script>
+<script>
+    var currentPage = 1;
+    var totalPage = 0;
+    $(function () {
+        getAllType(null);
+
+        $('#btnTypeSearch').click(function () {
+            getAllType($('#txtSearch').val());
+        })
+
+
+        $('#btnNext').click(function () {
+            currentPage++;
+            if (currentPage > totalPage) {
+                currentPage = totalPage;
+            }
+            getAllType($('#txtSearch').val());
+        })
+        $('#btnPrev').click(function () {
+            currentPage--;
+            if (currentPage < 0) {
+                currentPage = 1;
+            }
+            getAllType($('#txtSearch').val());
+        })
+        $('#btnFirst').click(function () {
+            currentPage = 1;
+            getAllType($('#txtSearch').val());
+        })
+        $('#btnLast').click(function () {
+            currentPage = totalPage;
+            getAllType($('#txtSearch').val());
+        })
+
+    })
+
+    function getAllType(name) {
+        $('tbody').empty();
+        $.post('query_costpage.do', {houseid: name,currPage: currentPage}, function (data) {
+            console.log(data);
+            $('#showPage').text('共' + data.page.totalRecord + '条数据，当前' + currentPage + '/' + data.page.totalPage + '页')
+            totalPage = data.page.totalPage;
+            console.log(data);
+            if (data.code == 200) {
+                $.each(data.result, function (index, obj) {
+                    var tr = $('<tr></tr>');
+                    var td1 = $('<td></td>').text(obj.costid);
+                    var td2 = $('<td></td>').text(obj.houseid);
+                    var td3 = $('<td></td>').text(obj.costprice);
+                    var td4 = $('<td></td>').text(obj.typeid);
+                    var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.costid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.costid + ')" class="btn btn-danger">删除</button>');
+                    tr.append(td1).append(td2).append(td3).append(td4).append(td5);
+                    $('tbody').append(tr);
+                })
+            }
+        }, "JSON");
+    }
+
+    function editType(id) {
+        location.href = "cost_edit.html?costid=" + id;
+    }
+
+    function delType(id) {
+        //console.log(id)
+        layer.confirm('是否确认删除该用户缴费信息', {icon: 3, title: '删除提示'}, function (index) {
+            //do something
+            $.getJSON('del_cost.do', {costid: id}, function (data) {
+                if (data.code == 200) {
+                    layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                        getAllType(null);
+                    })
+                }
+            })
+            layer.close(index);
+        });
+
+    }
+
+</script>
+</html>

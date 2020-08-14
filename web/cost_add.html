@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布用户缴费信息</title>
+</head>
+<body>
+    房屋编号：<input type="text" name="prodName" id="prodName"><br>
+    缴费金额：<input type="text" name="prodPrice" id="prodPrice"><br>
+    缴费类别编号<select id="prodId" name="prodId"><option></option></select><br>
+    <!--缴费类别：
+      <select id="prodType" name="prodType"></select>
+    <br>-->
+    <button type="button" id="btnSaveProduct">发布信息</button>
+</body>
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/layer/layer.js"></script>
+<script>
+    $(function () {
+        getAllType();
+
+        $('#prodId').trigger('change');
+    })
+    $(function () {
+        $('#btnSaveProduct').click(function () {
+            $.ajax({
+                url:'add_cost.do',
+                data: {houseid:$('#prodName').val(),
+                    costprice:$('#prodPrice').val(),
+                    typeid:$('#prodId').val()
+                },
+                dataType: 'json',
+                type: 'get',
+                success: function (data) {
+                    //console.log(data);
+                    if (data.code == 200) {
+                        layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                            location.href="cost.html";
+                        })
+                    }
+                },
+                error: function () {
+
+                }
+            })
+        })
+    })
+    function getAllType() {
+        $('#prodId').empty();
+        $.post('query_all_costtype.do', {typename: null}, function (data) {
+            if (data.code == 200) {
+                $.each(data.result, function (index, obj) {
+                    var opt = $('<option></option>');
+                    opt.text(obj.typeid);
+                    opt.val(obj.typeid);
+                    $('#prodId').append(opt);
+                })
+            }
+        }, "JSON");
+    }
+</script>
+</html>

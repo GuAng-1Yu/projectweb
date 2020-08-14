@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>编辑缴费类别</h2>
+
+
+<input type="hidden" id="txtTypeid">
+<input placeholder="请输入类别名称" id="txtTypename">
+
+<button type="button" id="btnSaveType">保存</button>
+</body>
+<script src="js/jquery-3.2.1.js"> </script>
+<script src="js/layer/layer.js"></script>
+<script>
+    var url = location.href;
+    console.log(url);
+    var params = url.split('?')[1];
+    var typeid = params.split('=')[1];
+    console.log(typeid);
+
+    $(function () {
+        $.getJSON('query_costtype_id.do', {typeid: typeid}, function (data) {
+            //console.log(data);
+            if (data.code == 200) {
+                $('#txtTypeid').val(data.result.typeid);
+                $('#txtTypename').val(data.result.typename);
+            }
+        })
+
+        $('#btnSaveType').click(function () {
+            $.post('update_costtype.do', {
+                typeid: $('#txtTypeid').val(),
+                typename: $('#txtTypename').val()
+            }, function (data) {
+                //console.log(data);
+                if (data.code == 200) {
+                    layer.msg(data.msg, {icon: 1, time: 1000}, function () {
+                        location.href = "costtype.html";
+                    })
+                } else {
+                    layer.msg(data.msg);
+                }
+            }, "json")
+        })
+    })
+
+</script>
+</html>

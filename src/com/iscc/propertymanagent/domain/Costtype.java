@@ -13,4 +13,8 @@ import java.io.Serializable;
 public class Costtype implements Serializable {
     private  int typeid ;
     private  String typename;
+
+    public Costtype(String name) {
+        this.typename=name;
+    }
 }

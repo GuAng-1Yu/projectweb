@@ -18,4 +18,10 @@ public class Cost implements Serializable {
     private double costprice;
     private int typeid;
 
+    public Cost(int houseid, double costprice, int typeid) {
+        this.houseid = houseid;
+        this.costprice = costprice;
+        this.typeid = typeid;
+    }
+
 }
