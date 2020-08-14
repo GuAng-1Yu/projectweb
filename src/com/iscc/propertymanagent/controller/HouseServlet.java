@@ -98,6 +98,7 @@ public class HouseServlet extends HttpServlet {
             writer.print(resultStr);
         }else if("updateHouse.do".equals(action)){
 
+            System.out.println(request.getParameter("houseid"));
             int houseid = Integer.parseInt(request.getParameter("houseid"));
             int buildingid = Integer.parseInt(request.getParameter("buildingid"));
             int unitid = Integer.parseInt(request.getParameter("unitid"));
