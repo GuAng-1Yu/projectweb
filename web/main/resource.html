@@ -92,7 +92,7 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-success" id="addBtn" onclick="addStaff()">新建员工信息</button>
-                    <button type="button" class="btn btn-secondary" id="clearBtn">取消/清空</button>
+                    <button type="button" class="btn btn-secondary" id="clearBtn" onclick="clearBtn()">取消/清空</button>
                 </div>
             </div>
         </div>
@@ -163,14 +163,19 @@
         $('#staffTel').val(obj.stafftel);
         $('#deptId').val(obj.deptid);
         $('#staffLev').val(obj.stafflev);
-        $('#addBtn').attr('onclick', "addStaff()").text("新建员工信息");
+        $('#addBtn').attr('onclick', "doUpdate()").text("新建员工信息");
         $('#clearBtn').show();
         $('#addBtn').text("保存修改");
     }
 
     function clearBtn() {
+        $('#staffId').val("");
+        $('#staffName').val("");
+        $('#staffTel').val("");
+        $('#deptId').val("");
+        $('#staffLev').val("");
+        $('#addBtn').attr('onclick', "addStaff()").text("新建员工信息");
         $('#clearBtn').hide();
-        $('#addBtn').attr('onclick', "doUpdate()").text("保存修改");
     }
 
     function doUpdate() {
