@@ -3,19 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #houseAddDiv {
+            text-align:center;
+            padding: 0px 4px;
+            color: #d14;
+            background-color: #f7f7f9;
+            height: 300px;
+            border: 1px solid #e1e1e8;
+        }
+
+        #houseAddForm{
+            margin: 35px;
+        }
+    </style>
     <script src="../js/jquery-3.2.1.js"></script>
 </head>
 <body>
 
 <div id="houseAddDiv">
-<!--    <form id="houseAddForm" name="houseAddForm" method="post" action="addHouse.do">-->
+    <div id="houseAddForm" name="houseAddForm" >
         <input type="text" placeholder="房屋编号" id="houseid" name="houseid" class="houseText"><br><br>
         <input type="text" placeholder="建筑编号" id="buildingid" name="buildingid" class="houseText"><br><br>
         <input type="text" placeholder="单元编号" id="unitid" name="unitid" class="houseText"><br><br>
         <input type="text" placeholder="数字编号" id="numberid" name="numberid" class="houseText"><br><br>
         <input type="text" placeholder="房屋状态" id="housesta" name="housesta" class="houseText"><br><br>
         <button type="button" id="submitBtn" name="submitBtn">确认</button>
-<!--    </form>-->
+    </div>
 </div>
 
 </body>
