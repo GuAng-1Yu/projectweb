@@ -50,7 +50,17 @@ public class StaffServlet extends HttpServlet {
                 resultMap.put("msg", "员工添加成功");
             }
         } else if ("update_Staff.do".equals(action)) {
-            System.out.println("update_Staff.do");
+            int staffId = Integer.parseInt(request.getParameter("staffId"));
+            String staffName = request.getParameter("staffName");
+            String staffTel = request.getParameter("staffTel");
+            int deptId = Integer.parseInt(request.getParameter("deptId"));
+            int staffLev = Integer.parseInt(request.getParameter("staffLev"));
+            Staff staff = new Staff(staffId,staffName,staffTel,deptId,staffLev);
+            int result = staffService.updateStaff(staff);
+            if (result != -1){
+                resultMap.put("code",200);
+                resultMap.put("msg","信息修改成功");
+            }
         } else if ("del_Staff.do".equals(action)) {
             int staffid = Integer.parseInt(request.getParameter("staffid"));
             int result = staffService.delStaff(staffid);
