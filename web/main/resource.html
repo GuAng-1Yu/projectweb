@@ -57,6 +57,9 @@
                     <h6 class="card-subtitle text-muted">输入必要信息创建新员工信息</h6>
                 </div>
                 <div class="card-body">
+
+                    <input type="hidden" id="staffId">
+
                     <div class="form-group">
                         <label class="form-label">员工姓名</label>
                         <input type="type" class="form-control" placeholder="请输入员工姓名" name="staffName" id="staffName">
@@ -68,7 +71,7 @@
                     <div class="form-group">
                         <label class="form-label">所属部门</label>
                         <select class="custom-select mb-3" name="deptId" id="deptId">
-                            <option selected value="1">请选择部门</option><!--等待修改-->
+                            <option selected value="0">请选择部门</option><!--等待修改-->
                             <option value="1">安保部</option>
                             <option value="2">财务部</option>
                             <option value="3">人事部</option>
@@ -88,7 +91,8 @@
                             <option value="8">LEVEL 8</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="addBtn">保存员工信息</button>
+                    <button type="submit" class="btn btn-success" id="addBtn" onclick="addStaff()">新建员工信息</button>
+                    <button type="button" class="btn btn-secondary" id="clearBtn" onclick="clearBtn()">取消/清空</button>
                 </div>
             </div>
         </div>
@@ -105,30 +109,31 @@
 <script type="text/javascript">
     $(function () {
         getAllStaff();
-
-        $('#addBtn').click(function () {
-            $.ajax({
-                url: '../add_Staff.do',
-                data: {
-                    staffName: $('#staffName').val(),
-                    staffTel: $('#staffTel').val(),
-                    deptId: $('#deptId').val(),
-                    staffLev: $('#staffLev').val()
-                },
-                dataType: 'json',
-                type: 'get',
-                success: function (data) {
-                    if (data.code == 200) {
-                        /*layer.msg(data.msg, {icon: 1, time: 2000}, function () {
-                            location.href = "resource.html";
-                        })*/
-                        window.location.reload()
-                    }
-                }
-            })
-        })
+        $("#clearBtn").hide();
     })
 
+    function addStaff() {
+        console.log("addStaff");
+        $.ajax({
+            url: '../add_Staff.do',
+            data: {
+                staffName: $('#staffName').val(),
+                staffTel: $('#staffTel').val(),
+                deptId: $('#deptId').val(),
+                staffLev: $('#staffLev').val()
+            },
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                if (data.code == 200) {
+                    /*layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                        location.href = "resource.html";
+                    })*/
+                    window.location.reload()
+                }
+            }
+        })
+    }
 
     function getAllStaff() {
         $.post('../query_staff.do', function (data) {
@@ -152,15 +157,55 @@
         }, "JSON");
     }
 
-    /*function updateStaff(obj) {
-        $('#staffName').val(obj.staffName);
-    }*/
+    function updateStaff(obj) {
+        $('#staffId').val(obj.staffid);
+        $('#staffName').val(obj.staffname);
+        $('#staffTel').val(obj.stafftel);
+        $('#deptId').val(obj.deptid);
+        $('#staffLev').val(obj.stafflev);
+        $('#addBtn').attr('onclick', "doUpdate()").text("新建员工信息");
+        $('#clearBtn').show();
+        $('#addBtn').text("保存修改");
+    }
+
+    function clearBtn() {
+        $('#staffId').val("");
+        $('#staffName').val("");
+        $('#staffTel').val("");
+        $('#deptId').val("");
+        $('#staffLev').val("");
+        $('#addBtn').attr('onclick', "addStaff()").text("新建员工信息");
+        $('#clearBtn').hide();
+    }
+
+    function doUpdate() {
+        $.ajax({
+            url: '../update_Staff.do',
+            data: {
+                staffId: $('#staffId').val(),
+                staffName: $('#staffName').val(),
+                staffTel: $('#staffTel').val(),
+                deptId: $('#deptId').val(),
+                staffLev: $('#staffLev').val()
+            },
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                if (data.code == 200) {
+                    /*layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                        location.href = "resource.html";
+                    })*/
+                    window.location.reload()
+                }
+            }
+        })
+    }
 
     function delStaff(id) {
         console.log("Delete")
         var r = confirm("是否删除该员工信息");
         if (r == true) {
-            $.getJSON('../del_Staff.do', {"staffid":id}, function (data) {
+            $.getJSON('../del_Staff.do', {"staffid": id}, function (data) {
                 if (data.code == 200) {
                     window.location.reload()
                     alert("员工删除成功");
