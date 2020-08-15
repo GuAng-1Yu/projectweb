@@ -25,4 +25,12 @@ public class Staff implements Serializable {
         this.deptid = deptid;
         this.stafflev = stafflev;
     }
+
+    /*public Staff(int staffid, String staffname, String stafftel, int deptid, int stafflev) {
+        this.staffid = staffid;
+        this.staffname = staffname;
+        this.stafftel = stafftel;
+        this.deptid = deptid;
+        this.stafflev = stafflev;
+    }*/
 }

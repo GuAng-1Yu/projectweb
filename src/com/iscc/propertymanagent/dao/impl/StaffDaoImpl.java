@@ -2,9 +2,11 @@ package com.iscc.propertymanagent.dao.impl;
 
 
 import com.iscc.propertymanagent.dao.StaffDAO;
+import com.iscc.propertymanagent.domain.Dept;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.util.DataSourceUtil;
 
+import javax.xml.crypto.Data;
 import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,26 +20,26 @@ import java.util.Map;
 public class StaffDaoImpl implements StaffDAO {
 
     @Override
-    public List<Staff> queryStaff() {
-//        String sql = "SELECT * FROM staff_info s ,dept d WHERE s.`deptid` = d.`deptid`";
-        String sql = "SELECT * FROM staff_info";
-        List<Staff> results = new ArrayList<>();
+    public List<Map> queryStaff() {
+        String sql = "SELECT * FROM staff_info s,dept d WHERE s.deptid = d.deptid";
+        List<Map> results = new ArrayList<>();
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
-        Map<String,Object> resultMap = new HashMap<>();
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
             rs = psmt.executeQuery();
             while (rs.next()) {
-                Staff staff = new Staff();
-                staff.setStaffid(rs.getInt(1));
-                staff.setStaffname(rs.getString(2));
-                staff.setStafftel(rs.getString(3));
-                staff.setDeptid(rs.getInt(4));
-                staff.setStafflev(rs.getInt(5));
-                results.add(staff);
+                Map<String,Object> resultMap = new HashMap<>();
+                resultMap.put("staffid",rs.getInt(1));
+                resultMap.put("staffname",rs.getString(2));
+                resultMap.put("stafftel",rs.getString(3));
+                resultMap.put("deptid0",rs.getInt(4));
+                resultMap.put("stafflev",rs.getInt(5));
+                resultMap.put("deptid1",rs.getInt(6));
+                resultMap.put("deptname",rs.getString(7));
+                results.add(resultMap);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,5 +103,28 @@ public class StaffDaoImpl implements StaffDAO {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public List<Dept> queryAllDept() {
+        String sql = "SELECT * FROM dept";
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        ArrayList<Dept> depts = new ArrayList<>();
+        try {
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            rs = psmt.executeQuery();
+            while (rs.next()){
+                Dept dept = new Dept();
+                dept.setDeptid(rs.getInt(1));
+                dept.setDeptname(rs.getString(2));
+                depts.add(dept);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return depts;
     }
 }

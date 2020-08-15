@@ -1,6 +1,7 @@
 package com.iscc.propertymanagent.controller;
 
 import com.google.gson.Gson;
+import com.iscc.propertymanagent.domain.Dept;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.service.StaffService;
 import com.iscc.propertymanagent.service.impl.StaffServiceImpl;
@@ -14,8 +15,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@WebServlet({"/query_staff.do", "/add_Staff.do", "/update_Staff.do", "/del_Staff.do"})
+@WebServlet({"/query_staff.do", "/add_Staff.do", "/update_Staff.do", "/del_Staff.do", "/get_all_dept.do"})
 public class StaffServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -29,7 +31,7 @@ public class StaffServlet extends HttpServlet {
         StaffService staffService = new StaffServiceImpl();
         HashMap<Object, Object> resultMap = new HashMap<>();
         if ("query_staff.do".equals(action)) {
-            List<Staff> resultSet = staffService.queryStaff();
+            List<Map> resultSet = staffService.queryStaff();
             if (resultSet.size() > 0) {
                 resultMap.put("code", 200);
                 resultMap.put("msg", "查询成功");
@@ -55,20 +57,26 @@ public class StaffServlet extends HttpServlet {
             String staffTel = request.getParameter("staffTel");
             int deptId = Integer.parseInt(request.getParameter("deptId"));
             int staffLev = Integer.parseInt(request.getParameter("staffLev"));
-            Staff staff = new Staff(staffId,staffName,staffTel,deptId,staffLev);
+            Staff staff = new Staff(staffId, staffName, staffTel, deptId, staffLev);
             int result = staffService.updateStaff(staff);
-            if (result != -1){
-                resultMap.put("code",200);
-                resultMap.put("msg","信息修改成功");
+            if (result != -1) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "信息修改成功");
             }
         } else if ("del_Staff.do".equals(action)) {
             int staffid = Integer.parseInt(request.getParameter("staffid"));
             int result = staffService.delStaff(staffid);
-            if (result!=-1){
+            if (result != -1) {
                 resultMap.put("code", 200);
                 resultMap.put("msg", "删除成功");
             }
-
+        } else if ("get_all_dept.do".equals(action)) {
+            List<Dept> result = staffService.queryAllDept();
+            if (result.size() > 0) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "部门查询成功");
+                resultMap.put("result", result);
+            }
         }
         String resultStr = gson.toJson(resultMap);
         writer.print(resultStr);
