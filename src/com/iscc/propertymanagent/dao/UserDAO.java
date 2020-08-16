@@ -1,10 +1,13 @@
 package com.iscc.propertymanagent.dao;
 
 
+import com.iscc.propertymanagent.domain.House;
 import com.iscc.propertymanagent.domain.Household;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.domain.User;
+import com.iscc.propertymanagent.util.DataSourceUtil;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +21,11 @@ public interface UserDAO {
     public Staff stafflogin(int staffid);
     List<Map<String,Object>>  holdinfoQuery(int holdid);
     Map<String,Object>    detailQuery(int holdid);
+    List<Map<String,Object>>  houseidcostQuery(int houseid,int typeid );
+    List<Map<String,Object>>  houseidcostQuery(Map<String,Object>  costlist ,int typeid );
+    int ueserEditPassword(Household household) ;
 
-    List<Map<String,Object>>  houseidcostQuery(int houseid);
-    List<Map<String,Object>>  houseidcostQuery(Map<String,Object>  costlist );
-    int ueserEditPassword(Household holdid) ;
+       int editHouse(Connection conn, House house);
+       int editHousehold(Connection conn, Household household);
 
 }

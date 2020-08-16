@@ -1,9 +1,7 @@
 package com.iscc.propertymanagent.service.impl;
 
 import com.iscc.propertymanagent.dao.NoticeDAO;
-import com.iscc.propertymanagent.dao.UserDAO;
 import com.iscc.propertymanagent.dao.impl.NoticeDaoImpl;
-import com.iscc.propertymanagent.dao.impl.UserDAOImpl;
 import com.iscc.propertymanagent.domain.Notice;
 import com.iscc.propertymanagent.service.NoticeService;
 

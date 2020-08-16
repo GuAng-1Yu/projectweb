@@ -30,4 +30,10 @@ public class Household implements Serializable {
         this.holdid = holdid;
         this.holdpwd = holdpwd;
     }
+
+    public Household(int holdid, String holdtel, int holdnum) {
+        this.holdid=holdid;
+        this.holdtel=holdtel;
+        this.holdnum=holdnum;
+    }
 }

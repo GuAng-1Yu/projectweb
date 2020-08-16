@@ -7,6 +7,16 @@
     <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css"/>
     <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css"/>   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
     <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Web UI Kit &amp; Dashboard Template based on Bootstrap">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords" content="adminkit, bootstrap, web ui kit, dashboard template, admin template">
+
+    <link rel="shortcut icon" href="../img/icons/icon-48x48.png" />
+
+     <link href="../css/app.css" rel="stylesheet">
     <style type="text/css">
         code {
             padding: 0px 4px;
@@ -14,7 +24,10 @@
             background-color: #f7f7f9;
             border: 1px solid #e1e1e8;
         }
-        #showPage{margin-right: 0%}
+
+        #showPage {
+            margin-right: 0%
+        }
     </style>
     <link href="../css/table_app.css" rel="stylesheet">
 </head>
@@ -24,69 +37,113 @@
     <div class="col-12 col-xl-12">
         <div class="card">
             <div class="card-header">
-<!--                <h5 class="card-title">Contextual Classes</h5>-->
+                <!--                <h5 class="card-title">Contextual Classes</h5>-->
                 <h6 class="card-subtitle text-muted">房屋缴费情况</h6>
             </div>
             <table class="table">
                 <thead>
                 <tr>
                     <th style="width:20%;">缴费ID</th>
-                    <th style="width:20%">房屋ID</th>
+                    <th style="width:20%">房屋地址</th>
                     <th class="d-none d-md-table-cell" style="width:20%">缴费金额</th>
-                    <th>缴费类型 id </th>
-                    <th>缴费类别 </th>
+                    <!--                    <th>缴费类型 id </th>-->
+                    <th>缴费类别</th>
+                    <th>缴费时间</th>
                 </tr>
                 </thead>
                 <tbody>
-<!--                <tr>-->
-<!--                    <td>Vanessa Tucker</td>-->
-<!--                    <td>864-348-0485</td>-->
-<!--                    <td>June 21, 1961</td>-->
-<!--                    <td class="table-action">-->
-<!--                        <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>-->
-<!--                        <a href="#"><i class="align-middle" data-feather="trash"></i></a>-->
-<!--                    </td>-->
-                <div class="text-right">
+                <!--                <div class="text-left" style="margin-left: 0px">-->
+                <div>
+                    <div class="text-left" style="display: inline-block" style="margin-left: 0px">
+                     &nbsp;  &nbsp; &nbsp; <h6 class="card-subtitle text-muted" style="display: inline-block">缴费类别</h6>
+<!--                        <span> 缴费类别</span>-->
+                        <select id="typename">
+                            <option value="0">缴费类型</option>
+                        </select>
+                    </div>
+                   <div class="text-left" style="display: inline-block" style="margin-left: 0px">
+                    &nbsp;  &nbsp; &nbsp; <h6 class="card-subtitle text-muted" style="display: inline-block">显示数量</h6>
+                    <!--                        <span> 缴费类别</span>-->
+                    <select id="pageNum">
+<!--                        <option value="3">3条</option>-->
+                        <option value="5">5条</option>
+                        <option value="10">10条</option>
+                        <option value="15">15条</option>
 
-                <span id="showPage">共5条数据，当前1/3页</span>
-                <div class="btn-group" style="display: inline-block">
-                    <button type="button" class="btn btn-group-sm" id="btnFirst" onclick="xxx()">首页</button>
-                    <button type="button" class="btn btn-group-sm" id="btnPrev">上一页</button>
-                    <button type="button" class="btn btn-group-sm" id="btnNext">下一页</button>
-                    <button type="button" class="btn btn-group-sm" id="btnLast">末页</button>
+                    </select>
                 </div>
+
+                    <!--                <div class="btn-group" style="display: inline-block" style="margin-right: 0px">-->
+                    <span id="showPage">共5条数据，当前1/3页</span>
+                    <div class="btn-group" style="margin-left: 100px">
+<!--                        <span id="showPage">共5条数据，当前1/3页</span>-->
+<!--                        <i class="align-middle mr-2" data-feather="check-square"></i>-->
+<!--                        <div class="mb-2">-->
+<!--                            <i class="align-middle mr-2" data-feather="check-square"></i> <span class="align-middle">check-square</span>-->
+<!--                        </div>-->
+                        <button type="button" class="btn btn-group-sm" id="btnFirst">首页</button>
+<!--                        <button type="button" class="btn btn-group-sm" id="xxxxxx"><i class="align-middle mr-2" data-feather="check-square"></i></button>-->
+                        <button type="button" class="btn btn-group-sm" id="btnPrev">上一页</button>
+                        <button type="button" class="btn btn-group-sm" id="btnNext">下一页</button>
+                        <button type="button" class="btn btn-group-sm" id="btnLast">末页</button>
+                    </div>
                 </div>
+<!--                <div class="card-body">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-12 col-md-6 col-lg-3">-->
+<!--                            <div class="mb-2">-->
+<!--                                <i class="align-middle mr-2" data-feather="check-square"></i> <span class="align-middle">check-square</span>-->
+<!--                            </div>-->
+<!--                            </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
-
 <!-- ———————————————————————————————————————————————————————————————————— -->
 <!--<script src="../js/vendor.js"></script>-->
 <!--<script src="../js/app.js"></script>-->
 <script src="../js/jquery-3.2.1.js"></script>
 <script async="async">
-
     $(function () {
         var item = sessionStorage.getItem('user');
-        console.log(item)
+        // console.log(item)
         var s = JSON.parse(item);
         var currentPage = 1;
         var totalPage = 0;
-        console.log(s)
-        var houseid=s.houseid;
-      console.log(houseid);
+        // console.log(s)
+        var houseid = s.houseid;
+        var holdid =s.holdid;
+
+        console.log(holdid)
 
 
+        $('#typename').change(
+            function () {
+                xxx()
+            }
+
+        )
+        $('#pageNum').change(
+            function () {
+                xxx()
+            })
+        getcosttypename()
+        // var item = sessionStorage.getItem('user');
+        // // console.log(item)
+        // var s = JSON.parse(item);
+        // var currentPage = 1;
+        // var totalPage = 0;
+        // // console.log(s)
+        // var houseid = s.houseid;
+        // console.log(houseid);
         $('#btnTypeSearch').click(function () {
             getAllType(houseid);
             // getAllType($('#txtSearch').val());
         })
-
-
         $('#btnNext').click(function () {
             currentPage++;
             if (currentPage > totalPage) {
@@ -113,79 +170,91 @@
             // getAllType($('#txtSearch').val());
             getAllType(houseid);
         })
-
         function getAllType(houseid) {
-            console.log("222222");
-            console.log(houseid)
-            console.log(currentPage)
-
             $('tbody').empty();
+            var typeid = $('#typename').val()
+            var pageNum = $('#pageNum').val()
+            // console.log("dadsad"+typeid)
             $.post('../query_page1.do',
-                {houseid: houseid, currPage: currentPage},
+                {holdid:holdid, houseid: houseid, currPage: currentPage, typeid: typeid,pageNum:pageNum},
                 function (data) {
-                console.log(data);
-                $('#showPage').text('共' + data.page.totalRecord + '条数据，当前' + currentPage + '/' + data.page.totalPage + '页')
-                totalPage = data.page.totalPage;
+                    // console.log(data);
+                    $('#showPage').text('共' + data.page.totalRecord + '条数据，当前' + currentPage + '/' + data.page.totalPage + '页')
+                    totalPage = data.page.totalPage;
+                    console.log(data);
+                    var housetarget=data.data.buildingid+"-"+data.data.unitid+"-"+data.data.numberid;
+
+
+                    if (data.code == 200) {
+                        // console.log(data);
+                        $.each(data.result, function (index, obj) {
+                            var tr = $('<tr></tr>');
+                            var td1 = $('<td></td>').text(obj.costid);
+                            var td2 = $('<td></td>').text(housetarget);
+                            var td3 = $('<td></td>').text(obj.costprice);
+                            // var td4 = $('<td></td>').text(obj.typeid);
+                            var td5 = $('<td></td>').text(obj.typename);
+                            tr.append(td1).append(td2).append(td3).append(td5);
+                            $('tbody').append(tr);
+
+                        })
+                    }
+                }, "JSON");
+        }
+
+        function xxx() {
+            $('#btnFirst').trigger('click')
+        }
+        xxx()
+    })
+    function getcosttypename() {
+
+
+        $('#typename').empty();
+        var options = $('<option></option>>').val(0)
+        options.text("全部缴费")
+
+        // $('<option></option>>').text("sdaahdfaslfja")
+        $('#typename').append(options)
+        $.post('../costtypeselcet.do',
+            {},
+            function (data) {
                 console.log(data);
                 if (data.code == 200) {
                     console.log(data);
                     $.each(data.result, function (index, obj) {
-                        var tr = $('<tr></tr>');
-                        var td1 = $('<td></td>').text(obj.costid);
-                        var td2 = $('<td></td>').text(obj.houseid);
-                        var td3 = $('<td></td>').text(obj.costprice);
-                        var td4 = $('<td></td>').text(obj.typeid);
-                        var td5 = $('<td></td>').text(obj.typename);
-                        tr.append(td1).append(td2).append(td3).append(td4).append(td5);
-                        $('tbody').append(tr);
+                        var options = $('<option></option>>').val(obj.typeid)
+                        options.text(obj.typename)
+                        // var options=$('<option></option>>')
+                        // var tr = $('<tr></tr>');
+                        // var td1 = $('<td></td>').text(obj.costid);
+                        // var td2 = $('<td></td>').text(obj.houseid);
+                        // var td3 = $('<td></td>').text(obj.costprice);
+                        // // var td4 = $('<td></td>').text(obj.typeid);
+                        // var td5 = $('<td></td>').text(obj.typename);
+                        // tr.append(td1).append(td2).append(td3).append(td5);
+                        $('#typename').append(options);
 
                     })
                 }
             }, "JSON");
+    }
 
-        }
-        function xxx(){$('#btnFirst').trigger('click')}
-        xxx()
-        // getAllStaff();
-    })
-
-    // function getAllStaff() {
-    //     $.post('../query_staff.do', function (data) {
-    //         if (data.code == 200) {
-    //             $.each(data.result, function (index, obj) {
-    //                 console.log(obj);
-    //                 var tr = $('<tr></tr>');
-    //                 var td1 = $('<td></td>').text(obj.staffname);
-    //                 var td2 = $('<td></td>').text(obj.stafftel);
-    //                 var td3 = $('<td></td>').text(obj.deptid);
-    //             // class="table-action"
-    //                 var iedit = $('<i></i>').attr('class',"align-middle").attr('data-feather',"edit-2");
-    //                 var itrash = $('<i></i>').attr('class',"align-middle").attr('data-feather',"trash");
-    //                 var aTitle = $('<a></a>').attr('href',"#").append(iedit).append(itrash);
-    //                 var td4 = $('<td></td>').attr('class',"table-action").append(aTitle);
-    //                 tr.append(td1).append(td2).append(td3).append(td4);
-    //                 $('tbody').append(tr);
-    //
-    //             })
-    //         }
-    //     }, "JSON");
-    // }
 </script>
 <!-- ———————————————————————————————————————————————————————————————————— -->
 <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="../assets/js/bui-min.js"></script>
-
 <script type="text/javascript" src="../assets/js/config-min.js"></script>
 <script type="text/javascript">
     BUI.use('common/page');
 </script>
 <!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
 <script type="text/javascript" src="../assets/js/prettify.js"></script>
-<script type="text/javascript">
-    $(function () {
-        prettyPrint();
-    });
-</script>
+<!--<script type="text/javascript">-->
+<!--    // $(function () {-->
+<!--    //     prettyPrint();-->
+<!--    // });-->
+<!--</script>-->
 
 </body>
 </html>  

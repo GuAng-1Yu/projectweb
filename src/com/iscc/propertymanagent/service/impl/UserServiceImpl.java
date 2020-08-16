@@ -1,13 +1,21 @@
 package com.iscc.propertymanagent.service.impl;
 
 
+import com.iscc.propertymanagent.dao.CostDAO;
+import com.iscc.propertymanagent.dao.CosttypeDAO;
 import com.iscc.propertymanagent.dao.UserDAO;
+import com.iscc.propertymanagent.dao.impl.CosttypeDAOImpl;
 import com.iscc.propertymanagent.dao.impl.UserDAOImpl;
+import com.iscc.propertymanagent.domain.Costtype;
+import com.iscc.propertymanagent.domain.House;
 import com.iscc.propertymanagent.domain.Household;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.domain.User;
 import com.iscc.propertymanagent.service.UserService;
+import com.iscc.propertymanagent.util.DataSourceUtil;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -15,6 +23,7 @@ import java.util.Scanner;
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO = new UserDAOImpl();
+    private CosttypeDAO costtypeDAO =new CosttypeDAOImpl();
 
     @Override
     public int addUser(User user) {
@@ -48,18 +57,54 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Map<String,Object>> queryAllTypeByCondition(Map<String, Object> params) {
-        return userDAO.houseidcostQuery(params);
+    public List<Map<String,Object>> queryAllTypeByCondition(Map<String, Object> params ,int typeid) {
+        return userDAO.houseidcostQuery(params , typeid);
     }
 
     @Override
-    public List<Map<String,Object>> queryAllTypeByCondition(int houseid) {
-        return userDAO.houseidcostQuery(houseid);
+    public List<Map<String,Object>> queryAllTypeByCondition(int houseid ,int typeid) {
+        return userDAO.houseidcostQuery(houseid,typeid);
     }
 
     @Override
     public int userPasswordedit(Household household) {
         return  userDAO.ueserEditPassword(household);
+    }
+
+    @Override
+    public List<Costtype> getcostbycostid(String typename) {
+        return costtypeDAO.queryAllTypeByCondition( typename);
+    }
+
+    @Override
+    public int uesredit(Household household, House house) {
+
+        Connection conn = null;
+        int result = -1;
+        try {
+            conn = DataSourceUtil.getConnection();
+            conn.setAutoCommit(false);
+
+            int houseRs=userDAO.editHouse(conn,house);
+            int householdRs=userDAO.editHousehold(conn,household);
+
+
+            if (houseRs != -1 && householdRs != -1) {
+                conn.commit();
+                result = 1;
+            } else {
+                conn.rollback();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+
     }
 
 

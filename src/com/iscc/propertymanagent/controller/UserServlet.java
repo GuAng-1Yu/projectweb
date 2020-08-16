@@ -2,6 +2,7 @@ package com.iscc.propertymanagent.controller;
 
 import com.alibaba.druid.support.spring.stat.SpringStatUtils;
 import com.google.gson.Gson;
+import com.iscc.propertymanagent.domain.Costtype;
 import com.iscc.propertymanagent.domain.Household;
 import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.domain.Staff;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet({"/register.do","/login.do","/stafflogin.do","/detailquery.do","/query_page1.do"})
+@WebServlet({"/register.do","/login.do","/stafflogin.do","/detailquery.do","/query_page1.do","/costtypeselcet.do"})
 public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -124,21 +125,22 @@ public class UserServlet extends HttpServlet {
             String str = gosn.toJson(resultMap);
             out.print(str);
         }else  if ("query_page1.do".equals(action)){
-            System.out.println(1233);
+//            System.out.println(1233);
            int houseid = Integer.parseInt( request.getParameter("houseid"));
-            List<Map<String, Object>> costlist = userService.queryAllTypeByCondition(houseid);
-//            System.out.println(costlist);
+           int typeid = Integer.parseInt( request.getParameter("typeid"));
+            List<Map<String, Object>> costlist = userService.queryAllTypeByCondition(houseid ,typeid);
+            System.out.println(typeid);
             int currPage = 1;
-            int pageNum = 2;
+            int pageNum = 3;
             try {
                 currPage = Integer.parseInt(request.getParameter("currPage"));
             } catch (Exception e) {
             }
-//            try {
-//                currPage = Integer.parseInt(request.getParameter("pageNum"));
-//            } catch (Exception e) {
-//
-//            }
+            try {
+                pageNum = Integer.parseInt(request.getParameter("pageNum"));
+            } catch (Exception e) {
+
+            }
             Pager<Map<String, Object>> mapPager = new Pager<>(currPage, pageNum, costlist);
             System.out.println(mapPager);
             Map<String, Object> map = new HashMap<>();
@@ -146,19 +148,33 @@ public class UserServlet extends HttpServlet {
             map.put("page", mapPager);
             // map.put("offset",pageNum);
 //            System.out.println(map);
-            List<Map<String, Object>> maps = userService.queryAllTypeByCondition(map);
+            List<Map<String, Object>> maps = userService.queryAllTypeByCondition(map , typeid);
+            int holdid= Integer.parseInt(request.getParameter("holdid"));
+            Map<String, Object> detailmap = userService.detailQuery(holdid);
 
             resultMap.put("code", 200);
             resultMap.put("msg", "查询类别成功");
             resultMap.put("page", mapPager);
             resultMap.put("result", maps);
+            resultMap.put("data",detailmap);
             String str = gosn.toJson(resultMap);
             out.print(str);
-        }
+        } else if ("costtypeselcet.do".equals(action)) {
+            String name = request.getParameter("typename");
+            List<Costtype> types = userService.getcostbycostid(name);
+            if (types.size() > 0) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "查询数据成功");
+                resultMap.put("result", types);
+            } else {
+                resultMap.put("code", 201);
+                resultMap.put("msg", "暂无类别数据");
+            }
+            String str = gosn.toJson(resultMap);
+            out.print(str);
 
 
-
-    }
+    }}
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);

@@ -1,12 +1,15 @@
 package com.iscc.propertymanagent.service;
 
 
-import com.iscc.propertymanagent.domain.Household;
-import com.iscc.propertymanagent.domain.Staff;
-import com.iscc.propertymanagent.domain.User;
+        import com.iscc.propertymanagent.domain.Cost;
+        import com.iscc.propertymanagent.domain.Costtype;
+        import com.iscc.propertymanagent.domain.House;
+        import com.iscc.propertymanagent.domain.Household;
+        import com.iscc.propertymanagent.domain.Staff;
+        import com.iscc.propertymanagent.domain.User;
 
-import java.util.List;
-import java.util.Map;
+        import java.util.List;
+        import java.util.Map;
 
 public interface UserService {
     int addUser(User user);
@@ -16,12 +19,20 @@ public interface UserService {
     Household holdlogin(int holdid);
 
     Staff stafflogin(int staffid);
- List<Map<String,Object>> holdinfoQuery(int holdid);
-    Map<String,Object> detailQuery(int holdid);
 
-//    Type queryTypeById(int id);
-List<Map<String,Object>> queryAllTypeByCondition(Map<String, Object> params);
-    List<Map<String,Object>> queryAllTypeByCondition(int houseid);
+    List<Map<String, Object>> holdinfoQuery(int holdid);
+
+    Map<String, Object> detailQuery(int holdid);
+
+    //    Type queryTypeById(int id);
+    List<Map<String, Object>> queryAllTypeByCondition(Map<String, Object> params ,int typeid);
+
+    List<Map<String, Object>> queryAllTypeByCondition(int houseid ,int typeid);
+
     int userPasswordedit(Household household);
+
+    List<Costtype> getcostbycostid(String  typename);
+
+    int uesredit(Household household , House house);
 
 }

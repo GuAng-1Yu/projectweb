@@ -1,6 +1,7 @@
 package com.iscc.propertymanagent.dao.impl;
 
 import com.iscc.propertymanagent.dao.UserDAO;
+import com.iscc.propertymanagent.domain.House;
 import com.iscc.propertymanagent.domain.Household;
 import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.domain.Staff;
@@ -194,12 +195,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<Map<String, Object>> houseidcostQuery(int houseid) {
+    public List<Map<String, Object>> houseidcostQuery(int houseid, int typeid) {
         System.out.println("houseidcostQuery1");
         List<Map<String, Object>> costlist = new ArrayList<>();
         String sql = " SELECT * FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
-//        if (name != null && !"".equals(name.trim())) {
-//            sql += " and tname like concat('%',?,'%')";
+        if (typeid != 0) {
+            sql += " and c.typeid = ? ";
+        }
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
@@ -207,7 +209,10 @@ public class UserDAOImpl implements UserDAO {
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
-            if (houseid != 0 && !"".equals(houseid)) {
+            if (typeid != 0) {
+                psmt.setInt(1, houseid);
+                psmt.setInt(2, typeid);
+            } else {
                 psmt.setInt(1, houseid);
             }
             rs = psmt.executeQuery();
@@ -219,6 +224,7 @@ public class UserDAOImpl implements UserDAO {
                 resultmap.put("typeid", rs.getInt(4));
                 resultmap.put("typename", rs.getString(6));
                 costlist.add(resultmap);
+//                    System.out.println("costlist="+resultmap);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -229,8 +235,8 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<Map<String, Object>> houseidcostQuery(Map<String, Object> params) {
-//        System.out.println("houseidcostQuery2");
+    public List<Map<String, Object>> houseidcostQuery(Map<String, Object> params, int typeid) {
+        System.out.println("houseidcostQuery2");
 
         List<Map<String, Object>> costlist = new ArrayList<>();
 //        String sql = "SELECT * FROM tab_type where 1=1";
@@ -244,28 +250,28 @@ public class UserDAOImpl implements UserDAO {
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
-        String sql = " SELECT * FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? limit ?, ?  ";
-//        sql += " limit ?,?";
-        int houseid = Integer.parseInt( params.get("houseid").toString());
-        System.out.println(houseid);
+        String sql = " SELECT * FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
+        if (typeid != 0) {
+            sql += " and c.typeid = ? ";
+        }
+        sql += " limit ?,?";
+        int houseid = Integer.parseInt(params.get("houseid").toString());
+//            System.out.println("houseid=" + houseid);
 //                params.get("houseid") == null ? null : params.get("houseid").toString();
 
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
-            if (houseid != 0) {
-
-//                System.out.println(params.get("page"));
-//                System.out.println(params.get("page"));
-
+            if (typeid != 0) {
                 psmt.setInt(1, houseid);
-            psmt.setInt(2, ((Pager) params.get("page")).getStart());
-            psmt.setInt(3, ((Pager) params.get("page")).getPageNum());
+                psmt.setInt(2, typeid);
+                psmt.setInt(3, ((Pager) params.get("page")).getStart());
+                psmt.setInt(4, ((Pager) params.get("page")).getPageNum());
+            } else {
+                psmt.setInt(1, houseid);
+                psmt.setInt(2, ((Pager) params.get("page")).getStart());
+                psmt.setInt(3, ((Pager) params.get("page")).getPageNum());
             }
-//            else {
-//                psmt.setInt(1, ((Pager) params.get("page")).getStart());
-//                psmt.setInt(2, ((Pager) params.get("page")).getPageNum());
-//            }
             rs = psmt.executeQuery();
             while (rs.next()) {
                 Map<String, Object> resultmap = new HashMap<>();
@@ -273,15 +279,15 @@ public class UserDAOImpl implements UserDAO {
                 resultmap.put("houseid", rs.getInt(2));
                 resultmap.put("costprice", rs.getString(3));
                 resultmap.put("typeid", rs.getInt(4));
-                resultmap.put("typename", rs.getString(6));
+                resultmap.put("typename", rs.getString(7));
                 costlist.add(resultmap);
-//                System.out.println("resultmap");
-//                System.out.println(resultmap);
+//                    System.out.println("resultmap");
+                System.out.println(resultmap);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
- DataSourceUtil.releaseResource(rs,psmt,conn);
+            DataSourceUtil.releaseResource(rs, psmt, conn);
         }
         return costlist;
 
@@ -299,9 +305,8 @@ public class UserDAOImpl implements UserDAO {
         try {
             conn = DataSourceUtil.getConnection();
             prst = conn.prepareStatement(spl);
-            prst.setString(1,household.getHoldpwd());
+            prst.setString(1, household.getHoldpwd());
             prst.setInt(2, household.getHoldid());
-
             rs = prst.executeUpdate();
             System.out.println("ueserEditPassword");
 
@@ -310,7 +315,58 @@ public class UserDAOImpl implements UserDAO {
         } finally {
             DataSourceUtil.releaseResource(prst, conn);
         }
-        System.out.println("rs"+rs);
+//        System.out.println("rs" + rs);
+        return rs;
+
+    }
+
+    @Override
+    public int editHouse(Connection conn, House house) {
+        PreparedStatement prst = null;
+        int rs = -1;
+        String spl = " UPDATE house_info SET housesta= ? WHERE houseid= ?";
+//        System.out.println("ueserEditPassword");
+        try {
+            conn = DataSourceUtil.getConnection();
+            prst = conn.prepareStatement(spl);
+            prst.setInt(1, house.getHousesta());
+            prst.setInt(2, house.getHouseid());
+            rs = prst.executeUpdate();
+//            System.out.println("ueserEditPassword");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+//            DataSourceUtil.releaseResource(prst, conn);
+        }
+//        System.out.println("rs" + rs);
+        return rs;
+
+    }
+
+    @Override
+    public int editHousehold(Connection conn, Household household) {
+
+        PreparedStatement prst = null;
+        int rs = -1;
+        String spl = " UPDATE household_info SET holdtel = ? ,holdnum= ? WHERE holdid= ?";
+//        System.out.println("ueserEditPassword");
+        try {
+            conn = DataSourceUtil.getConnection();
+            prst = conn.prepareStatement(spl);
+            prst.setString(1, household.getHoldtel());
+            prst.setInt(2, household.getHoldnum());
+            prst.setInt(3, household.getHoldid());
+
+            rs = prst.executeUpdate();
+//            System.out.println("ueserEditPassword");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+//            DataSourceUtil.releaseResource(prst, conn);
+        }
+//        System.out.println("rs" + rs);
         return rs;
 
     }

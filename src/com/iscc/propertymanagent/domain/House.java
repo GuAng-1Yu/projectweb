@@ -15,4 +15,9 @@ public class House implements Serializable {
     private int  unitid;
     private String  numberid;
     private int  housesta;
+
+    public House(int houseid, int housesta) {
+        this.houseid=houseid;
+        this.housesta=housesta;
+    }
 }

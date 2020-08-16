@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png"/>
 
     <title>Tables</title>
 
     <link href="css/app.css" rel="stylesheet">
     <style type="text/css">
-        .col-12{width: 900px;
+        .col-12 {
+            width: 900px;
             margin-top: 10%;
             margin-left: auto;
             margin-right: auto;
-           }
+        }
     </style>
 
 </head>
@@ -20,8 +21,8 @@
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-<!--            <h5 class="card-title">Always responsive</h5>-->
-<!--            <h6 class="card-subtitle text-muted">Across every breakpoint, use <code>.table-responsive</code> for horizontally scrolling tables.</h6>-->
+            <!--            <h5 class="card-title">Always responsive</h5>-->
+            <!--            <h6 class="card-subtitle text-muted">Across every breakpoint, use <code>.table-responsive</code> for horizontally scrolling tables.</h6>-->
         </div>
         <div class="table-responsive">
             <table class="table mb-0">
@@ -32,11 +33,11 @@
                     <th scope="col">房屋ID</th>
                     <th scope="col">家庭用户电话</th>
                     <th scope="col">家庭人数</th>
-                    <th scope="col">楼号ID</th>
-                    <th scope="col">单元ID</th>
-                    <th scope="col">门牌号ID</th>
+                    <th scope="col">房屋地址</th>
+                    <!--                    <th scope="col">单元ID</th>-->
+                    <!--                    <th scope="col">门牌号ID</th>-->
                     <th scope="col">房屋状态</th>
-<!--                    <th scope="col">Heading</th>-->
+                    <!--                    <th scope="col">Heading</th>-->
                 </tr>
                 </thead>
                 <tbody>
@@ -46,11 +47,11 @@
                     <td id="houseid">未知</td>
                     <td id="holdtel">未知</td>
                     <td id="holdnum">未知</td>
-                    <td id="buildingid">未知</td>
-                    <td id="unitid">未知</td>
-                    <td id="numberid">未知</td>
+                    <td id="housetarget">未知</td>
+                    <!--                    <td id="unitid">未知</td>-->
+                    <!--                    <td id="numberid">未知</td>-->
                     <td id="housesta">未知</td>
-<!--                    <td id="">Cell</td>-->
+                    <!--                    <td id="">Cell</td>-->
                 </tr>
 
                 </tbody>
@@ -67,26 +68,25 @@
         // var holdid = sessionStorage.getItem("holdid");
         var item = sessionStorage.getItem('user');
         var s = JSON.parse(item)
-       var holdid=s.holdid
+        var holdid = s.holdid
 
         $.post(
             'detailquery.do',
-            {holdid:holdid},
+            {holdid: holdid},
             function (data) {
-                if(data.code==200){
-               $('#holdid').text(data.data.holdid)
-               $('#houseid').text(data.data.houseid)
-               $('#holdtel').text(data.data.holdtel)
-               $('#holdnum').text(data.data.holdnum)
-               $('#buildingid').text(data.data.buildingid)
-               $('#unitid').text(data.data.unitid)
-               $('#numberid').text(data.data.numberid)
-               $('#housesta').text(data.data.housesta)
-               // $('#holdid').text(data.data.holdid)
-               // $('#holdid').text(data.data.holdid)
-                }
-            },'JSON'
+                if (data.code == 200) {
+                    $('#holdid').text(data.data.holdid)
+                    $('#houseid').text(data.data.houseid)
+                    $('#holdtel').text(data.data.holdtel)
+                    $('#holdnum').text(data.data.holdnum)
+                    var housetarget = data.data.buildingid + "-" + data.data.unitid + "-" + data.data.numberid;
+                    $('#housetarget').text(housetarget)
 
+
+                    $('#housesta').text(data.data.housesta)
+
+                }
+            }, 'JSON'
         )
 
     })
