@@ -55,7 +55,9 @@
 </body>
 <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="js/layer/layer.js"></script>
+<!--<script type="text/javascript" src="js/jquery.cookie.js"></script>-->
 <script type="text/javascript">
+
     $(function () {
         $('#btnRegister').click(function () {
             if ($('#selection').val() == 0) {
@@ -78,6 +80,7 @@
                     } else {alert(data.msg);}
                     },
                     'json')
+                // setCookie();
             }
             else if($('#selection').val() == 1) {
                 if ($('#txtAccount').val() == '' || $('#txtPwd').val() == '') {
@@ -102,9 +105,40 @@
                             alert(data.msg);
                         }
                     }, 'json')
+                // setCookie();
             }
         })
-        })
+        //
+        // function setCookie(){
+        //     var loginCode = $("#txtAccount").val(); //获取用户名信息
+        //     var pwd = $("#txtPwd").val(); //获取登陆密码信息
+        //
+        //     if ( $("input[type='checkbox']").is(':checked')){
+        //
+        //         var date = new Date();
+        //         date.setTime(date.getTime()+60*1000);//只能这么写，60表示60秒钟
+        //         console.log("cookie过期时间："+date);
+        //         $.cookie("login_code",loginCode)
+        //         $.cookie("pwd",$.base64.encode(pwd))
+        //         // $.cookie("login_code",loginCode,{ expires: date, path: '/' });//调用jquery.cookie.js中的方法设置cookie中的用户名
+        //         // $.cookie("pwd",$.base64.encode(pwd),{ expires: date, path: '/' });//调用jquery.cookie.js中的方法设置cookie中的登陆密码，并使用base64（jquery.base64.js）进行加密
+        //
+        //     }  else{
+        //         // $.cookie("login_code", null);
+        //         // $.cookie("pwd", null);
+        //     }
+        //
+        // }
+
+
+
+
+    })
+
+
+
+
+
 </script>
 </html>
 
