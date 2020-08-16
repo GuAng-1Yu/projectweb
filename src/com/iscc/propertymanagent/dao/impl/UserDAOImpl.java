@@ -319,7 +319,7 @@ public class UserDAOImpl implements UserDAO {
         return rs;
 
     }
-
+//zz
     @Override
     public int editHouse(Connection conn, House house) {
         PreparedStatement prst = null;
