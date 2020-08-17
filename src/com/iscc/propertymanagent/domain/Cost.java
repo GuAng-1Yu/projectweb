@@ -16,12 +16,12 @@ public class Cost implements Serializable {
     private int costid;
     private int houseid;
     private double costprice;
-    private int typeid;
-
-    public Cost(int houseid, double costprice, int typeid) {
+    private String typename;
+    private String createTime;
+    public Cost(int houseid, double costprice,String typename) {
         this.houseid = houseid;
         this.costprice = costprice;
-        this.typeid = typeid;
+        this.typename=typename;
     }
 
 }

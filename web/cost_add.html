@@ -7,11 +7,11 @@
 <body>
     房屋编号：<input type="text" name="prodName" id="prodName"><br>
     缴费金额：<input type="text" name="prodPrice" id="prodPrice"><br>
-    缴费类别编号<select id="prodId" name="prodId"><option></option></select><br>
+    缴费类别<select id="prodId" name="prodId"><option></option></select><br>
     <!--缴费类别：
       <select id="prodType" name="prodType"></select>
     <br>-->
-    <button type="button" id="btnSaveProduct">发布信息</button>
+    <button type="button" id="btnSaveProduct">创建缴费信息</button>
 </body>
 <script src="js/jquery-3.2.1.js"></script>
 <script src="js/layer/layer.js"></script>
@@ -27,7 +27,7 @@
                 url:'add_cost.do',
                 data: {houseid:$('#prodName').val(),
                     costprice:$('#prodPrice').val(),
-                    typeid:$('#prodId').val()
+                    typename:$('#prodId').val()
                 },
                 dataType: 'json',
                 type: 'get',
@@ -51,8 +51,8 @@
             if (data.code == 200) {
                 $.each(data.result, function (index, obj) {
                     var opt = $('<option></option>');
-                    opt.text(obj.typeid);
-                    opt.val(obj.typeid);
+                    opt.text(obj.typename);
+                    opt.val(obj.typename);
                     $('#prodId').append(opt);
                 })
             }

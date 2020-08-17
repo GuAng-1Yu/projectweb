@@ -25,7 +25,8 @@
             <th>缴费编号</th>
             <th>房屋编号</th>
             <th>缴费金额</th>
-            <th>缴费类别编号</th>
+            <th>缴费类别</th>
+            <th>缴费时间</th>
             <!--<th>缴费类别</th>-->
             <th>操作</th>
         </tr>
@@ -96,9 +97,10 @@
                     var td1 = $('<td></td>').text(obj.costid);
                     var td2 = $('<td></td>').text(obj.houseid);
                     var td3 = $('<td></td>').text(obj.costprice);
-                    var td4 = $('<td></td>').text(obj.typeid);
-                    var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.costid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.costid + ')" class="btn btn-danger">删除</button>');
-                    tr.append(td1).append(td2).append(td3).append(td4).append(td5);
+                    var td4 = $('<td></td>').text(obj.typename);
+                    var td5 = $('<td></td>').text(obj.createTime);
+                    var td6 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.costid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.costid + ')" class="btn btn-danger">删除</button>');
+                    tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
                     $('tbody').append(tr);
                 })
             }

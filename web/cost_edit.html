@@ -8,7 +8,7 @@
 <input type="hidden" id="txtCostid">
 房屋编号：<input type="text" name="prodName" id="prodName"><br>
 缴费金额：<input type="text" name="prodPrice" id="prodPrice"><br>
-缴费类别编号<select id="prodId" name="prodId"><option></option></select><br>
+缴费类别<select id="prodId" name="prodId"><option></option></select><br>
 <button type="button" id="btnSaveType">保存</button>
 </body>
 <script src="js/jquery-3.2.1.js"></script>
@@ -31,7 +31,7 @@
                 $('#txtCostid').val(costid);
                 $('#prodName').val(data.result.houseid);
                 $('#prodPrice').val(data.result.costprice);
-                $('#prodId').val(data.result.typeid);
+                $('#prodId').val(data.result.typename);
 
             }
         })
@@ -41,7 +41,7 @@
                 costid: $('#txtCostid').val(),
                 houseid: $('#prodName').val(),
                 costprice: $('#prodPrice').val(),
-                typeid: $('#prodId').val()
+                typename: $('#prodId').val()
             }, function (data) {
                 //console.log(data);
                 if (data.code == 200) {
@@ -60,8 +60,8 @@
             if (data.code == 200) {
                 $.each(data.result, function (index, obj) {
                     var opt = $('<option></option>');
-                    opt.text(obj.typeid);
-                    opt.val(obj.typeid);
+                    opt.text(obj.typename);
+                    opt.val(obj.typename);
                     $('#prodId').append(opt);
                 })
             }

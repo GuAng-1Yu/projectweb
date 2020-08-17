@@ -44,7 +44,7 @@ doGet(request,response);
         }else if ("add_cost.do".equals(action)) {
             int id = Integer.parseInt(request.getParameter("houseid"));
             double price = Double.parseDouble(request.getParameter("costprice"));
-             int  type = Integer.parseInt(request.getParameter("typeid"));
+            String  type =request.getParameter("typename");
             Cost cost = new Cost(id,price,type);
             int result = costService.addCost(cost);
             if (result != -1) {
@@ -82,8 +82,9 @@ doGet(request,response);
             int costid = Integer.parseInt(request.getParameter("costid"));
             int houseid = Integer.parseInt(request.getParameter("houseid"));
             double costprice = Double.parseDouble(request.getParameter("costprice"));
-            int typeid=Integer.parseInt(request.getParameter("typeid"));
-            Cost cost = new Cost(costid, houseid,costprice,typeid);
+            String typename=request.getParameter("typename");
+            String createTime=request.getParameter("createTime");
+            Cost cost = new Cost(costid, houseid,costprice,typename,createTime);
             int result = costService.updateCost(cost);
             if (result != -1) {
                 resultMap.put("code", 200);
