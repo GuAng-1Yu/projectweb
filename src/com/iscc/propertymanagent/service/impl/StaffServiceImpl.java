@@ -2,6 +2,7 @@ package com.iscc.propertymanagent.service.impl;
 
 import com.iscc.propertymanagent.dao.impl.StaffDaoImpl;
 import com.iscc.propertymanagent.domain.Dept;
+import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.service.StaffService;
 
@@ -15,6 +16,11 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public List<Map> queryStaff() {
         return staffDao.queryStaff();
+    }
+
+    @Override
+    public List<Map> queryStaffWithPage(Pager pager) {
+        return staffDao.queryStaffWithPage(pager);
     }
 
     @Override

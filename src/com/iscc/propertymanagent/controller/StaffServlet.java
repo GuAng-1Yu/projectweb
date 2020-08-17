@@ -2,6 +2,7 @@ package com.iscc.propertymanagent.controller;
 
 import com.google.gson.Gson;
 import com.iscc.propertymanagent.domain.Dept;
+import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.service.StaffService;
 import com.iscc.propertymanagent.service.impl.StaffServiceImpl;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet({"/query_staff.do", "/add_Staff.do", "/update_Staff.do", "/del_Staff.do", "/get_all_dept.do"})
+@WebServlet({"/query_staff.do", "/add_Staff.do", "/update_Staff.do", "/del_Staff.do", "/get_all_dept.do", "/staff_page.do"})
 public class StaffServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -31,7 +32,7 @@ public class StaffServlet extends HttpServlet {
         StaffService staffService = new StaffServiceImpl();
         HashMap<Object, Object> resultMap = new HashMap<>();
         if ("query_staff.do".equals(action)) {
-            List<Map> resultSet = staffService.queryStaff();
+            /*List<Map> resultSet = staffService.queryStaff();
             if (resultSet.size() > 0) {
                 resultMap.put("code", 200);
                 resultMap.put("msg", "查询成功");
@@ -39,7 +40,7 @@ public class StaffServlet extends HttpServlet {
             } else {
                 resultMap.put("code", 201);
                 resultMap.put("msg", "数据走丢了，请稍后重试");
-            }
+            }*/
         } else if ("add_Staff.do".equals(action)) {
             String staffName = request.getParameter("staffName");
             String staffTel = request.getParameter("staffTel");
@@ -76,6 +77,24 @@ public class StaffServlet extends HttpServlet {
                 resultMap.put("code", 200);
                 resultMap.put("msg", "部门查询成功");
                 resultMap.put("result", result);
+            }
+        } else if ("staff_page.do".equals(action)) {
+            int currPage = 1;
+            int pageNum = 2;
+
+            currPage = Integer.parseInt(request.getParameter("currPage"));
+
+            List<Map> resultSet = staffService.queryStaff();
+            Pager<Map> pager = new Pager<>(currPage, 2, resultSet);
+            List<Map> maps = staffService.queryStaffWithPage(pager);
+            if (resultSet.size() > 0) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "PageStaff查询成功");
+                resultMap.put("result", maps);
+                resultMap.put("pager", pager);
+            } else {
+                resultMap.put("code", 201);
+                resultMap.put("msg", "数据走丢了，请稍后重试");
             }
         }
         String resultStr = gson.toJson(resultMap);

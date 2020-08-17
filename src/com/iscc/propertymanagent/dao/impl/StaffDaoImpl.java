@@ -3,6 +3,7 @@ package com.iscc.propertymanagent.dao.impl;
 
 import com.iscc.propertymanagent.dao.StaffDAO;
 import com.iscc.propertymanagent.domain.Dept;
+import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.util.DataSourceUtil;
 
@@ -29,6 +30,37 @@ public class StaffDaoImpl implements StaffDAO {
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
+            rs = psmt.executeQuery();
+            while (rs.next()) {
+                Map<String,Object> resultMap = new HashMap<>();
+                resultMap.put("staffid",rs.getInt(1));
+                resultMap.put("staffname",rs.getString(2));
+                resultMap.put("stafftel",rs.getString(3));
+                resultMap.put("deptid0",rs.getInt(4));
+                resultMap.put("stafflev",rs.getInt(5));
+                resultMap.put("deptid1",rs.getInt(6));
+                resultMap.put("deptname",rs.getString(7));
+                results.add(resultMap);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+
+    @Override
+    public List<Map> queryStaffWithPage(Pager pager) {
+
+        String sql = "SELECT * FROM staff_info s,dept d WHERE s.deptid = d.deptid LIMIT ?,?;";
+        List<Map> results = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            psmt.setInt(1,pager.getStart());
+            psmt.setInt(2,pager.getPageNum());
             rs = psmt.executeQuery();
             while (rs.next()) {
                 Map<String,Object> resultMap = new HashMap<>();
