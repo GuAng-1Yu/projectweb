@@ -28,32 +28,26 @@ public class UserEditServlet extends HttpServlet {
         UserService userService = new UserServiceImpl();
         PrintWriter out = response.getWriter();
         String uri = request.getRequestURI();
-//        System.out.println("1");
         Gson gosn = new Gson();
-//        System.out.println("2");
         String action = uri.substring(uri.lastIndexOf("/") + 1);
         Map<String, Object> resultMap = new HashMap<>();
         if ("UserEdit_z.do".equals(action)) {
             int holdid = Integer.parseInt(request.getParameter("holdid"));
             String holdtel = request.getParameter("holdtel");
-
             int houseid = Integer.parseInt(request.getParameter("houseid"));
-            System.out.println("2");
-            System.out.println(houseid);
             int holdnum = Integer.parseInt(request.getParameter("holdnum"));
             int housesta = Integer.parseInt(request.getParameter("housesta"));
             Household household = new Household(holdid, holdtel, holdnum);
             House house = new House(houseid, housesta);
             int result = -1;
             result = userService.uesredit(household, house);
-         if (result!=-1)
-         {
-             resultMap.put("code", 200);
-             resultMap.put("msg", "修改密码成功");
-         }else {
-             resultMap.put("code", 202);
-             resultMap.put("msg", "修改失败");
-         }
+            if (result != -1) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "修改密码成功");
+            } else {
+                resultMap.put("code", 202);
+                resultMap.put("msg", "修改失败");
+            }
             String str = gosn.toJson(resultMap);
             out.print(str);
 
@@ -61,25 +55,19 @@ public class UserEditServlet extends HttpServlet {
             int holdid = Integer.parseInt(request.getParameter("holdid"));
             String password = request.getParameter("password");
             int key = Integer.parseInt(request.getParameter("key"));
-
-            System.out.println(key + "+++++");
             if (key != 1) {
-                System.out.println(key);
                 resultMap.put("code", 202);
                 resultMap.put("msg", "密码格式不对！");
             } else {
                 Household household = new Household(holdid, password);
                 int rs = userService.userPasswordedit(household);
-                System.out.println("serverletrs" + rs);
                 if (rs != -1) {
                     resultMap.put("code", 200);
                     resultMap.put("msg", "修改密码成功");
-//                resultMap.put("result", holdlogin);
                 } else {
                     resultMap.put("code", 202);
                     resultMap.put("msg", "修改密码失败！");
                 }
-
             }
             String str = gosn.toJson(resultMap);
             out.print(str);

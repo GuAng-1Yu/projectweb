@@ -9,6 +9,7 @@ import com.iscc.propertymanagent.domain.Staff;
 import com.iscc.propertymanagent.domain.User;
 import com.iscc.propertymanagent.service.UserService;
 import com.iscc.propertymanagent.service.impl.UserServiceImpl;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet({"/register.do","/login.do","/stafflogin.do","/detailquery.do","/query_page1.do","/costtypeselcet.do","/user_noticequery.do"})
+@WebServlet({"/register.do", "/login.do", "/stafflogin.do", "/detailquery.do", "/query_page1.do", "/costtypeselcet.do", "/user_noticequery.do"})
 public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -55,81 +56,77 @@ public class UserServlet extends HttpServlet {
             String str = gosn.toJson(resultMap);
 //            System.out.println("str = " + str);
             out.print(str);
-        }
-  else  if ("login.do".equals(action)){
+        } else if ("login.do".equals(action)) {
             String account = request.getParameter("account");
             String password = request.getParameter("password");
-            Household houser =null;
+            Household houser = null;
             int holdid = Integer.parseInt(account);
-            houser=userService.holdlogin(holdid);
-            if (houser!=null){
-                if (houser.getHoldpwd().equals(password)){
-                    resultMap.put("code",200);
-                    resultMap.put("msg","登录成功");
-                    resultMap.put("result",houser);
-                    session.setAttribute("holder",houser);
-                }else {
-                    resultMap.put("code",202);
-                    resultMap.put("msg","密码错误！");
+            houser = userService.holdlogin(holdid);
+            if (houser != null) {
+                if (houser.getHoldpwd().equals(password)) {
+                    resultMap.put("code", 200);
+                    resultMap.put("msg", "登录成功");
+                    resultMap.put("result", houser);
+                    session.setAttribute("holder", houser);
+                } else {
+                    resultMap.put("code", 202);
+                    resultMap.put("msg", "密码错误！");
                 }
-            }else {
-                resultMap.put("code",203);
-                resultMap.put("msg","账号或密码错误");
+            } else {
+                resultMap.put("code", 203);
+                resultMap.put("msg", "账号或密码错误");
             }
 
             String str = gosn.toJson(resultMap);
             out.print(str);
-        }
-        else  if ("stafflogin.do".equals(action)){
+        } else if ("stafflogin.do".equals(action)) {
             String account = request.getParameter("account");
             String password = request.getParameter("password");
-            Staff  staff=null;
+            Staff staff = null;
             int staffid = Integer.parseInt(account);
             staff = userService.stafflogin(staffid);
 //            System.out.println(staff);
-            if (staff!=null){
-                if (staff.getStafftel().equals(password)){
-                    resultMap.put("code",200);
-                    resultMap.put("msg","登录成功");
-                    resultMap.put("result",staff);
-                    session.setAttribute("staff",staff);
+            if (staff != null) {
+                if (staff.getStafftel().equals(password)) {
+                    resultMap.put("code", 200);
+                    resultMap.put("msg", "登录成功");
+                    resultMap.put("result", staff);
+                    session.setAttribute("staff", staff);
                     //取ssesion???..
 //                    System.out.println(((Staff)session.getAttribute("staff")).getDeptid());
-                }else {
-                    resultMap.put("code",202);
-                    resultMap.put("msg","密码错误！");
+                } else {
+                    resultMap.put("code", 202);
+                    resultMap.put("msg", "密码错误！");
                 }
-            }else {
-                resultMap.put("code",203);
-                resultMap.put("msg","账号或密码错误");
+            } else {
+                resultMap.put("code", 203);
+                resultMap.put("msg", "账号或密码错误");
 
             }
 
             String str = gosn.toJson(resultMap);
             out.print(str);
-        }
-        else if ("detailquery.do".equals(action)){
+        } else if ("detailquery.do".equals(action)) {
 
-            int holdid= Integer.parseInt(request.getParameter("holdid"));
+            int holdid = Integer.parseInt(request.getParameter("holdid"));
 
             Map<String, Object> detailmap = userService.detailQuery(holdid);
 
-            if (detailmap!=null){
-                resultMap.put("code",200);
-                resultMap.put("data",detailmap);
+            if (detailmap != null) {
+                resultMap.put("code", 200);
+                resultMap.put("data", detailmap);
 
-            }else {
-                resultMap.put("code",202);
+            } else {
+                resultMap.put("code", 202);
 
             }
             String str = gosn.toJson(resultMap);
             out.print(str);
-        }else  if ("query_page1.do".equals(action)){
+        } else if ("query_page1.do".equals(action)) {
 //            System.out.println(1233);
-           int houseid = Integer.parseInt( request.getParameter("houseid"));
-           int typeid = Integer.parseInt( request.getParameter("typeid"));
-            List<Map<String, Object>> costlist = userService.queryAllTypeByCondition(houseid ,typeid);
-            System.out.println(typeid);
+            int houseid = Integer.parseInt(request.getParameter("houseid"));
+            int typeid = Integer.parseInt(request.getParameter("typeid"));
+            List<Map<String, Object>> costlist = userService.queryAllTypeByCondition(houseid, typeid);
             int currPage = 1;
             int pageNum = 3;
             try {
@@ -142,21 +139,19 @@ public class UserServlet extends HttpServlet {
 
             }
             Pager<Map<String, Object>> mapPager = new Pager<>(currPage, pageNum, costlist);
-            System.out.println(mapPager);
             Map<String, Object> map = new HashMap<>();
             map.put("houseid", houseid);
             map.put("page", mapPager);
             // map.put("offset",pageNum);
 //            System.out.println(map);
-            List<Map<String, Object>> maps = userService.queryAllTypeByCondition(map , typeid);
-            int holdid= Integer.parseInt(request.getParameter("holdid"));
+            List<Map<String, Object>> maps = userService.queryAllTypeByCondition(map, typeid);
+            int holdid = Integer.parseInt(request.getParameter("holdid"));
             Map<String, Object> detailmap = userService.detailQuery(holdid);
-
             resultMap.put("code", 200);
             resultMap.put("msg", "查询类别成功");
             resultMap.put("page", mapPager);
             resultMap.put("result", maps);
-            resultMap.put("data",detailmap);
+            resultMap.put("data", detailmap);
             String str = gosn.toJson(resultMap);
             out.print(str);
         } else if ("costtypeselcet.do".equals(action)) {
@@ -172,13 +167,13 @@ public class UserServlet extends HttpServlet {
             }
             String str = gosn.toJson(resultMap);
             out.print(str);
-    }   else  if ("user_noticequery.do".equals(action)){
+        } else if ("user_noticequery.do".equals(action)) {
             System.out.println(1233);
-            int holdid = Integer.parseInt( request.getParameter("holdid"));
+            int holdid = Integer.parseInt(request.getParameter("holdid"));
             System.out.println(holdid);
-            int typename = Integer.parseInt( request.getParameter("typename"));
-            int timeNum = Integer.parseInt( request.getParameter("timeNum"));
-            List<Map<String, Object>> costlist = userService.holdnoticeQuery(holdid,typename,timeNum);
+            int typename = Integer.parseInt(request.getParameter("typename"));
+            int timeNum = Integer.parseInt(request.getParameter("timeNum"));
+            List<Map<String, Object>> costlist = userService.holdnoticeQuery(holdid, typename, timeNum);
             System.out.println(costlist);
             int currPage = 1;
             int pageNum = 5;
@@ -198,7 +193,7 @@ public class UserServlet extends HttpServlet {
             map.put("page", mapPager);
             // map.put("offset",pageNum);
 //            System.out.println(map);
-            List<Map<String, Object>> maps = userService.holdnoticeQuery(map,holdid,typename,timeNum);
+            List<Map<String, Object>> maps = userService.holdnoticeQuery(map, holdid, typename, timeNum);
 //            int holdid= Integer.parseInt(request.getParameter("holdid"));
 //            Map<String, Object> detailmap = userService.detailQuery(holdid);
 

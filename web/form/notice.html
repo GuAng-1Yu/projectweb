@@ -57,7 +57,7 @@
                 <div class="control-group span15">
                     <label class="control-label">通知内容：</label>
                     <div class="controls control-row4">
-                        <textarea name="memo" id="noticecon" class="input-large" type="text"></textarea>
+                        <textarea name="memo" id="noticecon" class="input-large"  style="height: 90px;width: 200px;resize: none;" type="text"></textarea>
                     </div>
                 </div>
             </div>
@@ -73,9 +73,10 @@
             <div class="row form-actions actions-bar">
                 <div class="span13 offset3 ">
                     <button type="button" class="button button-primary" id="btnRegister"> 发布</button>
-                    <button type="reset" class="button">重置</button>
+                    <button type="reset" class="button">清空</button>
                 </div>
             </div>
+
         </form>
     </div>
 </div>
@@ -99,7 +100,7 @@
         <!--        </div>-->
         <table class="table table-striped">
             <thead>
-            <tr>
+            <tr style="text-align: center" >
                 <th style="width:10%;">通知编号</th>
                 <th style="width:25%">通知消息</th>
                 <th class="d-none d-md-table-cell" style="width:25%">发布日期</th>
@@ -159,8 +160,13 @@
                      if(obj.holdid==0){newholdid="全体"};
                      var td4 = $('<td></td>').text(newholdid);
                      // var td5 = $('<td></td>').text(obj.holdid);
-                     var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.noticeid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.noticeid + ')" class="btn btn-danger">删除</button>');
-                     tr.append(td1).append(td2).append(td3).append(td4).append(td5);
+                     var iedit = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>');
+                     var itrash = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>');
+                     var aTitle = $('<a href="#"></a>').attr('onclick', "editType(" + obj.noticeid + ")").append(iedit);
+                     var bTitle = $('<a href="#"></a>').attr('onclick', "delType(" + obj.noticeid + ")").append(itrash);
+                     var td6 = $('<td class="table-action"></td>').append(aTitle).append(bTitle);
+                     // var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.noticeid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.noticeid + ')" class="btn btn-danger">删除</button>');
+                     tr.append(td1).append(td2).append(td3).append(td4).append(td6);
                      $('tbody').append(tr);
                  })
              }
@@ -214,8 +220,15 @@
                         if(holdid==0){holdid="全体"};
                         var td4 = $('<td></td>').text(holdid);
                         // var td5 = $('<td></td>').text(obj.holdid);
-                        var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.noticeid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.noticeid + ')" class="btn btn-danger">删除</button>');
-                        tr.append(td1).append(td2).append(td3).append(td4).append(td5);
+
+                        var iedit = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>');
+                        var itrash = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>');
+                        var aTitle = $('<a href="#"></a>').attr('onclick', "editType(" + obj.noticeid + ")").append(iedit);
+                        var bTitle = $('<a href="#"></a>').attr('onclick', "delType(" + obj.noticeid + ")").append(itrash);
+                        var td6 = $('<td class="table-action"></td>').append(aTitle).append(bTitle);
+
+                        // var td5 = $('<td></td>').html('<button type="button" onclick="editType(' + obj.noticeid + ')" class="btn btn-primary">编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="delType(' + obj.noticeid + ')" class="btn btn-danger">删除</button>');
+                        tr.append(td1).append(td2).append(td3).append(td4).append(td6);
                         $('tbody').append(tr);
                     })
                 }
