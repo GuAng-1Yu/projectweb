@@ -71,23 +71,23 @@
                         <option value="15">15条</option>
 
                     </select>
+                       <span id="showPage">共5条数据，当前1/3页</span>
+                       <div class="btn-group" style="margin-left: 650px" style="display: inline-block">
+                           <!--                        <span id="showPage">共5条数据，当前1/3页</span>-->
+                           <!--                        <i class="align-middle mr-2" data-feather="check-square"></i>-->
+                           <!--                        <div class="mb-2">-->
+                           <!--                            <i class="align-middle mr-2" data-feather="check-square"></i> <span class="align-middle">check-square</span>-->
+                           <!--                        </div>-->
+                           <button type="button" class="btn btn-group-sm" id="btnFirst">首页</button>
+                           <!--                        <button type="button" class="btn btn-group-sm" id="xxxxxx"><i class="align-middle mr-2" data-feather="check-square"></i></button>-->
+                           <button type="button" class="btn btn-group-sm" id="btnPrev">上一页</button>
+                           <button type="button" class="btn btn-group-sm" id="btnNext">下一页</button>
+                           <button type="button" class="btn btn-group-sm" id="btnLast">末页</button>
+                       </div>
+                   </div>
                 </div>
 
-                    <!--                <div class="btn-group" style="display: inline-block" style="margin-right: 0px">-->
-                    <span id="showPage">共5条数据，当前1/3页</span>
-                    <div class="btn-group" style="margin-left: 100px">
-<!--                        <span id="showPage">共5条数据，当前1/3页</span>-->
-<!--                        <i class="align-middle mr-2" data-feather="check-square"></i>-->
-<!--                        <div class="mb-2">-->
-<!--                            <i class="align-middle mr-2" data-feather="check-square"></i> <span class="align-middle">check-square</span>-->
-<!--                        </div>-->
-                        <button type="button" class="btn btn-group-sm" id="btnFirst">首页</button>
-<!--                        <button type="button" class="btn btn-group-sm" id="xxxxxx"><i class="align-middle mr-2" data-feather="check-square"></i></button>-->
-                        <button type="button" class="btn btn-group-sm" id="btnPrev">上一页</button>
-                        <button type="button" class="btn btn-group-sm" id="btnNext">下一页</button>
-                        <button type="button" class="btn btn-group-sm" id="btnLast">末页</button>
-                    </div>
-                </div>
+                <!--                <div class="btn-group" style="display: inline-block" style="margin-right: 0px">-->
 <!--                <div class="card-body">-->
 <!--                    <div class="row">-->
 <!--                        <div class="col-12 col-md-6 col-lg-3">-->
@@ -188,13 +188,14 @@
                     if (data.code == 200) {
                         // console.log(data);
                         $.each(data.result, function (index, obj) {
+                            console.log(obj.creatTime)
                             var tr = $('<tr></tr>');
                             var td1 = $('<td></td>').text(obj.costid);
                             var td2 = $('<td></td>').text(housetarget);
                             var td3 = $('<td></td>').text(obj.costprice);
-                            // var td4 = $('<td></td>').text(obj.typeid);
-                            var td5 = $('<td></td>').text(obj.typename);
-                            tr.append(td1).append(td2).append(td3).append(td5);
+                            var td4 = $('<td></td>').text(obj.typeid);
+                            var td5 = $('<td></td>').text(obj.creatTime);
+                            tr.append(td1).append(td2).append(td3).append(td4).append(td5);
                             $('tbody').append(tr);
 
                         })

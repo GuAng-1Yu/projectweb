@@ -34,5 +34,15 @@ public interface UserService {
     List<Costtype> getcostbycostid(String  typename);
 
     int uesredit(Household household , House house);
+    List<Map<String, Object>> holdnoticeQuery(Map<String, Object> params, int holdid, int typename, int timeNum);
+
+    List<Map<String, Object>> holdnoticeQuery(int holdid, int typename, int timeNum);
+
+
+
+
+
+
+
 
 }

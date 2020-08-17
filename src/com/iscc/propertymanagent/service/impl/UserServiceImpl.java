@@ -107,5 +107,15 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public List<Map<String, Object>> holdnoticeQuery(Map<String, Object> params, int holdid, int typename, int timeNum) {
+        return userDAO.holdnoticeQuery(params,holdid,typename,timeNum);
+    }
+
+    @Override
+    public List<Map<String, Object>> holdnoticeQuery(int holdid, int typename, int timeNum) {
+        return userDAO.holdnoticeQuery(holdid,typename,timeNum);
+    }
+
 
 }

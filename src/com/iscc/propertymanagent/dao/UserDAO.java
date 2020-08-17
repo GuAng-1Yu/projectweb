@@ -27,5 +27,7 @@ public interface UserDAO {
 
        int editHouse(Connection conn, House house);
        int editHousehold(Connection conn, Household household);
+    List<Map<String,Object>>  holdnoticeQuery(int holdid,int typename,int timeNum );
+    List<Map<String,Object>>  holdnoticeQuery(Map<String,Object>  costlist ,int holdid,int typename,int timeNum);
 
 }

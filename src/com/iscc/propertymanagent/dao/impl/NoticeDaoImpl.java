@@ -83,7 +83,7 @@ public class NoticeDaoImpl implements NoticeDAO {
     public Notice serch(int noticeid) {
         Notice notice = null;
 
-        String sql = " SELECT noticeid,noticecon,DATE_FORMAT(noticetime,'%Y-%m-%d %H:%i:%s') noticetime, holdid FROM notice where noticeid = ?";
+        String sql = " SELECT noticeid,noticecon,DATE_FORMAT(noticetime,'%Y-%m-%d %H:%i:%s') noticetime, holdid FROM notice where noticeid = ?      GROUP BY noticetime DESC   ";
         Connection conn = null;
         PreparedStatement prst = null;
         ResultSet rs = null;
@@ -141,7 +141,7 @@ public class NoticeDaoImpl implements NoticeDAO {
 //        Notice notice = null;
         List<Notice> notices = new ArrayList<>();
 
-        String sql = "  SELECT noticeid,noticecon,DATE_FORMAT(noticetime,'%Y-%m-%d %H:%i:%s'),holdid  FROM notice where holdid = ?";
+        String sql = "  SELECT noticeid,noticecon,DATE_FORMAT(noticetime,'%Y-%m-%d %H:%i:%s'),holdid  FROM notice where holdid = ?   GROUP BY noticetime DESC       ";
         Connection conn = null;
         PreparedStatement prst = null;
         ResultSet rs = null;

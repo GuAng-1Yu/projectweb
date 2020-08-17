@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet({"/register.do","/login.do","/stafflogin.do","/detailquery.do","/query_page1.do","/costtypeselcet.do"})
+@WebServlet({"/register.do","/login.do","/stafflogin.do","/detailquery.do","/query_page1.do","/costtypeselcet.do","/user_noticequery.do"})
 public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -172,9 +172,47 @@ public class UserServlet extends HttpServlet {
             }
             String str = gosn.toJson(resultMap);
             out.print(str);
+    }   else  if ("user_noticequery.do".equals(action)){
+            System.out.println(1233);
+            int holdid = Integer.parseInt( request.getParameter("holdid"));
+            System.out.println(holdid);
+            int typename = Integer.parseInt( request.getParameter("typename"));
+            int timeNum = Integer.parseInt( request.getParameter("timeNum"));
+            List<Map<String, Object>> costlist = userService.holdnoticeQuery(holdid,typename,timeNum);
+            System.out.println(costlist);
+            int currPage = 1;
+            int pageNum = 5;
+            try {
+                currPage = Integer.parseInt(request.getParameter("currPage"));
+            } catch (Exception e) {
+            }
+//            try {
+//                pageNum = Integer.parseInt(request.getParameter("pageNum"));
+//            } catch (Exception e) {
+//
+//            }
+            Pager<Map<String, Object>> mapPager = new Pager<>(currPage, pageNum, costlist);
+            System.out.println(mapPager);
+            Map<String, Object> map = new HashMap<>();
+//            map.put("holdid", holdid);
+            map.put("page", mapPager);
+            // map.put("offset",pageNum);
+//            System.out.println(map);
+            List<Map<String, Object>> maps = userService.holdnoticeQuery(map,holdid,typename,timeNum);
+//            int holdid= Integer.parseInt(request.getParameter("holdid"));
+//            Map<String, Object> detailmap = userService.detailQuery(holdid);
+
+            resultMap.put("code", 200);
+            resultMap.put("msg", "查询类别成功");
+            resultMap.put("page", mapPager);
+            resultMap.put("result", maps);
+//            resultMap.put("data",detailmap);
+            String str = gosn.toJson(resultMap);
+            out.print(str);
+        }
 
 
-    }}
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);

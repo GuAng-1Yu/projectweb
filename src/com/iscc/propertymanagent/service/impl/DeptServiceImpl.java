@@ -17,8 +17,9 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<Map> queryDeptWithPage(Pager pager) {
+    public List<Dept> queryDeptWithPage(Pager pager) {
         return deptDao.queryDeptWithPage(pager);
+
     }
 
     @Override

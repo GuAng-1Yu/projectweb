@@ -72,7 +72,7 @@
 
             <div class="row form-actions actions-bar">
                 <div class="span13 offset3 ">
-                    <button type="button" class="button button-primary" id="btnRegister">提交</button>
+                    <button type="button" class="button button-primary" id="btnRegister"> 发布</button>
                     <button type="reset" class="button">重置</button>
                 </div>
             </div>
@@ -83,7 +83,7 @@
     <!--        <div class="control-group span8" >-->
     <!--        <label class="control-label">搜索通知通过用户id：</label>-->
     <div class="controls" style="height: 10px">
-        <input name="id" id="hold" type="text" placeholder="请输入用户id"          style="height: 28px" >
+        <input name="id" id="hold" type="text" placeholder="请输入用户id"  style="height: 28px" >
         <button type="button" class="button button-primary" id="btnserchbyid"  >搜索</button>
     </div>
     <!--        </div>-->
@@ -129,18 +129,26 @@
 <script type="text/javascript">
     $(function () {
      $('#btnserchbyid').click(function () {
+
+         console.log(1);
+
          $('tbody').empty();
           var holdid= $('#hold').val();
-          if($('#hold').val()=="全体"){holdid=0};
-          if (holdid==''){
+          console.log(holdid)
+          if(holdid=='全体'){
+              console.log(1);
+              holdid=0;
+          } else if (holdid==''){
               queryAll()
               return
           }
+         console.log(holdid);
           $.post(
               "../notice_serchbyholdid.do",{holdid:holdid},
          function (data) {
+             console.log(holdid);
              if (data.code == 200) {
-                 // console.log(data.result);
+                 console.log(holdid);
 
                  $.each(data.result, function (index, obj) {
                      var tr = $('<tr></tr>');
@@ -148,7 +156,6 @@
                      var td2 = $('<td></td>').text(obj.noticecon);
                      var td3 = $('<td></td>').text(obj.noticetime);
                      var newholdid=obj.holdid;
-
                      if(obj.holdid==0){newholdid="全体"};
                      var td4 = $('<td></td>').text(newholdid);
                      // var td5 = $('<td></td>').text(obj.holdid);

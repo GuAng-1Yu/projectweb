@@ -198,7 +198,7 @@ public class UserDAOImpl implements UserDAO {
     public List<Map<String, Object>> houseidcostQuery(int houseid, int typeid) {
         System.out.println("houseidcostQuery1");
         List<Map<String, Object>> costlist = new ArrayList<>();
-        String sql = " SELECT * FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
+        String sql = " SELECT * ,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') ftime   FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
         if (typeid != 0) {
             sql += " and c.typeid = ? ";
         }
@@ -222,7 +222,8 @@ public class UserDAOImpl implements UserDAO {
                 resultmap.put("houseid", rs.getInt(2));
                 resultmap.put("costprice", rs.getString(3));
                 resultmap.put("typeid", rs.getInt(4));
-                resultmap.put("typename", rs.getString(6));
+                resultmap.put("createTime", rs.getString(8));
+                resultmap.put("typename", rs.getString(7));
                 costlist.add(resultmap);
 //                    System.out.println("costlist="+resultmap);
             }
@@ -236,7 +237,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<Map<String, Object>> houseidcostQuery(Map<String, Object> params, int typeid) {
-        System.out.println("houseidcostQuery2");
+//        System.out.println("houseidcostQuery2");
 
         List<Map<String, Object>> costlist = new ArrayList<>();
 //        String sql = "SELECT * FROM tab_type where 1=1";
@@ -250,7 +251,7 @@ public class UserDAOImpl implements UserDAO {
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
-        String sql = " SELECT * FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
+        String sql = " SELECT * , DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') ftime  FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
         if (typeid != 0) {
             sql += " and c.typeid = ? ";
         }
@@ -279,10 +280,11 @@ public class UserDAOImpl implements UserDAO {
                 resultmap.put("houseid", rs.getInt(2));
                 resultmap.put("costprice", rs.getString(3));
                 resultmap.put("typeid", rs.getInt(4));
+                resultmap.put("creatTime", rs.getString(8));
                 resultmap.put("typename", rs.getString(7));
                 costlist.add(resultmap);
 //                    System.out.println("resultmap");
-                System.out.println(resultmap);
+//                System.out.println(resultmap);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -319,7 +321,8 @@ public class UserDAOImpl implements UserDAO {
         return rs;
 
     }
-//zz
+
+    //zz
     @Override
     public int editHouse(Connection conn, House house) {
         PreparedStatement prst = null;
@@ -368,6 +371,153 @@ public class UserDAOImpl implements UserDAO {
         }
 //        System.out.println("rs" + rs);
         return rs;
+
+    }
+
+    @Override
+    public List<Map<String, Object>> holdnoticeQuery(int holdid, int typename, int timeNum) {
+        System.out.println("houseidcostQuery1");
+        List<Map<String, Object>> noticelist = new ArrayList<>();
+//        String sql1 = " SELECT * FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
+        String sql = " SELECT * ,DATE_FORMAT(noticetime,'%Y-%m-%d %H:%i:%s') ftime    from   notice    WHERE   ";
+        if (typename == 1) {
+            sql += " ( holdid = ? OR holdid = ? )";
+        } else if (typename == 2 || typename == 3) {
+            sql += "holdid = ?";
+        }
+         if (timeNum != 0) {
+            sql += " AND noticetime>DATE_SUB(NOW(),INTERVAL ? DAY)";
+        }
+        sql += " GROUP BY noticetime DESC";
+//        sql += " limit ?,?";
+            Connection conn = null;
+            PreparedStatement psmt = null;
+            ResultSet rs = null;
+        System.out.println("sql"+sql);
+
+            try {
+                conn = DataSourceUtil.getConnection();
+                psmt = conn.prepareStatement(sql);
+                if ((typename == 1) & (timeNum != 0)) {
+                    psmt.setInt(1, holdid);
+                    psmt.setInt(2, 0);
+                    psmt.setInt(3, timeNum);
+                } else if ((typename == 1) & (timeNum == 0)) {
+                    psmt.setInt(1, holdid);
+                    psmt.setInt(2, 0);
+                } else if (typename == 2 & (timeNum != 0)) {
+                    psmt.setInt(1, 0);
+                    psmt.setInt(2, timeNum);
+
+                } else if (typename == 3 & (timeNum != 0)) {
+                    psmt.setInt(1, holdid);
+                    psmt.setInt(2, timeNum);
+
+                } else if (typename == 3 & (timeNum == 0)) {
+                    psmt.setInt(1, holdid);
+//                psmt.setInt(2, timeNum);
+                } else if (typename == 2 & (timeNum == 0)) {
+                    psmt.setInt(1, 0);
+//                psmt.setInt(2, timeNum);
+                }
+
+                rs = psmt.executeQuery();
+                while (rs.next()) {
+                    Map<String, Object> resultmap = new HashMap<>();
+                    resultmap.put("noticeid", rs.getInt(1));
+                    resultmap.put("noticecon", rs.getString(2));
+//                resultmap.put("costprice", rs.getString(3));
+                    resultmap.put("holdid", rs.getInt(4));
+                    resultmap.put("noticetime", rs.getString(5));
+                    noticelist.add(resultmap);
+                    System.out.println("noticelist1=" + resultmap);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                DataSourceUtil.releaseResource(rs, psmt, conn);
+            }
+            return noticelist;
+        }
+
+    @Override
+    public List<Map<String, Object>> holdnoticeQuery(Map<String, Object> params, int holdid, int typename, int timeNum) {
+        System.out.println("houseidcostQuery2");
+        List<Map<String, Object>> noticelist = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        String sql1 = " SELECT * FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
+
+        String sql = " SELECT * ,DATE_FORMAT(noticetime,'%Y-%m-%d %H:%i:%s') ftime    from   notice  WHERE  ";
+        if (typename == 0 || typename == 1) {
+            sql += " ( holdid =? OR holdid =?) ";
+        } else if (typename == 2 || typename == 3) {
+            sql += " holdid =?";
+        }
+        if (timeNum != 0) {
+            sql += " AND   noticetime>DATE_SUB(NOW(),INTERVAL ? DAY) ";
+        }
+        sql += " GROUP BY noticetime DESC ";
+        sql += " limit ?,?";
+        System.out.println(sql);
+            try {
+                conn = DataSourceUtil.getConnection();
+                psmt = conn.prepareStatement(sql);
+                if (( typename == 1) & (timeNum != 0)) {
+                    psmt.setInt(1, holdid);
+                    psmt.setInt(2, 0);
+                    psmt.setInt(3, timeNum);
+                    psmt.setInt(4, ((Pager) params.get("page")).getStart());
+                    psmt.setInt(5, ((Pager) params.get("page")).getPageNum());
+
+                } else if (( typename == 1) & (timeNum == 0)) {
+                    psmt.setInt(1, holdid);
+                    psmt.setInt(2, 0);
+                    psmt.setInt(3, ((Pager) params.get("page")).getStart());
+                    psmt.setInt(4, ((Pager) params.get("page")).getPageNum());
+                } else if (typename == 2 & (timeNum != 0)) {
+                    psmt.setInt(1, 0);
+                    psmt.setInt(2, timeNum);
+                    psmt.setInt(3, ((Pager) params.get("page")).getStart());
+                    psmt.setInt(4, ((Pager) params.get("page")).getPageNum());
+                } else if (typename == 3 & (timeNum != 0)) {
+                    psmt.setInt(1, holdid);
+                    psmt.setInt(2, timeNum);
+                    psmt.setInt(3, ((Pager) params.get("page")).getStart());
+                    psmt.setInt(4, ((Pager) params.get("page")).getPageNum());
+                } else if (typename == 3 & (timeNum == 0)) {
+                    psmt.setInt(1, holdid);
+                    psmt.setInt(2, ((Pager) params.get("page")).getStart());
+                    psmt.setInt(3, ((Pager) params.get("page")).getPageNum());
+
+                } else if (typename == 2 & (timeNum == 0)) {
+                    psmt.setInt(1, 0);
+                    psmt.setInt(2, ((Pager) params.get("page")).getStart());
+                    psmt.setInt(3, ((Pager) params.get("page")).getPageNum());
+
+                }
+
+            rs = psmt.executeQuery();
+            while (rs.next()) {
+
+                Map<String, Object> resultmap = new HashMap<>();
+                resultmap.put("noticeid", rs.getInt(1));
+                resultmap.put("noticecon", rs.getString(2));
+//                resultmap.put("costprice", rs.getString(3));
+                resultmap.put("holdid", rs.getInt(4));
+                resultmap.put("noticetime", rs.getString(5));
+                noticelist.add(resultmap);
+//                    System.out.println("resultmap");
+                System.out.println(resultmap);
+                System.out.println(noticelist);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(rs, psmt, conn);
+        }
+        return noticelist;
 
     }
 
