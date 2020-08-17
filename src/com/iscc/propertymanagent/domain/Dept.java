@@ -14,4 +14,9 @@ import java.io.Serializable;
 public class Dept implements Serializable {
     private int deptid;
     private String deptname;
+
+    public Dept(String deptname) {
+        this.deptname = deptname;
+    }
+
 }

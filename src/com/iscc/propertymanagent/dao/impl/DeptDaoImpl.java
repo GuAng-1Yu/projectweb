@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DeptDaoImpl implements DeptDao {
     @Override
@@ -116,7 +115,6 @@ public class DeptDaoImpl implements DeptDao {
         Connection conn = null;
         PreparedStatement psmt = null;
         int result = -1;
-
         try {
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
@@ -124,6 +122,8 @@ public class DeptDaoImpl implements DeptDao {
             result = psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(psmt, conn);
         }
         return result;
     }

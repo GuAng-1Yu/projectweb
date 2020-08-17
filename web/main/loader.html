@@ -1,42 +1,203 @@
 <!DOCTYPE HTML>
 <html>
- <head>
-  <title> 动态引入js</title>
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-       <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css" />   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
-   <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css" />
-   <style type="text/css">
-    code {
-      padding: 0px 4px;
-      color: #d14;
-      background-color: #f7f7f9;
-      border: 1px solid #e1e1e8;
-    }
-   </style>
- </head>
- <body>
-
-
-
-
-
-  <!--——————————————————————————————————————————————————————————————————————————————-->
-  <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
-  <script type="text/javascript" src="../assets/js/bui-min.js"></script>
-
-  <script type="text/javascript" src="../assets/js/config-min.js"></script>
-  <script type="text/javascript">
-    BUI.use('common/page');
-  </script>
-  <!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
-  <script type="text/javascript" src="../assets/js/prettify.js"></script>
-  <script type="text/javascript">
-    $(function () {
-      prettyPrint();
-    });
-  </script>  
-
+<head>
+    <title> 动态引入js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css"/>   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
+    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        code {
+            padding: 0px 4px;
+            color: #d14;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
+    <link href="../css/table_app.css" rel="stylesheet">
+</head>
 <body>
+<div class="row" style="padding: 3em">
+    <div class="col-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">员工管理</h5>
+                <h6 class="card-subtitle text-muted">物业公司下属员工</h6>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width:40%;">部门ID</th>
+                    <th class="d-none d-md-table-cell" style="width:50%">部门名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="btn-group mr-2 col-md-4" role="group" aria-label="First group" style="margin-left: 33%">
+                <button type="button" class="btn btn-secondary" id="btnFirst">首页</button>
+                <button type="button" class="btn btn-secondary" id="btnPrev">上一页</button>
+                <button type="button" class="btn btn-secondary" disabled id="showPage"></button>
+                <button type="button" class="btn btn-secondary" id="btnNext">下一页</button>
+                <button type="button" class="btn btn-secondary" id="btnLast">末页</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">新增部门</h5>
+                <h6 class="card-subtitle text-muted">请谨慎创建部门</h6>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label">部门ID</label>
+                    <input type="type" class="form-control" placeholder="部门ID" name="deptId" id="deptId" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">部门名称</label>
+                    <input type="type" class="form-control" placeholder="部门名称" name="deptName" id="deptName">
+                </div>
+                <button type="submit" class="btn btn-success" id="addBtn" onclick="addDept()">创建新部门</button>
+                <button type="button" class="btn btn-secondary" id="clearBtn" onclick="clearBtn()">取消/清空</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--——————————————————————————————————————————————————————————————————————————————-->
+<script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../assets/js/bui-min.js"></script>
+
+<script type="text/javascript" src="../assets/js/config-min.js"></script>
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+<!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
+<script type="text/javascript" src="../assets/js/prettify.js"></script>
+<script type="text/javascript">
+    $(function () {
+        prettyPrint();
+    });
+</script>
+
+<script type="text/javascript">
+    var currPage = 1;
+    var totalPage = 0;
+
+    $(function () {
+        getAllDept();
+        $('#clearBtn').hide();
+
+        $("#btnNext").click(function () {
+            currPage++;
+            if (currPage > totalPage) {
+                currPage = totalPage;
+            }
+            getAllDept();
+        })
+
+        $("#btnPrev").click(function () {
+            currPage--;
+            if (currPage < 1) {
+                currPage = 1;
+            }
+            getAllDept();
+        })
+
+    })
+
+    function updateDept(obj) {
+        console.log(obj);
+        $('#deptId').val(obj.deptid);
+        $('#deptName').val(obj.deptname);
+        $('#addBtn').attr('onclick', "doUpdate()").text("创建新部门")
+        $('#clearBtn').show();
+        $('#addBtn').text("保存修改");
+    }
+
+    function clearBtn() {
+        $('#deptId').val("");
+        $('#deptName').val("");
+        $('#clearBtn').hide();
+        $('#addBtn').attr('onclick', "addDept()").text("创建新部门")
+    }
+
+    function doUpdate() {
+        $.ajax({
+            url: '../update_dept.do',
+            data: {
+                deptId: $('#deptId').val(),
+                deptName: $('#deptName').val(),
+            },
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                if (data.code == 200) {
+                    /*layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                        location.href = "resource.html";
+                    })*/
+                    window.location.reload()
+                }
+            }
+        })
+    }
+
+    function delDept(id) {
+        console.log("Delete")
+        var r = confirm("是否删除该部门信息");
+        if (r == true) {
+            $.getJSON('../del_dept.do', {"deptid": id}, function (data) {
+                if (data.code == 200) {
+                    window.location.reload()
+                    alert("部门删除成功");
+                }
+            })
+        }
+    }
+
+    function addDept() {
+        $.ajax({
+            url: '../add_dept.do',
+            data: {
+                deptName: $('#deptName').val()
+            },
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                if (data.code == 200) {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
+    function getAllDept() {
+        $.post('../dept_page.do', {"currPage": currPage}, function (data) {
+            console.log(data);
+            if (data.code == 200) {
+                $("tbody").empty();
+                $.each(data.result, function (index, obj) {
+                    var tr = $('<tr></tr>');
+                    var td1 = $('<td></td>').text(obj.deptid);
+                    var td2 = $('<td></td>').text(obj.deptname);
+                    var iedit = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>');
+                    var itrash = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>');
+                    var aTitle = $('<a href="#"></a>').attr('onclick', "updateDept(" + JSON.stringify(obj) + ")").append(iedit);
+                    var bTitle = $('<a href="#"></a>').attr('onclick', "delDept(" + obj.deptid + ")").append(itrash);
+                    var td3 = $('<td class="table-action"></td>').append(aTitle).append(bTitle);
+                    tr.append(td1).append(td2).append(td3);
+                    $('tbody').append(tr);
+                })
+                $("#showPage").text("第" + data.pager.currPage + "页 (共" + data.pager.totalPage + "页)");
+                totalPage = data.pager.totalPage;
+            }
+        }, "JSON")
+    }
+</script>
+
+</body>
 </html>  
