@@ -35,7 +35,7 @@ public class DeptServlet extends HttpServlet {
             currPage = Integer.parseInt(request.getParameter("currPage"));
             List<Dept> depts = deptService.queryDept();
             Pager<Dept> pager = new Pager<>(currPage, 5, depts);
-            List<Map> maps = deptService.queryDeptWithPage(pager);
+            List<Dept> maps = deptService.queryDeptWithPage(pager);
             if (depts.size() > 0) {
                 resultMap.put("code", 200);
                 resultMap.put("msg", "PageStaff查询成功");

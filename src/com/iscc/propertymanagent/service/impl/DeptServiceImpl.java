@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class DeptServiceImpl implements DeptService {
     DeptDao deptDao = new DeptDaoImpl();
+
     @Override
     public List<Dept> queryDept() {
         return deptDao.queryDept();
