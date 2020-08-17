@@ -46,6 +46,7 @@ public class DeptServlet extends HttpServlet {
                 resultMap.put("msg", "数据走丢了，请稍后重试");
             }
         }
+
         String resultStr = gson.toJson(resultMap);
         out.print(resultStr);
     }
