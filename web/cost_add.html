@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>发布用户缴费信息</title>
+    <style>
+        #cost{
+            text-align:center;
+            padding: 0px 4px;
+            color: #0a0c0d;
+            background-color: #f7f7f9;
+            height: 150px;
+            line-height: 15px;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
 </head>
-<body>
-    房屋编号：<input type="text" name="prodName" id="prodName"><br>
-    缴费金额：<input type="text" name="prodPrice" id="prodPrice"><br>
-    缴费类别<select id="prodId" name="prodId"><option></option></select><br>
+<body style="text-align: center">
+<div id="cost">
+   <input type="text" name="prodName" id="prodName" placeholder="请输入房屋编号"><br><br>
+    <input type="text" name="prodPrice" id="prodPrice" placeholder="请输入缴费金额"><br><br>
+   缴费类别： <select id="prodId" name="prodId" ><option></option></select><br><br>
     <!--缴费类别：
       <select id="prodType" name="prodType"></select>
     <br>-->
     <button type="button" id="btnSaveProduct">创建缴费信息</button>
+</div>
 </body>
 <script src="js/jquery-3.2.1.js"></script>
 <script src="js/layer/layer.js"></script>
@@ -50,7 +63,7 @@
         $.post('query_all_costtype.do', {typename: null}, function (data) {
             if (data.code == 200) {
                 $.each(data.result, function (index, obj) {
-                    var opt = $('<option></option>');
+                    var opt = $('<option ></option>');
                     opt.text(obj.typename);
                     opt.val(obj.typename);
                     $('#prodId').append(opt);
