@@ -1,5 +1,6 @@
 package com.icss.test;
 
+import com.iscc.propertymanagent.dao.impl.StaffDaoImpl;
 import com.iscc.propertymanagent.domain.Staff;
 
 import java.sql.SQLOutput;
@@ -8,16 +9,9 @@ import java.util.Date;
 
 public class Stafftest {
     public static void main(String[] args) {
-        Staff staff = new Staff();
-        staff.setDeptid(11);
-        System.out.println(staff.getDeptid());
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        System.out.println(formatter.format(date));
-
-        System.out.println("===========");
-        System.out.println(date.getClass());
-        String format = formatter.format(date);
-
+        StaffDaoImpl staffDao = new StaffDaoImpl();
+        Staff staff = new Staff(4,"员工4","10000",1,1);
+        int temp = staffDao.addStaff(staff);
+        System.out.println(temp);
     }
 }
