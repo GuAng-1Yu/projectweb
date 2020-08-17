@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script src="../js/layer/layer.js"></script>
+</head>
+<body>
+房屋编号:&nbsp<input type="text" id="houseid" placeholder="房屋编号"><br><br>
+房屋状态:&nbsp<select id="housesta">
+                  <option value="0">无</option>
+                  <option value="1">在售</option>
+                  <option value="2">在租</option>
+              </select>
+<button type="button" id="updateBtn">确认</button>
+</body>
+<script>
+
+    var url = location.href;
+    var params = url.split('?')[1];
+    var houseid = params.split('=')[1];
+    console.log(houseid);
+    $(function () {
+        $.getJSON('../queryHouseById.do', {houseid:houseid}, function (data) {
+            if (data.code == 999){
+                    $.each(data.houseInfoById,function (index, obj) {
+                    $('#houseid').val(obj.houseid);
+                    $('#housesta').val(obj.housesta);
+                })
+            }
+        })
+
+        $('#updateBtn').click(function () {
+            $.post('../updateHouse.do', {
+                houseid: $('#houseid').val(),
+                housesta:$('#housesta option:selected').val()
+            }, function (data) {
+                if (data.code == 993) {
+                    alert(data.msg);
+                    location.href = "houseAll.html";
+                } else {
+                    alert(更新失败);
+                }
+            }, "json")
+        })
+    })
+
+</script>
+</html>

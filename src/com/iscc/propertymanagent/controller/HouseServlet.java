@@ -1,7 +1,10 @@
 package com.iscc.propertymanagent.controller;
 
 import com.google.gson.Gson;
+import com.iscc.propertymanagent.domain.Costtype;
 import com.iscc.propertymanagent.domain.House;
+import com.iscc.propertymanagent.domain.Household;
+import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.service.HouseService;
 import com.iscc.propertymanagent.service.impl.HouseServiceImpl;
 
@@ -12,10 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@WebServlet({"/queryHouseAll.do","/queryHouseById.do","/addHouse.do","/deleteHouse.do","/updateHouse.do"})
+@WebServlet({"/queryHouseAll.do","/queryHouseById.do","/addHouse.do","/deleteHouse.do","/updateHouse.do","/housepage.do"})
 public class HouseServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,7 +52,7 @@ public class HouseServlet extends HttpServlet {
             writer.print(resultStr);
 
         }else if("queryHouseById.do".equals(action)){
-
+            System.out.println(Integer.parseInt(request.getParameter("houseid")));
             List<House> resultSet = houseService.queryHouseById(Integer.parseInt(request.getParameter("houseid")));
 
               if (resultSet.size() > 0) {
@@ -98,16 +103,15 @@ public class HouseServlet extends HttpServlet {
             writer.print(resultStr);
         }else if("updateHouse.do".equals(action)){
 
-            System.out.println(request.getParameter("houseid"));
             int houseid = Integer.parseInt(request.getParameter("houseid"));
-            int buildingid = Integer.parseInt(request.getParameter("buildingid"));
-            int unitid = Integer.parseInt(request.getParameter("unitid"));
-            String numberid = request.getParameter("numberid");
             int housesta = Integer.parseInt(request.getParameter("housesta"));
 
-            House house = new House();
+            System.out.println(houseid);
+            System.out.println(housesta);
+
+            House house = new House(houseid,housesta);
             int result = houseService.updateHouse(house);
-            System.out.println(house);
+
             if (result != -1) {
                 resultMap.put("code", 993);
                 resultMap.put("msg", "更新成功");
@@ -117,7 +121,34 @@ public class HouseServlet extends HttpServlet {
             }
             String resultStr = gson.toJson(resultMap);
             writer.print(resultStr);
+        } else if ("housepage.do".equals(action)) {
+            List<House> house = houseService.queryAllHouse();
+            int currPage = 1;
+            int pageNum = 4;
+            try {
+                currPage = Integer.parseInt(request.getParameter("currPage"));
+            } catch (Exception e) {
+            }
+            try {
+                currPage = Integer.parseInt(request.getParameter("pageNum"));
+            } catch (Exception e) {
+
+            }
+            Pager<House> page = new Pager<>(currPage, pageNum, house);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("house", house);
+            map.put("page", page);
+
+            resultMap.put("code", 200);
+            resultMap.put("msg", "查询类别成功");
+            resultMap.put("page", page);
+            resultMap.put("result", house);
+
+            String resultStr = gson.toJson(resultMap);
+            writer.print(resultStr);
         }
+
 
     }
 }

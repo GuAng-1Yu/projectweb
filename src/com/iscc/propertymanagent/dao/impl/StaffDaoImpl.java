@@ -53,7 +53,7 @@ public class StaffDaoImpl implements StaffDAO {
     @Override
     public List<Map> queryStaffWithPage(Pager pager) {
 
-        String sql = "SELECT * FROM staff_info s,dept d WHERE s.deptid = d.deptid LIMIT ?,?;";
+        String sql = "SELECT * FROM staff_info s,dept d WHERE s.deptid = d.deptid LIMIT ?,?";
         List<Map> results = new ArrayList<>();
         Connection conn = null;
         PreparedStatement psmt = null;

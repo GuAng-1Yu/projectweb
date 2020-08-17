@@ -23,17 +23,24 @@
 <body>
 
 <div id="houseSingle">
-    <form id="houseSingleForm">
-        <input type="text" id="houseId" placeholder="请输入房屋编号">&nbsp
-        <button type="button" id="submitId">确定</button>
-    </form>
+        <input type="text" id="houseid" placeholder="请输入房屋编号">&nbsp
+        <button type="button" id="submitBtn">确定</button>
 </div>
 
 </body>
     <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+    <script src="../js/jquery-3.2.1.js"></script>
     <script type="text/javascript" src="../assets/js/bui-min.js"></script>
     <script type="text/javascript" src="../assets/js/config-min.js"></script>
     <script type="text/javascript">
         BUI.use('common/page');
     </script>
+    <script>
+
+        $('#submitBtn').click(function(){
+            var houseid = $('#houseid').val();
+            location.href = "houseSingleResult.html?id=" + houseid;
+        })
+    </script>
+
 </html>

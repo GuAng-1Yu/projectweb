@@ -134,6 +134,7 @@ public class HouseDAOImpl implements HouseDAO {
             psmt.setInt(1, house.getHousesta());
             psmt.setInt(2, house.getHouseid());
             result = psmt.executeUpdate();
+            System.out.println(sql);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
