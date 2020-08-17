@@ -80,12 +80,12 @@ public class StaffServlet extends HttpServlet {
             }
         } else if ("staff_page.do".equals(action)) {
             int currPage = 1;
-            int pageNum = 2;
+            int pageNum = 5;
 
             currPage = Integer.parseInt(request.getParameter("currPage"));
 
             List<Map> resultSet = staffService.queryStaff();
-            Pager<Map> pager = new Pager<>(currPage, 2, resultSet);
+            Pager<Map> pager = new Pager<>(currPage, 5, resultSet);
             List<Map> maps = staffService.queryStaffWithPage(pager);
             if (resultSet.size() > 0) {
                 resultMap.put("code", 200);
