@@ -44,6 +44,8 @@ public class StaffDaoImpl implements StaffDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(psmt, conn);
         }
         return results;
     }
@@ -75,6 +77,8 @@ public class StaffDaoImpl implements StaffDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(psmt, conn);
         }
         return results;
     }
@@ -95,6 +99,8 @@ public class StaffDaoImpl implements StaffDAO {
             result = psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(psmt, conn);
         }
         return result;
     }
@@ -116,6 +122,8 @@ public class StaffDaoImpl implements StaffDAO {
             result = psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(psmt, conn);
         }
         return result;
     }
@@ -133,6 +141,8 @@ public class StaffDaoImpl implements StaffDAO {
             result = psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(psmt, conn);
         }
         return result;
     }
@@ -156,6 +166,8 @@ public class StaffDaoImpl implements StaffDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(psmt, conn);
         }
         return depts;
     }
