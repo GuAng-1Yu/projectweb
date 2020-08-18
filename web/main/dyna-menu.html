@@ -89,7 +89,6 @@
                     <input type="type" class="form-control" placeholder="请预设密码" name="holdpwd" id="holdpwd">
                 </div>
                 <button type="submit" class="btn btn-success" id="addBtn" onclick="doAdd()">新建业主信息</button>
-                <button type="submit" class="btn btn-success" id="updateBtn" onclick="doUpdate()">修改业主信息</button>
                 <button type="button" class="btn btn-secondary" id="clearBtn" onclick="clearBtn()">取消/清空</button>
             </div>
         </div>
@@ -104,6 +103,7 @@
     var totalPage = 0;
     $(function () {
         searchHouseholdAll();
+        $('#clearBtn').hide();
 
         $('#btnTypeSearch').click(function () {
             searchHouseholdAll($('#txtSearch').val());
@@ -142,6 +142,10 @@
         $("#holdtel").val(obj.holdtel);
         $("#holdnum").val(obj.holdnum);
         $("#holdpwd").val(obj.holdpwd);
+        $('#addBtn').attr('onclick', "doUpdate()").text("新建业主信息");
+        $('#clearBtn').show();
+        $('#addBtn').text("保存修改");
+
     }
 
     function doAdd() {
@@ -205,6 +209,8 @@
         $('#holdtel').val("");
         $('#holdnum').val("");
         $('#holdpwd').val("");
+        $('#addBtn').attr('onclick', "doAdd()").text("新建业主信息");
+        $('#addBtn').text("新建业主信息");
     }
 
 
