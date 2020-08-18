@@ -43,7 +43,7 @@ public class UserEditServlet extends HttpServlet {
             result = userService.uesredit(household, house);
             if (result != -1) {
                 resultMap.put("code", 200);
-                resultMap.put("msg", "修改密码成功");
+                resultMap.put("msg", "修改成功");
             } else {
                 resultMap.put("code", 202);
                 resultMap.put("msg", "修改失败");

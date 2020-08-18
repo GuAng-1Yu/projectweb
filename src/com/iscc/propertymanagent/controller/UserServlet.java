@@ -168,13 +168,13 @@ public class UserServlet extends HttpServlet {
             String str = gosn.toJson(resultMap);
             out.print(str);
         } else if ("user_noticequery.do".equals(action)) {
-            System.out.println(1233);
+//            System.out.println(1233);
             int holdid = Integer.parseInt(request.getParameter("holdid"));
-            System.out.println(holdid);
+//            System.out.println(holdid);
             int typename = Integer.parseInt(request.getParameter("typename"));
             int timeNum = Integer.parseInt(request.getParameter("timeNum"));
             List<Map<String, Object>> costlist = userService.holdnoticeQuery(holdid, typename, timeNum);
-            System.out.println(costlist);
+//            System.out.println(costlist);
             int currPage = 1;
             int pageNum = 5;
             try {

@@ -31,15 +31,44 @@
 
         }
 
-        #code{
+        #code {
             width: 50px;
-            height: 30px;
+            height: 18px;
         }
-        #scode{
+
+        #scode {
             width: 80px;
-            height: 30px;
+            height: 25px;
+            /*margin-top: 60px;*/
+        }
+
+        #codediv {
+            /*margin-top: 30px;*/
+        }
+
+        #codediv {
+            /*border: 1px solid red;*/
+            margin-top: 5px;
+            /*float: left;*/
+            display: inline-block;
 
         }
+
+        #idcontain {
+            /*height: 25px;*/
+            /*border: 1px solid red;*/
+
+        }
+
+        #codeinput {
+            /*border: 1px solid red;*/
+            margin-top: 2px;
+            /*margin-top: 12px;*/
+            display: inline-block;
+            float: left;
+            height: 35px;
+        }
+
 
     </style>
 </head>
@@ -55,28 +84,28 @@
         <p><input type="text" id="txtAccount" name="login" value="" placeholder="员工ID或用户ID"></p>
         <p><input type="password" id="txtPwd" name="password" value="" placeholder="员工电话或业主密码"></p>
 
-        <div class="identifyingcode">
-            <div style="display:inline-block">
-                <input class="inputIdentifyingcode" id="code" type="text"
+        <div class="identifyingcode" id="idcontain">
+            <div  id="codeinput">
+<!--                class="inputIdentifyingcode"-->
+                <input id="code" type="text" class="inputIdentifyingcode"
                        name="code" placeholder="input identifyingCode">
+                <!--                <img class="imgcode" alt="Code" id="scode" onclick="flushCode()"-->
+                <!--                     src="http://localhost:8080/propertymanagent_war_exploded/AuthCodeServlet"/>-->
             </div>
-            <div style="display: inline-block">
-
-                    <img class="imgcode" alt="Code" id="scode" onclick="flushCode()"
-                         src="http://localhost:8080/propertymanagent_war_exploded/AuthCodeServlet" />
-
+            <div  id="codediv">
+                <img class="imgcode" alt="Code" id="scode" onclick="flushCode()"
+                     src="http://localhost:8080/propertymanagent_war_exploded/AuthCodeServlet"/>
             </div>
         </div>
-
-
-
+        <div>
         <p class="remember_me">
             <label>
-                <input type="checkbox" name="remember_me"     checked id="remember_me">
+                <input type="checkbox" name="remember_me" checked id="remember_me">
                 记住密码
             </label>
         </p>
-        <p class="submit"><input type="button" id="btnRegister"  value="登录"></p>
+        <p class="submit"><input type="button" id="btnRegister" value="登录"></p>
+        </div>
     </div>
 </div>
 </body>
@@ -87,18 +116,47 @@
 <script type="text/javascript" src="js/jquery.base64.js"></script>
 <script type="text/javascript">
 
+    window.onload = function () {
+        // var cookies = document.cookie;
+        // console.log(cookies);
+        // console.log( decodeURI((cookies.split('=')[1]).split(';')[0]));
+
+    }
+
+    function flushCode() {
+        var time = new Date();
+        document.getElementById("scode").src = "AuthCodeServlet?time="
+            + time;
+        // getCookie();
+    }
+
+    // function  getCookie () {
+    //     var cookies = document.cookie;
+    //     console.log(cookies);
+    //     console.log( decodeURI((cookies.split('=')[3]).split(';')[0]));
+    // }
+
+
     $(function () {
         $('#btnRegister').click(function () {
+
             if ($('#selection').val() == 0) {
+                // var item = sessionStorage.getItem('user');
+                // var s = JSON.parse(item)
+                // if(s.staffId==$('#txtAccount').val()&s.staffTel== $('#txtPwd').val()){
+                //     lay.msg("请勿重复登录")
+                //     return;
+                // }
                 if ($('#txtAccount').val() == '' || $('#txtPwd').val() == '') {
                     layer.msg('请输入完整信息');
                     return;
                 }
-                if ( $('#code').val()!=1)
-
-
-
-
+                // var cookies = document.cookie;
+                var xxx = $.cookie("code")
+                if ($('#code').val().toLowerCase() != xxx.toLowerCase()) {
+                    layer.msg('验证码错误');
+                    return;
+                }
                 $.post('stafflogin.do',
                     {
                         account: $('#txtAccount').val(),
@@ -112,39 +170,61 @@
                             layer.msg(data.msg, {icon: 1, time: 2000}, function () {
                                 // console.log($('#selection').val())
                                 location.href = "indexstaff.html";
+                                setCookie();
                             })
                         } else {
                             alert(data.msg);
                         }
                     },
                     'json')
-                setCookie();
-                //sdad
+
             } else if ($('#selection').val() == 1) {
+                // var item = sessionStorage.getItem('user');
+
+                // var flag =true;
+                // if(item!=null){
+                // console.log(item)
+                // var s = JSON.parse(item)
+                // if(s.holdid==$('#txtAccount').val()&s.holdpwd== $('#txtPwd').val()){
+                //     layer.msg("请勿重复登录")
+                //     flag=false;
+                //
+                //
+                // }}
+
                 if ($('#txtAccount').val() == '' || $('#txtPwd').val() == '') {
                     layer.msg('请输入完整信息');
                     return;
                 }
+                // var cookies = document.cookie;
+                var xxx = $.cookie("code")
+                if ($('#code').val().toLowerCase() != xxx.toLowerCase()) {
+                    layer.msg('验证码错误');
+                    return;
+                }
+                // console.log(flag)
+                // if(flag){
+                    $.post('login.do',
+                        {
+                            account: $('#txtAccount').val(),
+                            password: $('#txtPwd').val()
+                        },
+                        function (data) {
+                            console.log(data);
+                            if (data.code == 200) {
+                                sessionStorage.setItem('user', JSON.stringify(data.result))
+                                layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                                    // console.log($('#selection').val())
+                                    location.href = "indexuser.html";
+                                    setCookie();
+                                })
+                            } else {
+                                alert(data.msg);
+                            }
+                        }, 'json')
+                }
 
-                $.post('login.do',
-                    {
-                        account: $('#txtAccount').val(),
-                        password: $('#txtPwd').val()
-                    },
-                    function (data) {
-                        console.log(data);
-                        if (data.code == 200) {
-                            sessionStorage.setItem('user', JSON.stringify(data.result))
-                            layer.msg(data.msg, {icon: 1, time: 2000}, function () {
-                                // console.log($('#selection').val())
-                                location.href = "indexuser.html";
-                            })
-                        } else {
-                            alert(data.msg);
-                        }
-                    }, 'json')
-                setCookie();
-            }
+            // }
         })
 
         function setCookie() {
@@ -152,50 +232,28 @@
             var pwd = $("#txtPwd").val(); //获取登陆密码信息
             console.log(1)
             console.log($("input[type='checkbox']").is(':checked'))
-
-
             if ($("input[type='checkbox']").is(':checked')) {
-                console.log(1)
                 var date = new Date();
                 date.setTime(date.getTime() + 60 * 1000);//只能这么写，60表示60秒钟
                 console.log("cookie过期时间：" + date);
-                $.cookie("login_code", loginCode)
+                $.cookie("login_code", loginCode )
                 $.cookie("pwd", $.base64.encode(pwd))
 
             } else {
                 $.cookie("login_code", null);
                 $.cookie("pwd", null);
             }
-            console.log(1)
         }
 
         $('#txtAccount').change(function () {
                 if ($('#txtAccount').val() == $.cookie("login_code")) {
-                    console.log("取cook")
-                    console.log($.base64.decode($.cookie("pwd")))
                     $('#txtPwd').val($.base64.decode($.cookie("pwd")))
                 }
             }
         )
 
-
     })
 
-    var cookie = document.cookie;
-    window.onload =function () {
-        var cookies = document.cookie;
-        console.log(cookies);
-        console.log( decodeURI((cookies.split('=')[1]).split(';')[0]));
-    }
-    function flushCode() {
-
-        var cookies = document.cookie;
-        console.log(cookies);
-        console.log( decodeURI((cookies.split('=')[1]).split(';')[0]));
-        var time = new Date();
-        document.getElementById("scode").src = "AuthCodeServlet?time="
-            + time;
-    }
 
 </script>
 </html>
