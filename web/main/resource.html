@@ -118,7 +118,7 @@
                 currPage = totalPage;
             }
             getAllStaff();
-        })
+        });
 
         $("#btnPrev").click(function () {
             currPage--;
@@ -126,8 +126,21 @@
                 currPage = 1;
             }
             getAllStaff();
+        });
+
+        $("#btnFirst").click(function () {
+            console.log("btnFirst");
+            currPage = 1;
+            getAllStaff();
+        });
+
+        $("#btnLast").click(function () {
+            console.log("btnLast");
+            currPage = totalPage;
+            getAllStaff();
         })
-    })
+
+    });
 
     function addStaff() {
         console.log("addStaff");
