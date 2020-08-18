@@ -1,127 +1,250 @@
 <!DOCTYPE HTML>
 <html>
- <head>
-  <title> 动态生成菜单</title>
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-       <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css" />   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
-   <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css" />
-   <style type="text/css">
-    code {
-      padding: 0px 4px;
-      color: #d14;
-      background-color: #f7f7f9;
-      border: 1px solid #e1e1e8;
-    }
-   </style>
-     <link href="../css/table_app.css" rel="stylesheet">
- </head>
- <body>
+<head>
+    <title> 动态生成菜单</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css"/>   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
+    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        code {
+            padding: 0px 4px;
+            color: #d14;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
+    <link href="../css/table_app.css" rel="stylesheet">
+</head>
+<body>
 
- <div class="row" style="padding: 3em">
-     <div class="col-12 col-xl-12">
-         <div class="card">
-             <div class="card-header">
-                 <h5 class="card-title">Contextual Classes</h5>
-                 <h6 class="card-subtitle text-muted">Use contextual classes to color table rows or
-                     individual cells.</h6>
-             </div>
-             <table class="table">
-                 <thead>
-                 <tr>
-                     <th style="width:20%;">业主姓名</th>
-                     <th style="width:20%">房屋编号</th>
-                     <th class="d-none d-md-table-cell" style="width:20%">用户电话</th>
-                     <th style="width:20%">成员数量</th>
-                     <th>操作</th>
-                 </tr>
-                 </thead>
-                 <tbody>
-                 <!--<tr>
-                     <td>Vanessa Tucker</td>
-                     <td>864-348-0485</td>
-                     <td>Jun 21, 1961</td>
-                     <td class="table-action">
-                         <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
-                         <a href="#"><i class="align-middle" data-feather="trash"></i></a>
-                     </td>
-                 </tr>-->
-                 </tbody>
-             </table>
+<div class="row" style="padding: 3em">
+    <div class="col-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">业主管理</h5>
+                <h6 class="card-subtitle text-muted">物业公司管理业主所用</h6>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width:20%;">房屋楼号</th>
+                    <th style="width:20%">住户电话</th>
+                    <th class="d-none d-md-table-cell" style="width:20%">成员数量</th>
+                    <th style="width:20%">业主密码</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--<tr>
+                    <td>Vanessa Tucker</td>
+                    <td>864-348-0485</td>
+                    <td>Jun 21, 1961</td>
+                    <td class="table-action">
+                        <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
+                        <a href="#"><i class="align-middle" data-feather="trash"></i></a>
+                    </td>
+                </tr>-->
+                </tbody>
+            </table>
 
-             <div class="text-right" style="display: inline-block">
-                 <span id="showPage">共5条数据，当前1/3页</span>
-                 <div class="btn-group">
-                     <button type="button" class="btn btn-group-sm">首页</button>
-                     <button type="button" class="btn btn-group-sm">上一页</button>
-                     <button type="button" class="btn btn-group-sm">下一页</button>
-                     <button type="button" class="btn btn-group-sm">末页</button>
-                 </div>
+            <div class="text-right" style="display: inline-block">
+                <span id="showPage"></span>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-group-sm" id="btnFirst">首页</button>
+                    <button type="button" class="btn btn-group-sm" id="btnPrev">上一页</button>
+                    <button type="button" class="btn btn-group-sm" id="btnNext">下一页</button>
+                    <button type="button" class="btn btn-group-sm" id="btnLast">末页</button>
+                </div>
 
-             </div>
+            </div>
 
-         </div>
-     </div>
- </div>
- <!-- ——————————————————————————————————————————————————————————————————————————————————————— -->
+        </div>
+    </div>
+    <div class="col-12 col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">新增业主信息</h5>
+                <h6 class="card-subtitle text-muted">输入业主的详情信息</h6>
+            </div>
+            <div class="card-body">
 
- <script src="../js/jquery-3.2.1.js"></script>
- <script src="../js/layer/layer.js"></script>
+                <input type="hidden" id="holdid">
+
+                <div class="form-group">
+                    <label class="form-label">房屋编号</label>
+                    <input type="type" class="form-control" placeholder="请输入房屋编号" name="houseid" id="houseid">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">住户电话</label>
+                    <input type="type" class="form-control" placeholder="请输入住户电话" name="holdtel" id="holdtel">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">入住成员数量</label>
+                    <input type="type" class="form-control" placeholder="请输入数量" name="holdnum" id="holdnum">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">住户密码</label>
+                    <input type="type" class="form-control" placeholder="请预设密码" name="holdpwd" id="holdpwd">
+                </div>
+                <button type="submit" class="btn btn-success" id="addBtn" onclick="doAdd()">新建业主信息</button>
+                <button type="submit" class="btn btn-success" id="updateBtn" onclick="doUpdate()">修改业主信息</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ——————————————————————————————————————————————————————————————————————————————————————— -->
+
+<script src="../js/jquery-3.2.1.js"></script>
+<script src="../js/layer/layer.js"></script>
 <script>
     var currentPage = 1;
+    var totalPage = 0;
     $(function () {
-        searchHouseholdAll(null);
+        searchHouseholdAll();
+
+        $('#btnTypeSearch').click(function () {
+            searchHouseholdAll($('#txtSearch').val());
+        })
+
+
+        $('#btnNext').click(function () {
+            currentPage++;
+            if (currentPage > totalPage) {
+                console.log("currentPage > totalPage");
+                currentPage = totalPage;
+                console.log("currentPage:" + currentPage);
+            }
+            searchHouseholdAll();
+        })
+        $('#btnPrev').click(function () {
+            currentPage--;
+            if (currentPage < 1) {
+                currentPage = 1;
+            }
+            searchHouseholdAll();
+        })
+        $('#btnFirst').click(function () {
+            currentPage = 1;
+            searchHouseholdAll();
+        })
+        $('#btnLast').click(function () {
+            currentPage = totalPage;
+            searchHouseholdAll();
+        })
     })
 
+    function updateHouseHold(obj) {
+        $("#holdid").val(obj.holdid);
+        $("#houseid").val(obj.houseid);
+        $("#holdtel").val(obj.holdtel);
+        $("#holdnum").val(obj.holdnum);
+        $("#holdpwd").val(obj.holdpwd);
+    }
+
+    function doAdd() {
+        $.ajax({
+            url: '../addHousehold.do',
+            data: {
+                houseId: $('#houseid').val(),
+                holdTel: $('#holdtel').val(),
+                holdNum: $('#holdnum').val(),
+                holdPwd: $('#holdpwd').val()
+            },
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                if (data.code == 200) {
+                    window.location.reload()
+                }
+            }
+        })
+    }
+
+
+    function doUpdate() {
+        $.ajax({
+            url: '../updateHousehold.do',
+            data: {
+                houseId: $('#houseid').val(),
+                holdTel: $('#holdtel').val(),
+                holdNum: $('#holdnum').val(),
+                holdPwd: $('#holdpwd').val(),
+                holdId: $('#holdid').val()
+            },
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                if (data.code == 200) {
+                    /*layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                        location.href = "resource.html";
+                    })*/
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
+    function delHouseHold(id) {
+        console.log("Delete")
+        var r = confirm("是否删除该员工信息");
+        if (r == true) {
+            $.getJSON('../deleteHousehold.do', {"holdid": id}, function (data) {
+                if (data.code == 200) {
+                    window.location.reload();
+                    alert("用户删除成功");
+                }
+            })
+        }
+    }
+
+    1
 
     function searchHouseholdAll(id) {
         $('tbody').empty();
-        $.post('../query_page.do', {holdid: id,currPage:currentPage }, function (data) {
-            $('#showPage').text('共'+data.result.totalRecord+'条数据，当前'+currentPage + '/' + data.result.totalPage +'页')
+        $.post('../query_page.do', {holdid: id, currPage: currentPage}, function (data) {
+            $('#showPage').text('共' + data.result.pager.totalRecord + '条数据，当前' + data.result.pager.currPage + '/' + data.result.pager.totalPage + '页')
+            totalPage = data.result.pager.totalPage;
 
-
+            console.log(data);
             if (data.code == 200) {
-                $.each(data.result, function (index, obj) {
+                $.each(data.result.list, function (index, obj) {
                     var tr = $('<tr></tr>');
-                    var td1 = $('<td style="20%"></td>').text(obj.holdid);
-                    var td2 = $('<td style="20%"></td>').text(obj.houseid);
-                    var td3 = $('<td style="20%"></td>').text(obj.holdtel);
-                    var td4 = $('<td style="20%"></td>').text(obj.holdnum);
-                    var td5 = $('<td style="20%"></td>').text("编辑 删除");
+                    var td1 = $('<td style="20%"></td>').text(obj.houseid);
+                    var td2 = $('<td style="20%"></td>').text(obj.holdtel);
+                    var td3 = $('<td style="20%"></td>').text(obj.holdnum);
+                    var td4 = $('<td style="20%"></td>').text(obj.holdpwd);
+                    var iedit = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>');
+                    var itrash = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>');
+                    var aTitle = $('<a href="#"></a>').attr('onclick', "updateHouseHold(" + JSON.stringify(obj) + ")").append(iedit);
+                    var bTitle = $('<a href="#"></a>').attr('onclick', "delHouseHold(" + obj.holdid + ")").append(itrash);
+                    var td5 = $('<td style="20%"></td>').append(aTitle).append(bTitle);
                     tr.append(td1).append(td2).append(td3).append(td4).append(td5);
                     $('tbody').append(tr);
                 })
             }
-        },"JSON")
+        }, "JSON")
     }
 </script>
 
 
-
-
-
-
-
-
-
-
-
 <!--——————————————————————————————————————————————————————————————————————————————————————————-->
-  <script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
-  <script type="text/javascript" src="../assets/js/bui-min.js"></script>
+<script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../assets/js/bui-min.js"></script>
 
-  <script type="text/javascript" src="../assets/js/config-min.js"></script>
-  <script type="text/javascript">
+<script type="text/javascript" src="../assets/js/config-min.js"></script>
+<script type="text/javascript">
     BUI.use('common/page');
-  </script>
-  <!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
-  <script type="text/javascript" src="../assets/js/prettify.js"></script>
-  <script type="text/javascript">
+</script>
+<!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
+<script type="text/javascript" src="../assets/js/prettify.js"></script>
+<script type="text/javascript">
     $(function () {
-      prettyPrint();
+        prettyPrint();
     });
-  </script>
+</script>
 
 </body>
 </html>
