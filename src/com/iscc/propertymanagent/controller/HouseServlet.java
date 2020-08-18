@@ -69,13 +69,12 @@ public class HouseServlet extends HttpServlet {
 
         }else if("addHouse.do".equals(action)){
 
-                int houseid = Integer.parseInt(request.getParameter("houseid"));
                 int buildingid = Integer.parseInt(request.getParameter("buildingid"));
                 int unitid = Integer.parseInt(request.getParameter("unitid"));
                 String numberid = request.getParameter("numberid");
                 int housesta = Integer.parseInt(request.getParameter("housesta"));
 
-                House house = new House(houseid,buildingid,unitid,numberid,housesta);
+                House house = new House(buildingid,unitid,numberid,housesta);
                 int result = houseService.addHouse(house);
                 if (result != -1) {
                     resultMap.put("code", 997);

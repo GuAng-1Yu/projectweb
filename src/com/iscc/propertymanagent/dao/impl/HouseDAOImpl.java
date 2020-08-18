@@ -24,7 +24,7 @@ public class HouseDAOImpl implements HouseDAO {
 
             conn = DataSourceUtil.getConnection();
             psmt = conn.prepareStatement(sql);
-            psmt.setInt(1, house.getHouseid());
+            psmt.setInt(1, Integer.parseInt(house.getBuildingid()+""+house.getUnitid()+""+house.getNumberid()));
             psmt.setInt(2,house.getBuildingid());
             psmt.setInt(3, house.getUnitid());
             psmt.setString(4,house.getNumberid());
