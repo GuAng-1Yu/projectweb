@@ -2,9 +2,11 @@ package com.iscc.propertymanagent.service.impl;
 
 import com.iscc.propertymanagent.dao.impl.HouseDAOImpl;
 import com.iscc.propertymanagent.domain.House;
+import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.service.HouseService;
 
 import java.util.List;
+import java.util.Map;
 
 public class HouseServiceImpl implements HouseService {
 
@@ -31,5 +33,11 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    public List<Map> queryAllHouseMap() {return houseDAO.searchAllHouseMap();}
+
+    @Override
     public List<House> queryHouseById(int houseid) { return houseDAO.searchHouseById(houseid); }
+
+    @Override
+    public List<Map> queryHouseWithPage(Pager pager) { return houseDAO.queryHouseWithPage(pager);}
 }

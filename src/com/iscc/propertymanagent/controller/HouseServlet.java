@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet({"/queryHouseAll.do","/queryHouseById.do","/addHouse.do","/deleteHouse.do","/updateHouse.do","/housepage.do"})
+@WebServlet({"/queryHouseAll.do","/queryHouseById.do","/addHouse.do","/deleteHouse.do","/updateHouse.do","/getAllHouseWithPage.do"})
 public class HouseServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -120,30 +120,24 @@ public class HouseServlet extends HttpServlet {
             }
             String resultStr = gson.toJson(resultMap);
             writer.print(resultStr);
-        } else if ("housepage.do".equals(action)) {
-            List<House> house = houseService.queryAllHouse();
+        } else if ("getAllHouseWithPage.do".equals(action)) {
             int currPage = 1;
-            int pageNum = 4;
-            try {
-                currPage = Integer.parseInt(request.getParameter("currPage"));
-            } catch (Exception e) {
+            int pageNum = 5;
+
+            currPage = Integer.parseInt(request.getParameter("currPage"));
+
+            List<Map> resultSet = houseService.queryAllHouseMap();
+            Pager<Map> pager = new Pager<>(currPage, pageNum, resultSet);
+            List<Map> maps = houseService.queryHouseWithPage(pager);
+            if (resultSet.size() > 0) {
+                resultMap.put("code", 200);
+                resultMap.put("msg", "PageHouse查询成功");
+                resultMap.put("result", maps);
+                resultMap.put("pager", pager);
+            } else {
+                resultMap.put("code", 201);
+                resultMap.put("msg", "数据走丢了，请稍后重试");
             }
-            try {
-                currPage = Integer.parseInt(request.getParameter("pageNum"));
-            } catch (Exception e) {
-
-            }
-            Pager<House> page = new Pager<>(currPage, pageNum, house);
-
-            Map<String, Object> map = new HashMap<>();
-            map.put("house", house);
-            map.put("page", page);
-
-            resultMap.put("code", 200);
-            resultMap.put("msg", "查询类别成功");
-            resultMap.put("page", page);
-            resultMap.put("result", house);
-
             String resultStr = gson.toJson(resultMap);
             writer.print(resultStr);
         }
