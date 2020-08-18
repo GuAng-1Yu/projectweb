@@ -33,7 +33,7 @@
                     <th style="width:20%">房屋编号</th>
                     <th style="width:20%">建筑编号</th>
                     <th style="width:20%">单元编号</th>
-                    <th style="width:20%">数字编号</th>
+                    <th style="width:20%">单元编号</th>
                     <th style="width:20%">房屋状态</th>
                     <th>Actions</th>
                 </tr>
@@ -49,14 +49,12 @@
                     </td>-->
                 </tr>
 
-                <div class="text-right" style="display: inline-block">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-group-sm">首页</button>
-                        <button type="button" class="btn btn-group-sm">上一页</button>
-                        <span id="showPage"></span>
-                        <button type="button" class="btn btn-group-sm">下一页</button>
-                        <button type="button" class="btn btn-group-sm">末页</button>
-                    </div>
+                <div class="btn-group mr-2 col-md-4" role="group" aria-label="First group" style="margin-left: 33%">
+                    <button type="button" class="btn btn-secondary" id="btnFirst">首页</button>
+                    <button type="button" class="btn btn-secondary" id="btnPrev">上一页</button>
+                    <button type="button" class="btn btn-secondary" disabled id="showPage"></button>
+                    <button type="button" class="btn btn-secondary" id="btnNext">下一页</button>
+                    <button type="button" class="btn btn-secondary" id="btnLast">末页</button>
                 </div>
 
                 </tbody>
@@ -70,33 +68,27 @@
 <script src="../js/jquery-3.2.1.js"></script>
 <script async="async">
 
-    var currentPage = 1;
+    var currPage = 1;
     var totalPage = 0;
 
     $(function () {
-        queryHouseAll(null);
+        getAllHouse();
+        $("#clearBtn").hide();
 
-        $('#btnNext').click(function () {
-            currentPage++;
-            if (currentPage > totalPage) {
-                currentPage = totalPage;
+        $("#btnNext").click(function () {
+            currPage++;
+            if (currPage > totalPage) {
+                currPage = totalPage;
             }
-            queryHouseAll($('#houseTable').val());
+            getAllHouse();
         })
-        $('#btnPrev').click(function () {
-            currentPage--;
-            if (currentPage < 0) {
-                currentPage = 1;
+
+        $("#btnPrev").click(function () {
+            currPage--;
+            if (currPage < 1) {
+                currPage = 1;
             }
-            queryHouseAll($('#houseTable').val());
-        })
-        $('#btnFirst').click(function () {
-            currentPage = 1;
-            queryHouseAll($('#houseTable').val());
-        })
-        $('#btnLast').click(function () {
-            currentPage = totalPage;
-            queryHouseAll($('#houseTable').val());
+            getAllHouse();
         })
     })
 
@@ -116,12 +108,20 @@
             if (data.code == 999) {
                 $.each(data.houseAllInfo, function (index, obj) {
                     console.log(obj);
+
                     var tr = $('<tr></tr>');
                     var td1 = $('<td></td>').text(obj.houseid);
                     var td2 = $('<td></td>').text(obj.buildingid);
                     var td3 = $('<td></td>').text(obj.unitid);
                     var td4 = $('<td></td>').text(obj.numberid);
-                    var td5 = $('<td></td>').text(obj.housesta);
+                    var td5 = $('<td></td>');
+                    if(obj.housesta == 0) {
+                        td5.text('无');
+                    }else if(obj.housesta == 1){
+                        td5.text('在租');
+                    }else if(obj.housesta == 2){
+                        td5.text('在售');
+                }
                     // class="table-action"
                     var iedit = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>');
                     var itrash = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>');

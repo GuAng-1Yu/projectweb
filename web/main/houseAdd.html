@@ -28,10 +28,10 @@
 
 <div id="houseAddDiv">
     <div id="houseAddForm" name="houseAddForm" >
-        <input type="text" placeholder="房屋编号" id="houseid" name="houseid" class="houseText"><br><br>
+        <input type="text" placeholder="房屋编号自动生成" id="houseid" name="houseid" class="houseText" disabled><br><br>
         <input type="text" placeholder="建筑编号" id="buildingid" name="buildingid" class="houseText"><br><br>
         <input type="text" placeholder="单元编号" id="unitid" name="unitid" class="houseText"><br><br>
-        <input type="text" placeholder="数字编号" id="numberid" name="numberid" class="houseText"><br><br>
+        <input type="text" placeholder="门牌编号" id="numberid" name="numberid" class="houseText"><br><br>
         <input type="text" placeholder="房屋状态" id="housesta" name="housesta" class="houseText"><br><br>
         <button type="button" id="submitBtn" name="submitBtn">确认</button>
     </div>
@@ -44,7 +44,6 @@
         $.ajax({
             url: '../addHouse.do',
             data: {
-              houseid:$('#houseid').val(),
               buildingid:$('#buildingid').val(),
               unitid:$('#unitid').val(),
               numberid:$('#numberid').val(),

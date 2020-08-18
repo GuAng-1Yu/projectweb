@@ -20,4 +20,11 @@ public class House implements Serializable {
         this.houseid = houseid;
         this.housesta = housesta;
     }
+
+    public House(int buildingid, int unitid, String numberid, int housesta) {
+        this.buildingid = buildingid;
+        this.unitid = unitid;
+        this.numberid = numberid;
+        this.housesta = housesta;
+    }
 }
