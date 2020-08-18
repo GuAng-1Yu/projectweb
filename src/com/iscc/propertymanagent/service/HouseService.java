@@ -14,6 +14,7 @@ public interface HouseService {
     public List<House> queryAllHouse();
     public List<Map> queryAllHouseMap();
     public List<House> queryHouseById(int houseid);
+    public List<House> queryHouseBySta(int housesta);
     List<Map> queryHouseWithPage(Pager pager);
 
 }

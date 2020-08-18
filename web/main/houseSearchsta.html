@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/page-min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/prettify.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #houseSearchsta {
+            text-align:center;
+            padding: 0px 4px;
+            color: #d14;
+            background-color: #f7f7f9;
+            height: 150px;
+            line-height: 150px;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
+</head>
+<body>
+
+<div id="houseSearchsta">
+    <select id="housesta">
+        <option value="0">无</option>
+        <option value="1">在租</option>
+        <option value="2">在售</option>
+    </select>&nbsp
+    <button type="button" id="submitBtn">确定</button><br>
+</div>
+
+</body>
+<script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+<script src="../js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="../assets/js/bui-min.js"></script>
+<script type="text/javascript" src="../assets/js/config-min.js"></script>
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+<script>
+
+    $('#submitBtn').click(function(){
+        var housesta = $('#housesta').val();
+        location.href = "houseSearchstaResult.html?sta=" + housesta;
+    })
+</script>
+
+</html>

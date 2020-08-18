@@ -77,6 +77,38 @@ public class HouseDAOImpl implements HouseDAO {
     }
 
     @Override
+    public List<House> searchHouseBySta(int housesta) {
+        String sql = "select * from house_info where housesta = ?";
+        House houseInfo = null;
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        List<House> houseById = new ArrayList<>();
+
+        try{
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            psmt.setInt(1, housesta);
+            rs = psmt.executeQuery();
+            while(rs.next()){
+                houseInfo = new House();
+                houseInfo.setHouseid(rs.getInt(1));
+                houseInfo.setBuildingid(rs.getInt(2));
+                houseInfo.setUnitid(rs.getInt(3));
+                houseInfo.setNumberid(rs.getString(4));
+                houseInfo.setHousesta(rs.getInt(5));
+                houseById.add(houseInfo);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            DataSourceUtil.releaseResource(rs,psmt,conn);
+        }
+
+        return houseById;
+    }
+
+    @Override
     public List<Map> searchAllHouseMap() {
         String sql = "SELECT * FROM house_info";
         List<Map> results = new ArrayList<>();

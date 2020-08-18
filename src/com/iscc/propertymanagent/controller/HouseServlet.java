@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet({"/queryHouseAll.do","/queryHouseById.do","/addHouse.do","/deleteHouse.do","/updateHouse.do","/getAllHouseWithPage.do"})
+@WebServlet({"/queryHouseAll.do","/queryHouseById.do","/addHouse.do","/deleteHouse.do","/updateHouse.do","/getAllHouseWithPage.do","/queryHouseBySta.do"})
 public class HouseServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,6 +64,22 @@ public class HouseServlet extends HttpServlet {
                   resultMap.put("msg", "暂无数据");
               }
 
+            String resultStr = gson.toJson(resultMap);
+            writer.print(resultStr);
+
+        }else if("queryHouseBySta.do".equals(action)){
+            System.out.println(Integer.parseInt(request.getParameter("housesta")));
+            List<House> resultSet = houseService.queryHouseBySta(Integer.parseInt(request.getParameter("housesta")));
+
+            if (resultSet.size() > 0) {
+                resultMap.put("code", 999);
+                resultMap.put("msg", "查询成功");
+                resultMap.put("houseSta", resultSet);
+                System.out.println(resultSet);
+            } else {
+                resultMap.put("code", 998);
+                resultMap.put("msg", "暂无数据");
+            }
             String resultStr = gson.toJson(resultMap);
             writer.print(resultStr);
 

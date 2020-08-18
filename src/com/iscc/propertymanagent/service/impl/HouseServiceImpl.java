@@ -36,7 +36,10 @@ public class HouseServiceImpl implements HouseService {
     public List<Map> queryAllHouseMap() {return houseDAO.searchAllHouseMap();}
 
     @Override
-    public List<House> queryHouseById(int houseid) { return houseDAO.searchHouseById(houseid); }
+    public List<House> queryHouseById(int houseid) { return houseDAO.searchHouseById(houseid);}
+
+    @Override
+    public List<House> queryHouseBySta(int housesta) { return houseDAO.searchHouseBySta(housesta);}
 
     @Override
     public List<Map> queryHouseWithPage(Pager pager) { return houseDAO.queryHouseWithPage(pager);}

@@ -9,6 +9,7 @@ import java.util.Map;
 public interface HouseDAO {
 
     public List<House> searchHouseById(int houseid);
+    public List<House> searchHouseBySta(int housesta);
     public List<Map> searchAllHouseMap();
     public List<House> searchHouseAll();
     public int deleteHouseById(int houseid);
