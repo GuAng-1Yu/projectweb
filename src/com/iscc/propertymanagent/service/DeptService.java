@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface DeptService {
     List<Dept> queryDept();
-    List<Dept> queryDeptWithPage(Pager pager);
+    List<Map> queryDeptWithPage(Pager pager);
     int addStaff(Dept dept);
     int updateDept(Dept dept);
     int delDept(int id);

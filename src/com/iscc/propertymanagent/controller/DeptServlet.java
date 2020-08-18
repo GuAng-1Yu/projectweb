@@ -35,8 +35,8 @@ public class DeptServlet extends HttpServlet {
             int pageNum = 5;
             currPage = Integer.parseInt(request.getParameter("currPage"));
             List<Dept> depts = deptService.queryDept();
-            Pager<Dept> pager = new Pager<>(currPage, 5, depts);
-            List<Dept> maps = deptService.queryDeptWithPage(pager);
+            Pager<Dept> pager = new Pager<>(currPage, pageNum, depts);
+            List<Map> maps = deptService.queryDeptWithPage(pager);
             if (depts.size() > 0) {
                 resultMap.put("code", 200);
                 resultMap.put("msg", "Dept列表查询成功");
@@ -61,7 +61,7 @@ public class DeptServlet extends HttpServlet {
             int result = deptService.updateDept(dept);
             if (result != -1) {
                 resultMap.put("code", 200);
-                resultMap.put("msg", "部门添加成功");
+                resultMap.put("msg", "部门修改成功");
             }
         } else if ("del_dept.do".equals(action)) {
             int deptid = Integer.parseInt(request.getParameter("deptid"));

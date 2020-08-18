@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DeptDaoImpl implements DeptDao {
     @Override
@@ -41,9 +43,9 @@ public class DeptDaoImpl implements DeptDao {
     }
 
     @Override
-    public List<Dept> queryDeptWithPage(Pager pager) {
-        String sql = "SELECT * FROM dept LIMIT ?,?";
-        List<Dept> results = new ArrayList<>();
+    public List<Map> queryDeptWithPage(Pager pager) {
+        String sql = "SELECT d.deptid,d.deptname,s.staffid,s.staffname,s.stafftel,MAX(s.stafflev) FROM dept d LEFT JOIN staff_info s ON d.deptid = s.deptid GROUP BY d.deptname LIMIT ?,?";
+        List<Map> results = new ArrayList<>();
         Connection conn = null;
         PreparedStatement psmt = null;
         ResultSet rs = null;
@@ -54,10 +56,14 @@ public class DeptDaoImpl implements DeptDao {
             psmt.setInt(2, pager.getPageNum());
             rs = psmt.executeQuery();
             while (rs.next()) {
-                Dept dept = new Dept();
-                dept.setDeptid(rs.getInt(1));
-                dept.setDeptname(rs.getString(2));
-                results.add(dept);
+                HashMap<String, Object> deptAndStaffs = new HashMap<>();
+                deptAndStaffs.put("deptid",rs.getInt(1));
+                deptAndStaffs.put("deptname",rs.getString(2));
+                deptAndStaffs.put("staffid",rs.getInt(3));
+                deptAndStaffs.put("staffname",rs.getString(4));
+                deptAndStaffs.put("stafftel",rs.getString(5));
+                deptAndStaffs.put("stafflev",rs.getInt(6));
+                results.add(deptAndStaffs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
