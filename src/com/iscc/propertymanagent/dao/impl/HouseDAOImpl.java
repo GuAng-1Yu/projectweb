@@ -2,13 +2,17 @@ package com.iscc.propertymanagent.dao.impl;
 
 import com.iscc.propertymanagent.dao.HouseDAO;
 import com.iscc.propertymanagent.domain.House;
+import com.iscc.propertymanagent.domain.Pager;
 import com.iscc.propertymanagent.util.DataSourceUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HouseDAOImpl implements HouseDAO {
 
@@ -70,6 +74,34 @@ public class HouseDAOImpl implements HouseDAO {
         }
 
         return houseById;
+    }
+
+    @Override
+    public List<Map> searchAllHouseMap() {
+        String sql = "SELECT * FROM house_info";
+        List<Map> results = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            rs = psmt.executeQuery();
+            while (rs.next()) {
+                Map<String,Object> resultMap = new HashMap<>();
+                resultMap.put("houseid",rs.getInt(1));
+                resultMap.put("buildingid",rs.getInt(2));
+                resultMap.put("unitid",rs.getInt(3));
+                resultMap.put("numberid",rs.getString(4));
+                resultMap.put("housesta",rs.getInt(5));
+                results.add(resultMap);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(psmt, conn);
+        }
+        return results;
     }
 
     @Override
@@ -141,5 +173,36 @@ public class HouseDAOImpl implements HouseDAO {
             DataSourceUtil.releaseResource(psmt, conn);
         }
         return result;
+    }
+
+    @Override
+    public List<Map> queryHouseWithPage(Pager pager) {
+
+        String sql = "SELECT * FROM house_info LIMIT ?,?";
+        List<Map> results = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement psmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            psmt.setInt(1,pager.getStart());
+            psmt.setInt(2,pager.getPageNum());
+            rs = psmt.executeQuery();
+            while (rs.next()) {
+                Map<String,Object> resultMap = new HashMap<>();
+                resultMap.put("houseid",rs.getInt(1));
+                resultMap.put("buildingid",rs.getInt(2));
+                resultMap.put("unitid",rs.getInt(3));
+                resultMap.put("numberid",rs.getString(4));
+                resultMap.put("housesta",rs.getInt(5));
+                results.add(resultMap);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DataSourceUtil.releaseResource(psmt, conn);
+        }
+        return results;
     }
 }

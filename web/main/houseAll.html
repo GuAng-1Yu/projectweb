@@ -72,7 +72,7 @@
     var totalPage = 0;
 
     $(function () {
-        getAllHouse();
+        getAllHousePage();
         $("#clearBtn").hide();
 
         $("#btnNext").click(function () {
@@ -80,7 +80,7 @@
             if (currPage > totalPage) {
                 currPage = totalPage;
             }
-            getAllHouse();
+            getAllHousePage();
         })
 
         $("#btnPrev").click(function () {
@@ -88,27 +88,27 @@
             if (currPage < 1) {
                 currPage = 1;
             }
-            getAllHouse();
+            getAllHousePage();
+        })
+
+        $("#btnFirst").click(function () {
+            currPage = 1;
+            getAllHousePage();
+        })
+
+        $("#btnLast").click(function () {
+            currPage = totalPage;
+            getAllHousePage();
         })
     })
 
 
-    function queryHouseAll(id) {
-        $.post('../housepage.do', {houseid: id,currPage:currentPage }, function (data) {
-            $('#showPage').text('共'+data.result.totalRecord+'条数据，当前'+currentPage + '/' + data.result.totalPage +'页')
-        },"JSON")
-    }
-
-    $(function () {
-        getAllHouse();
-    })
-
-    function getAllHouse() {
-        $.post('../queryHouseAll.do', function (data) {
-            if (data.code == 999) {
-                $.each(data.houseAllInfo, function (index, obj) {
+    function getAllHousePage() {
+        $.post('../getAllHouseWithPage.do', {"currPage": currPage}, function (data) {
+            if (data.code == 200) {
+                $("tbody").empty();
+                $.each(data.result, function (index, obj) {
                     console.log(obj);
-
                     var tr = $('<tr></tr>');
                     var td1 = $('<td></td>').text(obj.houseid);
                     var td2 = $('<td></td>').text(obj.buildingid);
@@ -121,7 +121,7 @@
                         td5.text('在租');
                     }else if(obj.housesta == 2){
                         td5.text('在售');
-                }
+                    }
                     // class="table-action"
                     var iedit = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>');
                     var itrash = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>');
@@ -130,12 +130,50 @@
                     var td6 = $('<td class="table-action"></td>').append(aTitle).append(bTitle);
                     tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
                     $('tbody').append(tr);
-
-
                 })
+                $("#showPage").text("第" + data.pager.currPage + "页 (共" + data.pager.totalPage + "页)");
+                totalPage = data.pager.totalPage;
             }
         }, "JSON");
     }
+
+    // $(function () {
+    //     getAllHouse();
+    // })
+    //
+    // function getAllHouse() {
+    //     $.post('../queryHouseAll.do', function (data) {
+    //         if (data.code == 999) {
+    //             $.each(data.houseAllInfo, function (index, obj) {
+    //                 console.log(obj);
+    //
+    //                 var tr = $('<tr></tr>');
+    //                 var td1 = $('<td></td>').text(obj.houseid);
+    //                 var td2 = $('<td></td>').text(obj.buildingid);
+    //                 var td3 = $('<td></td>').text(obj.unitid);
+    //                 var td4 = $('<td></td>').text(obj.numberid);
+    //                 var td5 = $('<td></td>');
+    //                 if(obj.housesta == 0) {
+    //                     td5.text('无');
+    //                 }else if(obj.housesta == 1){
+    //                     td5.text('在租');
+    //                 }else if(obj.housesta == 2){
+    //                     td5.text('在售');
+    //             }
+    //                 // class="table-action"
+    //                 var iedit = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>');
+    //                 var itrash = $('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>');
+    //                 var aTitle = $('<a href="#"></a>').attr('onclick', "updateHouseById(" + obj.houseid + ")").append(iedit);
+    //                 var bTitle = $('<a href="#"></a>').attr('onclick', "deleteHouseById(" + obj.houseid + ")").append(itrash);
+    //                 var td6 = $('<td class="table-action"></td>').append(aTitle).append(bTitle);
+    //                 tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
+    //                 $('tbody').append(tr);
+    //
+    //
+    //             })
+    //         }
+    //     }, "JSON");
+    // }
 
     function deleteHouseById(id) {
         var r = confirm("是否删除信息");

@@ -98,7 +98,7 @@
                 currPage = totalPage;
             }
             getAllDept();
-        })
+        });
 
         $("#btnPrev").click(function () {
             currPage--;
@@ -106,9 +106,19 @@
                 currPage = 1;
             }
             getAllDept();
+        });
+
+        $("#btnFirst").click(function () {
+            currPage = 1;
+            getAllDept();
+        });
+
+        $("#btnLast").click(function () {
+            currPage = totalPage;
+            getAllDept();
         })
 
-    })
+    });
 
     function updateDept(obj) {
         console.log(obj);
