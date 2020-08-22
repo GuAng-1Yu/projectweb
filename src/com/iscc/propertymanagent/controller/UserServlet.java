@@ -187,7 +187,7 @@ public class UserServlet extends HttpServlet {
 //
 //            }
             Pager<Map<String, Object>> mapPager = new Pager<>(currPage, pageNum, costlist);
-            System.out.println(mapPager);
+//            System.out.println(mapPager);
             Map<String, Object> map = new HashMap<>();
 //            map.put("holdid", holdid);
             map.put("page", mapPager);

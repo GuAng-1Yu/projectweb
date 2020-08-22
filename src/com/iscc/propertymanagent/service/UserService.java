@@ -39,7 +39,7 @@ public interface UserService {
     List<Map<String, Object>> holdnoticeQuery(int holdid, int typename, int timeNum);
 
 
-
+    List<Costtype> getcostbycostid(int  typeid);
 
 
 

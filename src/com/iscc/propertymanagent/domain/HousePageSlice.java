@@ -15,6 +15,8 @@ public class HousePageSlice<T> implements Serializable {
     private int start;
     private int end;
 
+
+
     public HousePageSlice(int currentPage, int pageNum, List<T> data) {
         this.currentPage = currentPage;
         this.pageNum = pageNum;

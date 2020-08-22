@@ -62,7 +62,7 @@ public class UserDAOImpl implements UserDAO {
                 user = new User();
                 user.setAccount(rs.getString(1));
                 user.setPassword(rs.getString(2));
-                System.out.println(user);
+//                System.out.println(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,7 +92,7 @@ public class UserDAOImpl implements UserDAO {
                 Household.setHoldtel(rs.getString(3));
                 Household.setHoldnum(rs.getInt(4));
                 Household.setHoldpwd(rs.getString(5));
-                System.out.println(Household);
+//                System.out.println(Household);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -122,7 +122,7 @@ public class UserDAOImpl implements UserDAO {
                 staff.setStafftel(rs.getString(3));
                 staff.setDeptid(rs.getInt(4));
                 staff.setStafflev(rs.getInt(5));
-                System.out.println(staff);
+//                System.out.println(staff);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -186,7 +186,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<Map<String, Object>> houseidcostQuery(int houseid, int typeid) {
-        System.out.println("houseidcostQuery1");
+//        System.out.println("houseidcostQuery1");
         List<Map<String, Object>> costlist = new ArrayList<>();
         String sql = " SELECT * ,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') ftime   FROM cost c ,costtype t WHERE c.typeid = t.typeid AND c.houseid = ? ";
         if (typeid != 0) {
@@ -211,9 +211,9 @@ public class UserDAOImpl implements UserDAO {
                 resultmap.put("costid", rs.getInt(1));
                 resultmap.put("houseid", rs.getInt(2));
                 resultmap.put("costprice", rs.getString(3));
-                resultmap.put("typeid", rs.getInt(4));
-                resultmap.put("createTime", rs.getString(8));
-                resultmap.put("typename", rs.getString(7));
+                resultmap.put("typeid", rs.getInt(7));
+                resultmap.put("createTime", rs.getString(9));
+                resultmap.put("typename", rs.getString(4));
                 costlist.add(resultmap);
 
             }
@@ -258,9 +258,9 @@ public class UserDAOImpl implements UserDAO {
                 resultmap.put("costid", rs.getInt(1));
                 resultmap.put("houseid", rs.getInt(2));
                 resultmap.put("costprice", rs.getString(3));
-                resultmap.put("typeid", rs.getInt(4));
-                resultmap.put("creatTime", rs.getString(8));
-                resultmap.put("typename", rs.getString(7));
+                resultmap.put("typeid", rs.getInt(7));
+                resultmap.put("creatTime", rs.getString(9));
+                resultmap.put("typename", rs.getString(4));
                 costlist.add(resultmap);
             }
         } catch (SQLException e) {
@@ -279,14 +279,14 @@ public class UserDAOImpl implements UserDAO {
         PreparedStatement prst = null;
         int rs = -1;
         String spl = " UPDATE household_info SET holdpwd =? WHERE holdid= ? ";
-        System.out.println("ueserEditPassword");
+//        System.out.println("ueserEditPassword");
         try {
             conn = DataSourceUtil.getConnection();
             prst = conn.prepareStatement(spl);
             prst.setString(1, household.getHoldpwd());
             prst.setInt(2, household.getHoldid());
             rs = prst.executeUpdate();
-            System.out.println("ueserEditPassword");
+//            System.out.println("ueserEditPassword");
 
         } catch (SQLException e) {
             e.printStackTrace();

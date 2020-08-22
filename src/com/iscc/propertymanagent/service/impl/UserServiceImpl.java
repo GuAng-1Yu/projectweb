@@ -117,5 +117,10 @@ public class UserServiceImpl implements UserService {
         return userDAO.holdnoticeQuery(holdid,typename,timeNum);
     }
 
+    @Override
+    public List<Costtype> getcostbycostid(int typeid) {
+        return null;
+    }
+
 
 }

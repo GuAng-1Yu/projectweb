@@ -24,7 +24,7 @@ public class LoginFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             HttpSession session = request.getSession();
-            if (session.getAttribute("staff") == null) {
+            if (session.getAttribute("staff") == null && session.getAttribute("holder") == null) {
                 response.sendRedirect("loginnew.html");
             } else {
                 chain.doFilter(request, response);

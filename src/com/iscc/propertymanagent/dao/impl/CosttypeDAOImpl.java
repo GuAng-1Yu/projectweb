@@ -18,16 +18,18 @@ public class CosttypeDAOImpl implements CosttypeDAO {
     @Override
     public int add(Costtype costtype) {
         String sql = "INSERT INTO costtype(typename) VALUES(?)";
-
+        Connection conn=null;
+        PreparedStatement psmt=null;
         int result = -1;
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             psmt.setString(1, costtype.getTypename());
             result = psmt.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally { DataSourceUtil.releaseResource(psmt,conn);
         }
 
 
@@ -38,9 +40,11 @@ public class CosttypeDAOImpl implements CosttypeDAO {
     public int update(Costtype costtype) {
         String sql = "UPDATE costtype SET typename = ? WHERE typeid =?";
         int result = -1;
+        Connection conn=null;
+        PreparedStatement psmt=null;
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             psmt.setString(1, costtype.getTypename());
             psmt.setInt(2, costtype.getTypeid());
 
@@ -48,6 +52,7 @@ public class CosttypeDAOImpl implements CosttypeDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally { DataSourceUtil.releaseResource(psmt,conn);
         }
         return result;
     }
@@ -56,14 +61,17 @@ public class CosttypeDAOImpl implements CosttypeDAO {
     public int del(int id) {
         String sql = "DELETE FROM costtype WHERE typeid = ?";
         int result = -1;
+        Connection conn=null;
+        PreparedStatement psmt=null;
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             psmt.setInt(1, id);
             result = psmt.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally { DataSourceUtil.releaseResource(psmt,conn);
         }
         return result;
     }
@@ -77,10 +85,12 @@ public class CosttypeDAOImpl implements CosttypeDAO {
     public Costtype queryById(int id) {
         Costtype costtype = null;
         String sql = "SELECT * FROM costtype where typeid =?";
+        Connection conn=null;
+        PreparedStatement psmt=null;
 
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             psmt.setInt(1, id);
             ResultSet rs = psmt.executeQuery();
             if (rs.next()) {
@@ -91,7 +101,7 @@ public class CosttypeDAOImpl implements CosttypeDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } finally { DataSourceUtil.releaseResource(psmt,conn);
         }
         return costtype;
     }
@@ -103,10 +113,12 @@ public class CosttypeDAOImpl implements CosttypeDAO {
         if (name != null && !"".equals(name.trim())) {
             sql += " and typename like concat('%',?,'%')";
         }
+        Connection conn=null;
+        PreparedStatement psmt=null;
 
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             if (name != null && !"".equals(name.trim())) {
                 psmt.setString(1, name);
             }
@@ -120,7 +132,7 @@ public class CosttypeDAOImpl implements CosttypeDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } finally { DataSourceUtil.releaseResource(psmt,conn);
         }
         return types;
     }
@@ -129,6 +141,8 @@ public class CosttypeDAOImpl implements CosttypeDAO {
     public List<Costtype> queryAllTypeByCondition(Map<String, Object> params) {
         List<Costtype> types = new ArrayList<>();
         String sql = "SELECT * FROM costtype where 1=1";
+        Connection conn=null;
+        PreparedStatement psmt=null;
         if (params == null || params.isEmpty()) {
             return null;
         }
@@ -139,8 +153,8 @@ public class CosttypeDAOImpl implements CosttypeDAO {
         sql += " limit ?,?";
 
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             if (name != null && !"".equals(name.trim())) {
                 psmt.setString(1, name);
                 psmt.setInt(2, ((Pager) params.get("page")).getStart());
@@ -159,7 +173,7 @@ public class CosttypeDAOImpl implements CosttypeDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } finally { DataSourceUtil.releaseResource(psmt,conn);
         }
         return types;
     }

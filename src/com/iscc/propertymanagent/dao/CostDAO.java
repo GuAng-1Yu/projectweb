@@ -14,4 +14,5 @@ public interface CostDAO extends BaseDAO <Cost>{
 
     List<Cost> queryAllTypeByCondition(String name);
     List<Cost> queryAllTypeByCondition(Map<String, Object> name);
+    List<Cost> queryAllTypeByCondition(int name);
 }

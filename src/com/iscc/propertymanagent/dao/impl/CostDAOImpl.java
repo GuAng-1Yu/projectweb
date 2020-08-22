@@ -61,11 +61,12 @@ public class CostDAOImpl implements CostDAO {
         }
         sql += " ORDER BY c.costid asc";
 
-        System.out.println("sql = " + sql);
-
+//        System.out.println("sql = " + sql);
+        Connection conn =null;
+        PreparedStatement psmt =null;
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             if (name != null && !"".equals(name)) {
                 psmt.setString(1, name);
             }
@@ -84,7 +85,7 @@ public class CostDAOImpl implements CostDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } finally { DataSourceUtil.releaseResource(psmt,conn);
         }
 
         return list;
@@ -102,10 +103,11 @@ public class CostDAOImpl implements CostDAO {
             sql += " and houseid like concat('%',?,'%')";
         }
         sql += " limit ?,?";
-
+        Connection conn=null;
+        PreparedStatement psmt=null;
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             if (name != null && !"".equals(name.trim())) {
                 psmt.setString(1, name);
                 psmt.setInt(2, ((Pager) params.get("page")).getStart());
@@ -127,20 +129,62 @@ public class CostDAOImpl implements CostDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } finally { DataSourceUtil.releaseResource(psmt,conn);
         }
         return types;
+    }
+
+    @Override
+    public List<Cost> queryAllTypeByCondition(int name) {
+        List<Cost> list = new ArrayList<>();
+        String sql = " SELECT c.costid,c.houseid,c.costprice,c.typename,c.createTime FROM cost c";
+        if (name != 0 && !"".equals(name)) {
+            sql += " where c.houseid like concat('%',?,'%')";
+        }
+        sql += " ORDER BY c.costid asc";
+
+//        System.out.println("sql = " + sql);
+        Connection conn=null;
+        PreparedStatement psmt=null;
+
+        try {
+             conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
+            if (name != 0 && !"".equals(name)) {
+                psmt.setInt(1, name);
+            }
+
+            ResultSet rs = psmt.executeQuery();
+            while (rs.next()) {
+                Cost cost = new Cost();
+
+                cost.setCostid(rs.getInt(1));
+                cost.setHouseid(rs.getInt(2));
+                cost.setCostprice(rs.getDouble(3));
+                cost.setTypename(rs.getString(4));
+                cost.setCreateTime(rs.getString(5));
+                list.add(cost);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally { DataSourceUtil.releaseResource(psmt,conn);
+        }
+
+        return list;
+
     }
 
 
     @Override
     public int add(Cost cost) {
         String sql = "INSERT INTO cost(houseid,costprice,typename) VALUES(?,?,?)";
-
+        Connection conn=null;
+        PreparedStatement psmt=null;
         int result = -1;
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             psmt.setInt(1, cost.getHouseid());
             psmt.setDouble(2,cost.getCostprice());
             psmt.setString(3,cost.getTypename());
@@ -148,6 +192,7 @@ public class CostDAOImpl implements CostDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally { DataSourceUtil.releaseResource(psmt,conn);
         }
 
 
@@ -159,9 +204,11 @@ public class CostDAOImpl implements CostDAO {
     public int update(Cost cost) {
         String sql = "UPDATE cost SET houseid = ?,costprice=?,typename=?WHERE costid =?";
         int result = -1;
+        Connection conn=null;
+        PreparedStatement psmt=null;
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             psmt.setInt(1, cost.getHouseid());
             psmt.setDouble(2, cost.getCostprice());
             psmt.setString(3,cost.getTypename());
@@ -170,8 +217,9 @@ public class CostDAOImpl implements CostDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally { DataSourceUtil.releaseResource(psmt,conn);
         }
-        System.out.println(result);
+
         return result;
     }
 
@@ -179,14 +227,18 @@ public class CostDAOImpl implements CostDAO {
     public int del(int id) {
         String sql = "DELETE FROM cost WHERE costid = ?";
         int result = -1;
+        Connection conn=null;
+        PreparedStatement psmt=null;
+
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+             conn = DataSourceUtil.getConnection();
+             psmt = conn.prepareStatement(sql);
             psmt.setInt(1, id);
             result = psmt.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally { DataSourceUtil.releaseResource(psmt,conn);
         }
         return result;
     }
@@ -200,10 +252,11 @@ public class CostDAOImpl implements CostDAO {
     public Cost queryById(int id) {
         Cost cost = null;
         String sql = " SELECT * FROM cost WHERE costid =?";
-
+        Connection conn=null;
+        PreparedStatement psmt=null;
         try {
-            Connection conn = DataSourceUtil.getConnection();
-            PreparedStatement psmt = conn.prepareStatement(sql);
+            conn = DataSourceUtil.getConnection();
+            psmt = conn.prepareStatement(sql);
             psmt.setInt(1, id);
             ResultSet rs = psmt.executeQuery();
             if (rs.next()) {
@@ -217,7 +270,7 @@ public class CostDAOImpl implements CostDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } finally {DataSourceUtil.releaseResource(psmt,conn);
         }
         return cost;
     }

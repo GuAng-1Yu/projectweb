@@ -101,7 +101,7 @@ public class NoticeDaoImpl implements NoticeDAO {
                 notice.setHoldid(rs.getInt(4));
 
             }
-            System.out.println("noticesql" + notice);
+//            System.out.println("noticesql" + notice);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
