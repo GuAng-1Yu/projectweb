@@ -54,7 +54,7 @@ public class AuthCodeServlet extends HttpServlet {
 //        cookie.setMaxAge(24 * 3600);
         response.addCookie(cookie);
 //        cookie.setMaxAge(0);
-        //sd
+        //s
         ImageIO.write(bi, "JPG", response.getOutputStream());
     }
 
