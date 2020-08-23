@@ -150,6 +150,7 @@
                 // }
                 if ($('#txtAccount').val() == '' || $('#txtPwd').val() == '') {
                     layer.msg('请输入完整信息');
+                    flushCode()
                     return;
                 }
                 // var cookies = document.cookie;
@@ -157,6 +158,7 @@
                 console.log(xxx);
                 if ($('#code').val().toLowerCase() != xxx.toLowerCase()) {
                     layer.msg('验证码错误');
+                    flushCode()
                     return;
                 }
                 $.post('stafflogin.do',
@@ -196,12 +198,14 @@
 
                 if ($('#txtAccount').val() == '' || $('#txtPwd').val() == '') {
                     layer.msg('请输入完整信息');
+                    flushCode()
                     return;
                 }
                 // var cookies = document.cookie;
                 var xxx = $.cookie("code")
                 if ($('#code').val().toLowerCase() != xxx.toLowerCase()) {
                     layer.msg('验证码错误');
+                    flushCode()
                     return;
                 }
                 // console.log(flag)
